@@ -1,73 +1,157 @@
-.. _signature:
+.. _Signature:
 
 Signature
 ---------
 
-.. code-block:: none
+NDN Signature is defined as two consecutive TLV blocks: ``SignatureInfo`` and ``SignatureValue``.
+The following general considerations about SignatureInfo and SignatureValue blocks that apply for all signature types:
 
-    Signature ::= SIGNATURE-TYPE TLV-LENGTH
-                    ( DigestSha256 |
-                      SignatureSha256WithRsa |
-                      SignatureSha256WithRsaAndMerkle |
-                      ... 
-                    )
+1. ``SignatureInfo`` is **included** in signature calculation and fully describes the signature, signature algorithm, and any other relevant information to obtain parent certificate(s), such as :ref:`KeyLocator`
 
-Signature TLV is a general container of signature, which contains an inner signature TLV. 
-The type field of the inner signature TLV indicates the signing method of the signature, for example,
+2. ``SignatureValue`` is **excluded** from signature calculation and represent actual bits of the signature and any other supporting signature material.
 
-- ``DigestSha256`` indicates that the integrity of Data is protected by a SHA-256 digest in ``DigestSha256``;
+::
 
-- ``SignatureSha256WithRsa`` indicates that the integrity and provenacne of Data is protected by a RSA signature over a SHA-256 digest;
+    Signature ::= SignatureInfo
+                  SignatureBits
 
-- ``SignatureSha256WithRsaAndMerkle`` indicates that the integrity and provenance of Data is protected by a RSA signature over SHA-256-Merkle-Hash digest.
+    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
+                        SignatureType
+                        ... (SignatureType-specific TLVs)
 
-If some other types of signatures are required, a new inner signature TLV will be defined.
+    SignatureValue ::= SIGNATURE-BITS-TYPE TLV-LENGTH
+                        ... (SignatureType-specific TLVs and 
+                        BYTE+
 
+SignatureType
+~~~~~~~~~~~~~
 
-For each inner signature TLV, the last embedded TLV must be a SignatureBits TLV, for example:
+::
 
-.. code-block:: none
-
-    DigestSha256 ::= DIGEST-SHA256-TYPE TLV-LENGTH(=32) SignatureBits(=BYTE[32])
+    SignatureType ::= SIGNATURE-TYPE-TYPE TLV-LENGTH
+                        nonNegativeInteger
     
-    SignatureSha256WithRsa ::= SIGNATURE-SHA256-WITH-RSA-TYPE TLV-LENGTH
-                                 KeyLocator
-                                 SignatureBits(=BYTE[32])
-    
-    SignatureSha256WithRsaAndMerkle ::= SIGNATURE-SHA256-WITH-RSA-AND-MERKLE-TYPE 
-                                        TLV-LENGTH
-                                          KeyLocator
-                                          Witness
-                                          SignatureBits(=BYTE[32])
 
-Which fields are covered by the ``SignatureBits`` TLV is up to the signing mechanism.
-A valid signing mechanism, however, must cover following TLVs: Name, MetaInfo (if present), and Content.
-Some signing mechansims may also require the SignatureBits TLV to cover more TLVs.
-For example, ``SignatureSha256WithRsa`` requires the KeyLocator TLV to be signed, 
-and ``SignatureSha256WithRsaAndMerkle`` requires both KeyLocator TLV and Witness TLV to be signed.
+This specification defines the following SignatureType values:
 
-For inner signature TLVs that use public key cryptography, the first embedded TLV must be a KeyLocator TLV, e.g., as shown in ``SignatureSha256WithRsa`` and ``SignatureSha256WithRsaAndMerkle`` above.
++-------+----------------------------------------+-------------------------------------------------+
+| Value | Reference                              | Description                                     |
++=======+========================================+=================================================+
+| 0     | :ref:`DigestSha256`                    | Integrity protection using SHA-256 digest       |
++-------+----------------------------------------+-------------------------------------------------+
+| 1     | :ref:`SignatureSha256WithRsa`          | Integrity and provenance protection using       |
+|       |                                        | RSA signature over a SHA-256 digest             |
++-------+----------------------------------------+-------------------------------------------------+
+| 2-200 |                                        | reserved for future assignments                 |
++-------+----------------------------------------+-------------------------------------------------+
+| >200  |                                        | unassigned                                      |
++-------+----------------------------------------+-------------------------------------------------+
 
-.. code-block:: none
+.. +-------+----------------------------------------+-------------------------------------------------+
+.. | 2     | :ref:`SignatureSha256WithRsaAndMerkle` | Integrity and provenance protection using       |
+.. |       |                                        | RSA signature over SHA-256-Merkle-Hash digest.  |
+.. |       |                                        |                                                 |
+.. |       |                                        | This signature type defines an aggregated       |
+.. |       |                                        | signing algorithm that reduces cost of signing  |
+.. |       |                                        | of a large segmented content (e.g., video file).|
 
-    KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH CertificateName |
-                   (other types of KeyLocators)
-    CertificateName ::= CERTIFICATE-NAME-TYPE TLV-LENGTH Name
+.. _DigestSha256:
 
-A KeyLocator tells where to find the public key to verify this Data packet. 
-For example, one can specify the name of the certificate of the public key (by CertificateName).
-Name conventions can be used to find the name of the key for a piece of content from the name of the Data packet.
+DigestSha256
+^^^^^^^^^^^^
 
-All the other embedded TLVs in an inner signature TLV (such as Witness) are the signature-specific meta information and may vary from a signature type to another.
+``DigestSha256`` provides no provenance of a Data packet or any kind of guarantee that packet is from the original source.
+This signature type is indended only for debug purposes and limited circumstances when it is necessary to protect only against unexpected modification during the transmition.
+
+``DigestSha256`` is defined as a SHA256 hash of the :ref:`Name`, :ref:`MetaInfo`, :ref:`Content`, and :ref:`SignatureInfo <Signature>` TLVs:
+
+::
+
+    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH(=3)
+                        SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 0
+
+    SignatureValue ::= BYTE{32}(=SHA256{Name, MetaInfo, Content, SignatureInfo})
+
+
+.. _SignatureSha256WithRsa:
+
+SignatureSha256WithRsa
+^^^^^^^^^^^^^^^^^^^^^^
+
+``SignatureSha256WithRsa`` is the basic signature algorithm that MUST be supported by any NDN-compliant software.
+As suggested by the name, it defines an RSA public key signature that is calculated over SHA256 hash of the :ref:`Name`, :ref:`MetaInfo`, :ref:`Content`, and :ref:`SignatureInfo <Signature>` TLVs.
+
+
+::
+
+    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
+                        SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 1
+                        KeyLocator
+
+    SignatureValue ::= BYTE{32}(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+
+
+This type of signature ensures strict provenance of a Data packet, provided that the signature verifies and signature issuer is authorized to sign the Data packet.
+The signature issuer is idenfified using :ref:`KeyLocator` block in :ref:`SignatureInfo <Signature>` block of ``SignatureSha256WithRsa``.
+See :ref:`KeyLocator section <KeyLocator>` for more detail.
+
+.. note::
+
+    It is application's responsibility to define rules (trust model) of when a specific issuer (KeyLocator) is authorized to sign a specific Data packet.
+    While trust model is outside the scope of the current specification, generally, trust model needs to specify authorization rules between KeyName and Data packet Name, as well as clearly define trust anchor(s).
+    For example, an application can elect to use hierarchical trust model :cite:`testbed-key-management` to ensure Data integrity and provenance.  
+
+    .. bibliography:: ndnspec-refs.bib
+
+.. .. _SignatureSha256WithRsaAndMerkle:
+
+.. SignatureSha256WithRsaAndMerkle
+.. ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. ::
+
+..     SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
+..                         SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 2
+..                         KeyLocator
+
+..     SignatureValue ::= BYTE{32}(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+..                        Witness
+
+..     Witness ::= WITNESS-TYPE TLV-LENGTH BYTE+
+
+.. _KeyLocator:
+
+KeyLocator
+~~~~~~~~~~
+
+A ``KeyLocator`` specifies a name that points to another Data packet containing certificate or public key, or can be used by the specific trust model in another way to verify the the content.
+
+::
+
+    KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH Name
+
+
+.. note::
+
+    KeyLocator has meaning only for specific trust model and the current specification does not imply or suggest use of any specific trust model.
+    Generally, KeyLocator should point to another Data packet which is interpreted by the trust model, but trust model can allow alternative interpretations of the KeyLocator.
+
+    For example, one can define a trust model that does not interpret KeyLocator at all (KeyLocator MUST be present, but TLV-LENGTH could be 0) and uses naming conventions to infer proper public key or public key certificate for the name of the Data packet itself.
+    Another possibility for the trust model is to define a naming convention for the KeyLocator, where Name ``/keyid/<sha256>`` identifies RSA public key using SHA256 digest, assuming that the trust model has some other means to obtain the public key.
+
 
 Changes from CCNx
 ~~~~~~~~~~~~~~~~~
 
 - ``Signature`` is moved to the end of Data packet.
 
-- ``KeyLocator`` is moved to be an inner signature block, making the inner signature block self-contained and self-sufficient.
+- ``KeyLocator`` is moved to be a part of the ``SignatureInfo`` block, if it is applicable for the specific signature type.
+  The rationale for the move is to make Signature (sequence of ``SignatureInfo`` and ``SignatureValue`` TLVs) self-contained and self-sufficient.
 
-- Signature type (or signing method information) is expressed by the type of inner signature TLV, rather than OID.
+- ``KeyLocator`` is expressed as a trust model-interpreted name, removing nested blocks and alternative packet-format specified representations (``KeyName``, ``Key``, and ``Certificate``)
+
+- Signature type (or signing method information) is expressed as an assigned integer value (with no assumed default), rather than OID.
 
 - Added support for cheaper signatures
 
+- The current specification does not define Merkle Hash Tree Aggregated Signatures, but it is expected that such (or similar) signatures will be defined in future version of this specification.

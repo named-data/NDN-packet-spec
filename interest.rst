@@ -1,9 +1,11 @@
-.. _interest:
+.. _Interest:
 
 Interest Packet
 ---------------
 
-NDN Interest packet is TLV defined as follows::
+NDN Interest packet is TLV defined as follows:
+
+::
 
     Interest ::= INTEREST-TYPE TLV-LENGTH 
                    Name
@@ -11,16 +13,6 @@ NDN Interest packet is TLV defined as follows::
                    Nonce
                    Scope?
                    InterestLifetime?
-
-Selectors::
-
-    Selectors ::= SELECTORS-TYPE TLV-LENGTH 
-                    MinSuffixComponents?
-                    MaxSuffixComponents?
-                    PublisherPublicKeyLocator?
-                    Exclude?
-                    ChildSelector?
-                    MustBeFresh?
 
 ``Name`` and ``Nonce`` are the only two two required elements in an Interest packet.
 Selectors are optional elements that further qualify Data that may match the Interest.
@@ -34,24 +26,43 @@ They affect Interest forwarding behavior, e.g., how far the Interest may be forw
 Name
 ~~~~
 
-The Name element in an Interest is synonymous with the term *prefix*. See :ref:`Name section<name>` for details.
-  
+The Name element in an Interest is synonymous with the term *prefix*.
+See :ref:`Name section <Name>` for details.
+
+.. _Nonce:
+
 Nonce
 ~~~~~
 
-Nonce defined as follows::
+Nonce defined as follows:
 
-    Nonce ::= NONCE-TYPE TLV-LENGTH BYTE+
+::
 
-The Nonce carries a randomly-genenerated byte-string. The combination of Name and Nonce should uniquely identify an Interest packet. This is used to detect looping Interests\footnote{We plan to select a recommended length for Nonce in next revision.}.
+    Nonce ::= NONCE-TYPE TLV-LENGTH(=4) BYTE{4}
+
+The Nonce carries a randomly-genenerated 4-octet long byte-string.
+The combination of Name and Nonce should uniquely identify an Interest packet.
+This is used to detect looping Interests.
+
+.. _Selectors:
 
 Selectors
 ~~~~~~~~~
-  
+
+::
+
+    Selectors ::= SELECTORS-TYPE TLV-LENGTH 
+                    MinSuffixComponents?
+                    MaxSuffixComponents?
+                    PublisherPublicKeyLocator?
+                    Exclude?
+                    ChildSelector?
+                    MustBeFresh?
+
 MinSuffixComponents, MaxSuffixComponents
 ++++++++++++++++++++++++++++++++++++++++
 
-.. code-block:: none
+::
 
     MinSuffixComponents ::= MIN-SUFFIX-COMPONENTS-TYPE TLV-LENGTH
                               nonNegativeInteger
@@ -67,7 +78,7 @@ The default for ``MinSuffixComponents`` is 0 and for ``MaxSuffixComponents`` is 
 PublisherPublicKeyLocator
 +++++++++++++++++++++++++
 
-.. code-block:: none
+::
 
     PublisherPublicKeyLocator ::= PUBLISHER-PUBLIC-KEY-TYPE TLV-LENGTH Name
 
@@ -77,7 +88,7 @@ This is a way for the Interest to select answers from a particular publisher.
 Exclude
 +++++++
 
-.. code-block:: none
+::
 
     Exclude ::= EXCLUDE-TYPE TLV-LENGTH Any? (NameComponent (Any)?)+
     Any ::= ANY-TYPE TLV-LENGTH(=0)
@@ -98,13 +109,13 @@ The Components in the exclusion list MUST occur in strictly increasing order acc
 - If ``Any`` component is specified between two NameComponents in the list, then the filter excludes all names from the range from the right NameComponent to the left NameComponent, including both ends.
 
 
-Exclude filter MUST not consist of a single ``Any`` component or one NameComponent with leading and trailing ``Any'' components.
+Exclude filter MUST not consist of a single ``Any`` component or one NameComponent with leading and trailing ``Any`` components.
 
 
 ChildSelector
 +++++++++++++
 
-.. code-block:: none
+::
 
     ChildSelector ::= CHILD-SELECTOR-TYPE TLV-LENGTH 
                         nonNegativeInteger
@@ -122,7 +133,7 @@ In this case, the use of ChildSelector does not change the multi-round outcome, 
 MustBeFresh
 +++++++++++
 
-.. code-block:: none
+::
 
    MustBeFresh ::= MUST-BE-FRESH-TYPE TLV-LENGTH(=0)
 
@@ -135,7 +146,7 @@ The FreshnessPeriod carried in each Data packet (:ref:`Data Section<data>`) is s
 Scope
 +++++
 
-.. code-block:: none
+::
 
     Scope ::= SCOPE-TYPE TLV-LENGTH nonNegativeInteger
 
@@ -149,7 +160,7 @@ Note that Scope is not a hop count---the value is not decremented as the Interes
 InterestLifetime
 ++++++++++++++++
 
-.. code-block:: none
+::
 
     InterestLifetime ::= INTEREST-LIFETIME-TYPE TLV-LENGTH nonNegativeInteger
 

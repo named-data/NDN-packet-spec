@@ -16,14 +16,16 @@ The Data packet represents some arbitrary binary data (held in the Content eleme
 Name
 ~~~~
 
-See :ref:`Name section<name>` for details.
+See :ref:`Name section <Name>` for details.
+
+.. _MetaInfo:
 
 MetaInfo
 ~~~~~~~~
 
 .. [#f1] If both ``ContentType`` and ``FreshnessPeriod`` are optional, one may consider ``Metainfo`` itself should be optional. But would have all 4 parts of Data packet help simplify implementation? We leave this question to people who are more familiar with high speed implementations.
 
-.. code-block:: none
+::
 
     MetaInfo ::= META-INFO-TYPE TLV-LENGTH
                    ContentType?
@@ -33,7 +35,7 @@ Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, T
 
 
 - PublisherPublicKeyDigest is supposed to be used in selecting data packets signed by a particular key.
-  We replace PublisherPublicKeyDigest with KeyLocator, which is part of the Signature block (see :ref:`Signature Section<signature>`), due to the following consideration.
+  We replace PublisherPublicKeyDigest with KeyLocator, which is part of the Signature block (see :ref:`Signature Section <Signature>`), due to the following consideration.
   First, it requires data consumer to acquire a *valid* public key, as opposed to the key locator, before sending Interest out. 
   Second, if a router is to verify the content objects, it must have other means to locate the keys first.
   Further, it may require publishers to maintain their public keys and certificates by their public key digests instead of names.
@@ -47,7 +49,7 @@ Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, T
 ContentType
 +++++++++++
 
-.. code-block:: none
+::
 
     ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH nonNegativeInteger
 
@@ -62,7 +64,7 @@ NACK is used to signal a downstream node that the upstream node is unable to ret
 FreshnessPeriod
 +++++++++++++++
 
-.. code-block:: none
+::
 
     FreshnessPeriod ::= FRESHNESS-PERIOD-TLV TYPE-TLV nonNegativeInteger
 
@@ -75,11 +77,12 @@ If an Interest contains MustBeFresh TLV, a Data that has the staleness bit set i
 The effect is the same as if that stale Data did not exist (i.e., the Interest might be matched by some other Data in the store, or, failing that, get forwarded to other nodes).
 If an exact duplicate of a stale Data arrives, the effect is the same as if the stale Data had not been present. In particular, the Data in the store is no longer stale. As a practical matter, a stale Data should be ranked high on the list of things to discard from the store when a storage quota has been reached.
 
+.. _Content:
 
 Content
 ~~~~~~~
 
-.. code-block:: none
+::
 
     Content ::= CONTENT-TYPE TLV-LENGTH BYTE*
 
