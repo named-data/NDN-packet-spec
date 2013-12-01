@@ -10,6 +10,9 @@ If you're on OSX platform:
     sudo port install py27-sphinx
     sudo port selectsphinx py27-sphinx
 
+    sudo easy_install-2.7 sphinxcontrib-fulltoc
+    sudo easy_install-2.7 sphinxcontrib-bibtex
+
 - Install from source: http://sphinx-doc.org/install.html
 
 - Install from .pkg binary package: http://named-data.net/binaries/sphinx-doc-0.2.pkg
@@ -17,6 +20,9 @@ If you're on OSX platform:
 If you're on Ubuntu Linux:
 
     sudo apt-get install python-sphinx
+
+    sudo easy_install sphinxcontrib-fulltoc
+    sudo easy_install sphinxcontrib-bibtex
 
 Compilation
 ===========
