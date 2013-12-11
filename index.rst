@@ -11,6 +11,7 @@ NDN Packet Format Specification
    interest
    data
    signature
+   types
    :maxdepth: 3
 
 

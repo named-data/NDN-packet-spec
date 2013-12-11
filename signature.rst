@@ -128,16 +128,21 @@ A ``KeyLocator`` specifies a name that points to another Data packet containing 
 
 ::
 
-    KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH Name
+    KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH KeyLocatorValue
 
+    KeyLocatorValue ::= Name |
+                        KeyLocatorDigest |
+                        ...
+
+    KeyLocatorDigest ::= KEY-LOCATOR-DIGEST-TYPE TLV-LENGTH BYTE+
 
 .. note::
 
     KeyLocator has meaning only for specific trust model and the current specification does not imply or suggest use of any specific trust model.
-    Generally, KeyLocator should point to another Data packet which is interpreted by the trust model, but trust model can allow alternative interpretations of the KeyLocator.
+    Generally, KeyLocator should point to another Data packet which is interpreted by the trust model, but trust model can allow alternative forms of the KeyLocator.
 
     For example, one can define a trust model that does not interpret KeyLocator at all (KeyLocator MUST be present, but TLV-LENGTH could be 0) and uses naming conventions to infer proper public key or public key certificate for the name of the Data packet itself.
-    Another possibility for the trust model is to define a naming convention for the KeyLocator, where Name ``/keyid/<sha256>`` identifies RSA public key using SHA256 digest, assuming that the trust model has some other means to obtain the public key.
+    Another possibility for the trust model is to define digest-based KeyLocatorValue (``KeyLocatorDigest``), where RSA public key will be identified using SHA256 digest, assuming that the trust model has some other means to obtain the public key.
 
 
 Changes from CCNx
@@ -147,8 +152,6 @@ Changes from CCNx
 
 - ``KeyLocator`` is moved to be a part of the ``SignatureInfo`` block, if it is applicable for the specific signature type.
   The rationale for the move is to make Signature (sequence of ``SignatureInfo`` and ``SignatureValue`` TLVs) self-contained and self-sufficient.
-
-- ``KeyLocator`` is expressed as a trust model-interpreted name, removing nested blocks and alternative packet-format specified representations (``KeyName``, ``Key``, and ``Certificate``)
 
 - Signature type (or signing method information) is expressed as an assigned integer value (with no assumed default), rather than OID.
 

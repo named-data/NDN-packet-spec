@@ -29,21 +29,6 @@ Name
 The Name element in an Interest is synonymous with the term *prefix*.
 See :ref:`Name section <Name>` for details.
 
-.. _Nonce:
-
-Nonce
-~~~~~
-
-Nonce defined as follows:
-
-::
-
-    Nonce ::= NONCE-TYPE TLV-LENGTH(=4) BYTE{4}
-
-The Nonce carries a randomly-genenerated 4-octet long byte-string.
-The combination of Name and Nonce should uniquely identify an Interest packet.
-This is used to detect looping Interests.
-
 .. _Selectors:
 
 Selectors
@@ -142,6 +127,26 @@ When it is absent from an Interest packet, the router can respond with a Data pa
 When it is present in an Interest packet, the router should not return Data packet from its content store whose FreshnessPeriod has expired.
 
 The FreshnessPeriod carried in each Data packet (:ref:`Data Section<data>`) is set by the original producer.  It starts counting down when the Data packet arrives at a node. Consequently if a node is N hops away from the original producer, it may not consider the Data stale until N *X* FreshnessPeriod after the Data is produced.
+
+.. _Nonce:
+
+Nonce
+~~~~~
+
+Nonce defined as follows:
+
+::
+
+    Nonce ::= NONCE-TYPE TLV-LENGTH(=4) BYTE{4}
+
+The Nonce carries a randomly-genenerated 4-octet long byte-string.
+The combination of Name and Nonce should uniquely identify an Interest packet.
+This is used to detect looping Interests.
+
+.. _Guiders:
+
+Guiders
+~~~~~~~
 
 Scope
 +++++
