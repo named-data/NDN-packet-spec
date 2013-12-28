@@ -51,7 +51,8 @@ ContentType
 
 ::
 
-    ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH nonNegativeInteger
+    ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH 
+                      nonNegativeInteger
 
 Three ContentTypes are currently defined: default (=0), LINK (=1), and KEY (=2). The **default** type of content is a BLOB (=0), which is the actual data bits identified by the data name. The \textbf{LINK} type of content is another name which identifies the actual data content. The ``KEY`` type of content is a public key.
 
@@ -66,7 +67,8 @@ FreshnessPeriod
 
 ::
 
-    FreshnessPeriod ::= FRESHNESS-PERIOD-TLV TYPE-TLV nonNegativeInteger
+    FreshnessPeriod ::= FRESHNESS-PERIOD-TLV TLV-LENGTH 
+                          nonNegativeInteger
 
 The optional FreshnessPeriod indicates how long a node should wait after the arrival of this data before marking it as stale.  The encoded value is number of milliseconds.  Note that the stale data is still valid data; the expiration of FreshnessPeriod only means that the producer may have produced newer data. 
 
