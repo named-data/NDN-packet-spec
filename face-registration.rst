@@ -41,6 +41,14 @@ It is also in the ``NFBLOB``, so that it is signed.
 The forwarding daemon creates the new face and answers with a FaceInstance containing
 at least the ``FaceID``.
 
+.. note::
+    When face registration succeeds, the returning Data packet's content is encoded ``FaceInstance`` with
+    parameters of the created/destroyed/queried face.
+
+    When registration fails, the Interest either times out or there will be a returned Data packet
+    with encoded :ref:`StatusResponse`.
+
+
 FaceInstance
 ^^^^^^^^^^^^
 
@@ -165,8 +173,15 @@ to represent both requests and responses.
     ForwardingFlags ::= FORWARDING-FLAGS TLV-LENGTH
                           nonNegativeInteger
 
-See :ref:`Name section <Name>` for definition of ``Name`` and 
+See :ref:`Name section <Name>` for definition of ``Name`` and
 :ref:`Data packet's meta info description <MetaInfo>` for definition of ``FreshnessPeriod``.
+
+.. note::
+    When prefix registration succeeds, the returning Data packet's content is encoded ``ForwardingEntry`` with
+    parameters of the prefix.
+
+    When registration fails, the Interest either times out or there will be a returned Data packet
+    with encoded :ref:`StatusResponse`.
 
 
 Action
@@ -250,6 +265,63 @@ FreshnessPeriod
 FreshnessPeriod is optional in a request, but is treated as a hint by the forwarding daemon.
 In a response, FreshnessPeriod specifies the remaining lifetime in milliseconds of the registration.
 
+.. _StatusResponse:
+
+StatusResponse
+^^^^^^^^^^^^^^
+
+The StatusResponse is used to indicate an exceptional condition or
+additional information in response to a request.
+Protocol descriptions should indicate the circumstances under which a
+StatusResponse may be returned instead of a normal response.
+
+::
+
+    StatusResponse ::= STATUS-RESPONSE-TYPE TLV-LENGTH
+                         StatusCode
+                         StatusText?
+
+    StatusCode         ::= STATUS-CODE-TYPE TLV-LENGTH
+                             nonNegativeInteger
+
+    StatusText         ::= STATUS-TEXT TLV-LENGTH
+                             <status text>
+
+StatusCode
+++++++++++
+
+This is a three-digit decimal number, in the style of numeric codes
+used in various internet protocols such as HTTP, FTP, and SMTP.
+
+StatusText
+++++++++++
+
+A short textual description of the status.
+Programs should rely on the StatusCode, not the StatusText, for making decisions about haw to proceed.
+
+Status Code Values
+++++++++++++++++++
+
+This table is informational, summarizing status codes that are currently is use.
+
++--------+--------------------------------------------------------+
+|  Code  |  Description                                           |
++========+========================================================+
+|   404  | Not found                                              |
++--------+--------------------------------------------------------+
+|   430  | Not authorized                                         |
++--------+--------------------------------------------------------+
+|   450  | Temporarily unable to complete operation               |
++--------+--------------------------------------------------------+
+|   453  | Could not setup multicast                              |
++--------+--------------------------------------------------------+
+|   501  | Syntax error in address                                |
++--------+--------------------------------------------------------+
+|   504  | Parameter error                                        |
++--------+--------------------------------------------------------+
+|   531  | Missing or incorrect ccndid                            |
++--------+--------------------------------------------------------+
+
 
 Type code assignment
 ^^^^^^^^^^^^^^^^^^^^
@@ -269,21 +341,27 @@ Some codes (e.g., `Name`, `FreshnessPeriod`), re-use code assignment from the ND
 +---------------------------------------------+-------------------+----------------+
 | ForwardingEntry                             | 129               | 0x81           |
 +---------------------------------------------+-------------------+----------------+
-| Action                                      | 130               | 0x82           |
+| StatusResponse                              | 130               | 0x82           |
 +---------------------------------------------+-------------------+----------------+
-| FaceID                                      | 131               | 0x83           |
+| Action                                      | 131               | 0x83           |
 +---------------------------------------------+-------------------+----------------+
-| IPProto                                     | 132               | 0x84           |
+| FaceID                                      | 132               | 0x84           |
 +---------------------------------------------+-------------------+----------------+
-| Host                                        | 133               | 0x85           |
+| IPProto                                     | 133               | 0x85           |
 +---------------------------------------------+-------------------+----------------+
-| Port                                        | 134               | 0x86           |
+| Host                                        | 134               | 0x86           |
 +---------------------------------------------+-------------------+----------------+
-| MulticastInterface                          | 135               | 0x87           |
+| Port                                        | 135               | 0x87           |
 +---------------------------------------------+-------------------+----------------+
-| MulticastTTL                                | 136               | 0x88           |
+| MulticastInterface                          | 136               | 0x88           |
 +---------------------------------------------+-------------------+----------------+
-| ForwardingFlags                             | 137               | 0x89           |
+| MulticastTTL                                | 137               | 0x89           |
++---------------------------------------------+-------------------+----------------+
+| ForwardingFlags                             | 138               | 0x8a           |
++---------------------------------------------+-------------------+----------------+
+| StatusCode                                  | 139               | 0x8b           |
++---------------------------------------------+-------------------+----------------+
+| StatusText                                  | 140               | 0x8c           |
 +---------------------------------------------+-------------------+----------------+
 | **Re-used definitions**                                                          |
 +---------------------------------------------+-------------------+----------------+
