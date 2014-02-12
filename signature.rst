@@ -88,8 +88,11 @@ As suggested by the name, it defines an RSA public key signature that is calcula
                         SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 1
                         KeyLocator
 
-    SignatureValue ::= BYTE{32}(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue ::= BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
 
+.. note::
+
+   SignatureValue size varies (typically 128 or 256 bytes) depending on the private key length used during the signing process.
 
 This type of signature ensures strict provenance of a Data packet, provided that the signature verifies and signature issuer is authorized to sign the Data packet.
 The signature issuer is idenfified using :ref:`KeyLocator` block in :ref:`SignatureInfo <Signature>` block of ``SignatureSha256WithRsa``.
