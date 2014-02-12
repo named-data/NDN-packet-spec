@@ -12,7 +12,6 @@ NDN Packet Format Specification
    data
    signature
    types
-   face-registration
    :maxdepth: 3
 
 
