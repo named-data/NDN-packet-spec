@@ -65,10 +65,12 @@ PublisherPublicKeyLocator
 
 ::
 
-    PublisherPublicKeyLocator ::= PUBLISHER-PUBLIC-KEY-TYPE TLV-LENGTH Name
+    PublisherPublicKeyLocator ::= KeyLocator
 
 This element specifies the name of the key which is used to sign the Data packet that the consumer is requesting.
 This is a way for the Interest to select answers from a particular publisher.
+
+See :ref:`KeyLocator` section for more detail.
 
 Exclude
 +++++++

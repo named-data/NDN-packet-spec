@@ -19,7 +19,7 @@ The following general considerations about SignatureInfo and SignatureValue bloc
                         SignatureType
                         ... (SignatureType-specific TLVs)
 
-    SignatureValue ::= SIGNATURE-BITS-TYPE TLV-LENGTH
+    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
                         ... (SignatureType-specific TLVs and 
                         BYTE+
 
@@ -70,7 +70,8 @@ This signature type is indended only for debug purposes and limited circumstance
     SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH(=3)
                         SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 0
 
-    SignatureValue ::= BYTE{32}(=SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=SHA256{Name, MetaInfo, Content, SignatureInfo})
 
 
 .. _SignatureSha256WithRsa:
@@ -88,7 +89,8 @@ As suggested by the name, it defines an RSA public key signature that is calcula
                         SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 1
                         KeyLocator
 
-    SignatureValue ::= BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
+                         BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
 
 .. note::
 
@@ -117,7 +119,8 @@ See :ref:`KeyLocator section <KeyLocator>` for more detail.
 ..                         SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 2
 ..                         KeyLocator
 
-..     SignatureValue ::= BYTE{32}(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+..     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
+..                        BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
 ..                        Witness
 
 ..     Witness ::= WITNESS-TYPE TLV-LENGTH BYTE+
