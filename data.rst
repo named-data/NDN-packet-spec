@@ -30,6 +30,7 @@ MetaInfo
     MetaInfo ::= META-INFO-TYPE TLV-LENGTH
                    ContentType?
                    FreshnessPeriod?
+                   FinalBlockId?
 
 Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, Timestamp, and FinalBlockID for the following reasons.
 
@@ -78,6 +79,20 @@ The initial setting of this bit for newly-arrived content is "not stale". If the
 If an Interest contains MustBeFresh TLV, a Data that has the staleness bit set is not eligible to be sent in response to that Interest. 
 The effect is the same as if that stale Data did not exist (i.e., the Interest might be matched by some other Data in the store, or, failing that, get forwarded to other nodes).
 If an exact duplicate of a stale Data arrives, the effect is the same as if the stale Data had not been present. In particular, the Data in the store is no longer stale. As a practical matter, a stale Data should be ranked high on the list of things to discard from the store when a storage quota has been reached.
+
+FinalBlockId
+++++++++++++
+
+::
+
+    FinalBlockId ::= FINAL-BLOCK-ID-TLV TLV-LENGTH 
+                          NameComponent
+
+The optional FinalBlockId indicates the identifier of the final block
+in a sequence of fragments.
+It should be present in the final block itself, and may also be present in other fragments to provide advanced warning of the end to consumers.
+The value here should be equal to the last explicit Name Component of the final block.
+
 
 .. _Content:
 
