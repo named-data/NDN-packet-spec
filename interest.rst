@@ -194,3 +194,10 @@ Changes from CCNx
 - ``InterestLifetime`` changes the unit to the number of milliseconds.
 
 - Removed Bloom Filter from Exclude.
+
+- Changed default semantics of staleness.
+
+  Specifically, NDN-TLV Interest without any selectors will bring any data that matches the name, and only when ``MustBeFresh`` selector is enabled it will try to honor freshness, specified in Data packets. 
+  With Binary XML encoded Interests, the default behavior was to bring "fresh" data and return "stale" data only when ``AnswerOriginKind`` was set to 3.
+
+  Application developers must be aware of this change, reexamine the Interest expression code, and enable ``MustBeFresh`` selector when necessary.
