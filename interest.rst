@@ -77,7 +77,7 @@ Exclude
 
 ::
 
-    Exclude ::= EXCLUDE-TYPE TLV-LENGTH Any? (NameComponent (Any)?)+
+    Exclude ::= EXCLUDE-TYPE TLV-LENGTH Any? ((NameComponent | NumberComponent | ImplicitSha256DigestComponent) (Any)?)+
     Any ::= ANY-TYPE TLV-LENGTH(=0)
 
 The ``Exclude`` selectors allows requester to specify list and/or ranges of names components that MUST NOT appear as a continuation of the Name prefix in the responding Data packet to the Interest.

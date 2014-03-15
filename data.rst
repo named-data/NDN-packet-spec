@@ -86,7 +86,7 @@ FinalBlockId
 ::
 
     FinalBlockId ::= FINAL-BLOCK-ID-TLV TLV-LENGTH 
-                          NameComponent
+                          (NameComponent | NumberComponent)
 
 The optional FinalBlockId indicates the identifier of the final block
 in a sequence of fragments.

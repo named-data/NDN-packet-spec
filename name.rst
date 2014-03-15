@@ -10,8 +10,8 @@ NDN Name Format
 
 We use a 2-level nested TLV to represent a name.
 The Type in the outer TLV indicates this is a Name.
-All inner TLVs have the same Type indicating that they each contain a name component.
-There is no restriction on the Value field in a name component and it may not contain any bytes:
+All inner TLVs have Type either NameComponent, NumberComponent, or ImplicitSha256DigestComponent, indicating that the name component is a generic name component, number, or implicit digest.
+There is no restriction on the Value field in a name component, but empty value is not allowed:
 
 ::
 
@@ -30,9 +30,9 @@ There is no restriction on the Value field in a name component and it may not co
 .. % 0 or many bytes in name component
 
 
-``NameComponent`` is a generic name component, containing any application defined data.
+``NameComponent`` is a generic name component, containing any application defined value.
 
-``NumberComponent`` is a component that carries non-negative integer.
+``NumberComponent`` is a component that carries a non-negative integer.
 
 ``ImplicitSha256DigestComponent`` is an implicit SHA256 digest component.
 
@@ -51,20 +51,19 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
 
     When producing a URI from an NDN Name, only the generic URI unreserved characters are left unescaped.
     These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials PLUS (+), PERIOD (.), UNDERSCORE (\_), and HYPHEN (-).
-    All other characters are escaped using either the percent-encoding method of the URI Generic Syntax or a ``ndn`` scheme specific hexadecimal string escape starting with the EQUALS (=) and an even number of characters from the set of hex digits.
-    Once an EQUALS has been encountered in a component the hexadecimal encoding persists until the end of the component.
-    The hex digits in these escaped encodings should always use upper-case letters, i.e., A-Z.
+    All other characters are escaped using either the percent-encoding method of the URI Generic Syntax.
 
-    To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of zero or more periods is encoded using three additional periods.
+    To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of one or more periods is encoded using three additional periods.
 
   * ``NumberComponent``
 
-    Number components start with ``number=`` prefix, following with textual representation of the number.
+    Number components start with ``number=`` prefix (case sensitive), following with textual representation of the number.
     For example, ``number=10`` represents a NumberComponent with encoded value of 10.
+    The number must be decimal and should be without leading zeros.
 
   * ``ImplicitSha256DigestComponent``
 
-    Implicit SHA256 digest component starts with ``sha256digest=`` prefix, following the digest represented as a sequence of 32 hexadecimal numbers.
+    Implicit SHA256 digest component starts with ``sha256digest=`` prefix (case sensitive), following the digest represented as a sequence of 32 hexadecimal numbers.
     For example, ``sha256digest=893259d98aca58c451453f29ec7dc38688e690dd0b59ef4f3b9d33738bff0b8d``
 
 - The authority component (the part after the initial ``//`` in the familiar http and ftp URI schemes) is not relevant to NDN.
@@ -91,7 +90,7 @@ In several contexts in NDN packet processing, it is useful to have a consistent 
 
 The order between individual name components is defined as follows:
 
-- Any ``ImplicitSha256DigestComponent`` less than any ``NumberComponent``, which is less than any ``NameComponent``
+- Any ``ImplicitSha256DigestComponent`` is less than any ``NumberComponent``, which is less than any ``NameComponent``
 
 ::
 
