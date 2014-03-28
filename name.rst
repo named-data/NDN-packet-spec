@@ -3,7 +3,7 @@
 Name
 ----
 
-An NDN Name is a hierarchical name for NDN content, which contains a sequence of name components.  
+An NDN Name is a hierarchical name for NDN content, which contains a sequence of name components.
 
 NDN Name Format
 ~~~~~~~~~~~~~~~
@@ -28,18 +28,16 @@ NDN URI Scheme
 For textual representation, it is often convenient to use URI to represent NDN names.
 Please refer to RFC 3986 (URI Generic Syntax) for background.
 
-- The scheme identifier is ``ndn``. 
+- The scheme identifier is ``ndn``.
 
-- When producing a URI from an NDN Name, only the generic URI unreserved characters are left unescaped. 
-  These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials PLUS (+), PERIOD (.), UNDERSCORE (\_), and HYPHEN (-). 
-  All other characters are escaped using either the percent-encoding method of the URI Generic Syntax or a ``ndn`` scheme specific hexadecimal string escape starting with the EQUALS (=) and an even number of characters from the set of hex digits.
-  Once an EQUALS has been encountered in a component the hexadecimal encoding persists until the end of the component.
-  The hex digits in these escaped encodings should always use upper-case letters, i.e., A-Z.
+- When producing a URI from an NDN Name, only the generic URI unreserved characters are left unescaped.
+  These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials PLUS (+), PERIOD (.), UNDERSCORE (\_), and HYPHEN (-).
+  All other characters are escaped using the percent-encoding method of the URI Generic Syntax.
 
-- To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of zero or more periods is encoded using three additional periods.
+- To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of one or more periods is encoded using three additional periods.
 
 - The authority component (the part after the initial ``//`` in the familiar http and ftp URI schemes) is not relevant to NDN.
-  It should not be present, and it is ignored if it is present. 
+  It should not be present, and it is ignored if it is present.
 
 Implicit Digest Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +49,7 @@ It can be computed by any node based on the Data packet content.
 
 The **implicit digest component** consists of the SHA-256 digest of the entire Data packet without the signature component.  Having this digest as the last name component enables us to achieve the following two goals:
 
-- Identify one specific Data packet and no other. 
+- Identify one specific Data packet and no other.
 
 - Exclude a specific Data packet in an Interest (independent from whether it has a valid signature).
 
