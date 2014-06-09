@@ -19,7 +19,7 @@ If you're on OSX platform:
 
 If you're on Ubuntu Linux:
 
-    sudo apt-get install python-sphinx
+    sudo apt-get install python-sphinx python-setuptools
 
     sudo easy_install sphinxcontrib-fulltoc
     sudo easy_install sphinxcontrib-bibtex
