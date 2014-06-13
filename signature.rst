@@ -186,18 +186,3 @@ A ``KeyLocator`` specifies a name that points to another Data packet containing 
 
     For example, one can define a trust model that does not interpret KeyLocator at all (KeyLocator MUST be present, but TLV-LENGTH could be 0) and uses naming conventions to infer proper public key or public key certificate for the name of the Data packet itself.
     Another possibility for the trust model is to define digest-based KeyLocatorValue (``KeyLocatorDigest``), where RSA public key will be identified using SHA256 digest, assuming that the trust model has some other means to obtain the public key.
-
-
-Changes from CCNx
-~~~~~~~~~~~~~~~~~
-
-- ``Signature`` is moved to the end of Data packet.
-
-- ``KeyLocator`` is moved to be a part of the ``SignatureInfo`` block, if it is applicable for the specific signature type.
-  The rationale for the move is to make Signature (sequence of ``SignatureInfo`` and ``SignatureValue`` TLVs) self-contained and self-sufficient.
-
-- Signature type (or signing method information) is expressed as an assigned integer value (with no assumed default), rather than OID.
-
-- Added support for cheaper signatures
-
-- The current specification does not define Merkle Hash Tree Aggregated Signatures, but it is expected that such (or similar) signatures will be defined in future version of this specification.

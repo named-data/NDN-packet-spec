@@ -65,14 +65,3 @@ In several contexts in NDN packet processing, it is useful to have a consistent 
 
 For Names, the ordering is just based on the ordering of the first component where they differ.
 If one name is a proper prefix of the other, then it comes first.
-
-Changes from CCNx
-~~~~~~~~~~~~~~~~~
-
-- The name encoding is changed from binary XML to TLV format.
-
-- The discussions on naming conventions and the use of special markers inside NameComponents are removed from packet specification, and will be covered by a separate technical document
-
-.. (\cite{NamingConvention}).
-
-- Deprecated zero-length name component.

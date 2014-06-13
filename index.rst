@@ -12,6 +12,7 @@ NDN Packet Format Specification
    data
    signature
    types
+   changelog
    :maxdepth: 3
 
 
@@ -21,4 +22,3 @@ NDN Packet Format Specification
 .. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`
-

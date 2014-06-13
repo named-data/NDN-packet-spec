@@ -39,7 +39,7 @@ The first octet of the number either carries the actual numeric value, or signal
 
 One-octet value::
 
-     0 1 2 3 4 5 6 7 
+     0 1 2 3 4 5 6 7
     +---------------+
     | < 253 = VALUE |
     +---------------+
@@ -48,9 +48,9 @@ One-octet value::
 Two-octet value::
 
                          1                   2
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 
+     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
     +---------------+---------------+---------------+
-    |      253      |  VALUE (MSB)     VALUE (LSB)  |   
+    |      253      |  VALUE (MSB)     VALUE (LSB)  |
     +---------------+---------------+---------------+
 
 Four-octet value::
@@ -99,7 +99,7 @@ In particular, empty payload TLV will carry ``TLV-LENGTH`` equal to 0.
 
 
 This encoding offers a reasonable balance between compactness and flexibility.
-Most common, standardized Type codes will be allocated from a small-integer number-space, and these common Types will be able to use the compact, single-byte encoding. 
+Most common, standardized Type codes will be allocated from a small-integer number-space, and these common Types will be able to use the compact, single-byte encoding.
 
 Non Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,11 +113,11 @@ Depending on the length value, a nonNegativeInteger is encoded as follows:
 
 - if the length is 1 (i.e. the value length is 1 octet), the nonNegativeInteger is encoded in one octet;
 
-- if the length is 2 (= value length is 2 octets), the nonNegativeInteger is encoded in 2 octets, in net byte-order; 
+- if the length is 2 (= value length is 2 octets), the nonNegativeInteger is encoded in 2 octets, in net byte-order;
 
-- if the length is 4 (= value length is 4 octets), the nonNegativeInteger is encoded in 4 octets, in net byte-order; 
+- if the length is 4 (= value length is 4 octets), the nonNegativeInteger is encoded in 4 octets, in net byte-order;
 
-- if the length is 8 (= value length is 8 octets), the nonNegativeInteger is encoded in 8 octets, in net byte-order. 
+- if the length is 8 (= value length is 8 octets), the nonNegativeInteger is encoded in 8 octets, in net byte-order.
 
 The following shows a few examples of TLVs that has nonNegativeInteger as their value component in hexadecimal format (where ``TT`` represents ``TLV-TYPE``, followed by the ``TLV-LENGTH``, then ``TLV-VALUE``)::
 
@@ -127,9 +127,3 @@ The following shows a few examples of TLVs that has nonNegativeInteger as their 
     256   => TT020100
     65535 => TT02FFFF
     65536 => TT0400010000
-
-
-Changes from CCNx
-~~~~~~~~~~~~~~~~~
-
-- XML-based ccnb packet encoding is replaced by TLV encoding.
