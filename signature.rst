@@ -134,7 +134,7 @@ The signature algorithm is defined in `[RFC5753], Section 2.1 <http://tools.ietf
 
 This type of signature ensures strict provenance of a Data packet, provided that the signature verifies and the signature issuer is authorized to sign the Data packet.
 The signature issuer is identified using the :ref:`KeyLocator` block in the :ref:`SignatureInfo <Signature>` block of the ``SignatureSha256WithEcdsa``.
-A KeyLocatorDigest is defined over the DER encoding of the SubjectPublicKeyInfo for an EC key as defined by `RFC 5480 <http://www.ietf.org/rfc/rfc5480.txt>`_.
+A ``KeyDigest`` is defined over the DER encoding of the SubjectPublicKeyInfo for an EC key as defined by `RFC 5480 <http://www.ietf.org/rfc/rfc5480.txt>`_.
 See the :ref:`KeyLocator section <KeyLocator>` for more detail.
 
 The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER encoded DSA signature as defined in `Section 2.2.3 in RFC 3279 <http://tools.ietf.org/html/rfc3279#section-2.2.3>`_.
@@ -174,10 +174,10 @@ A ``KeyLocator`` specifies a name that points to another Data packet containing 
     KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH KeyLocatorValue
 
     KeyLocatorValue ::= Name |
-                        KeyLocatorDigest |
+                        KeyDigest |
                         ...
 
-    KeyLocatorDigest ::= KEY-LOCATOR-DIGEST-TYPE TLV-LENGTH BYTE+
+    KeyDigest ::= KEY-DIGEST-TYPE TLV-LENGTH BYTE+
 
 .. note::
 
@@ -185,4 +185,4 @@ A ``KeyLocator`` specifies a name that points to another Data packet containing 
     Generally, KeyLocator should point to another Data packet which is interpreted by the trust model, but trust model can allow alternative forms of the KeyLocator.
 
     For example, one can define a trust model that does not interpret KeyLocator at all (KeyLocator MUST be present, but TLV-LENGTH could be 0) and uses naming conventions to infer proper public key or public key certificate for the name of the Data packet itself.
-    Another possibility for the trust model is to define digest-based KeyLocatorValue (``KeyLocatorDigest``), where RSA public key will be identified using SHA256 digest, assuming that the trust model has some other means to obtain the public key.
+    Another possibility for the trust model is to define digest-based KeyLocatorValue (``KeyDigest``), where the key bits (e.g., RSA or ECDA public key bits or AES secret key bits) will be identified using a SHA256 digest, assuming that the trust model has some other means to obtain the public key.

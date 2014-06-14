@@ -69,7 +69,7 @@ Type value assignment
 +---------------------------------------------+-------------------+----------------+
 | KeyLocator                                  | 28                | 0x1c           |
 +---------------------------------------------+-------------------+----------------+
-| KeyLocatorDigest                            | 29                | 0x1d           |
+| KeyDigest                                   | 29                | 0x1d           |
 +---------------------------------------------+-------------------+----------------+
 
 .. _type reservations:
@@ -97,5 +97,3 @@ Type value reservations
 .. _NDNLP header: http://redmine.named-data.net/projects/nfd/wiki/NDNLP-TLV
 
 .. _LocalControlHeader: http://redmine.named-data.net/projects/nfd/wiki/LocalControlHeader
-
-
