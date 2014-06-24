@@ -141,7 +141,7 @@ Nonce defined as follows:
 
     Nonce ::= NONCE-TYPE TLV-LENGTH(=4) BYTE{4}
 
-The Nonce carries a randomly-genenerated 4-octet long byte-string.
+The Nonce carries a randomly-generated 4-octet long byte-string.
 The combination of Name and Nonce should uniquely identify an Interest packet.
 This is used to detect looping Interests.
 

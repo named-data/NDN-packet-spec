@@ -81,7 +81,7 @@ Eight-octet value::
 TLV Encoding
 ~~~~~~~~~~~~
 
-TLV encoding for NDN pakcets is defined as follows::
+TLV encoding for NDN packets is defined as follows::
 
      NDN-TLV := TLV-TYPE TLV-LENGTH TLV-VALUE?
      TLV-TYPE := VAR-NUMBER

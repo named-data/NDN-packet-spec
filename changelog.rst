@@ -6,8 +6,10 @@ Since version 0.1
 
 - **Signature**
 
-  + New ``SignatureSha256WithEcdsa`` signature type for Elliptic Curve Digital Signature Algorithm (ECDSA)
+  + New ``SignatureSha256WithEcdsa`` signature type for Elliptic Curve Digital Signature Algorithm (ECDSA).
   + ``KeyLocatorDigest`` renamed to ``KeyDigest``.  The specification now explicitly allows KeyDigest to be a SHA256 of any type of the key.
+  + ``KeyLocator`` field is now defined to be optionally present in generic ``SignatureInfo`` block.
+    ``SignatureSha256WithRsa`` and ``SignatureSha256WithEcdsa`` still require ``KeyLocator`` to be always present.
 
 Since CCNx 0.7.2
 ----------------
