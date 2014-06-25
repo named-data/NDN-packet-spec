@@ -14,7 +14,7 @@ NDN Interest packet is TLV defined as follows:
                    Scope?
                    InterestLifetime?
 
-``Name`` and ``Nonce`` are the only two two required elements in an Interest packet.
+``Name`` and ``Nonce`` are the only two required elements in an Interest packet.
 Selectors are optional elements that further qualify Data that may match the Interest.
 They are used for discovering and selecting the Data that matches best to what the application wants. Selectors are placed right after the Name to facilitate implementations that may use continuous memory block of Name and Selectors TLVs together as the index for PIT lookup. By using a TLV to group all the Selectors, an implementation can easily skip them to find Nonce, which is used together with Name to identify looping Interests.
 If Selectors TLV is present in the Interest, it MUST contain at least one selector.

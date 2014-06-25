@@ -83,15 +83,17 @@ Type value reservations
 | 0-4, 30-79     | Reserved for future assignments (1-byte encoding)         |
 +----------------+-----------------------------------------------------------+
 | 80-100         | Reserved for assignments related to local link data       |
-|                | processing (`NDNLP header`_, `LocalControlHeader`_, etc.) |
+|                | processing, e.g., `NDNLP header`_, `LocalControlHeader`_, |
+|                | etc. (1-byte encoding)                                    |
 +----------------+-----------------------------------------------------------+
 | 101-127        | Reserved for assignments related to forwarding daemon     |
+|                | (1-byte encoding)                                         |
 +----------------+-----------------------------------------------------------+
 | 128-252        | For application use (1-byte encoding)                     |
 +----------------+-----------------------------------------------------------+
 | 253-32767      | Reserved for future assignments (3-byte encoding)         |
 +----------------+-----------------------------------------------------------+
-| >32767         | For application use (3-byte encoding)                     |
+| >32767         | For application use (3+-byte encoding)                    |
 +----------------+-----------------------------------------------------------+
 
 .. _NDNLP header: http://redmine.named-data.net/projects/nfd/wiki/NDNLP-TLV

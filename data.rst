@@ -32,14 +32,14 @@ MetaInfo
                    FreshnessPeriod?
                    FinalBlockId?
 
-Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, Timestamp, and FinalBlockID for the following reasons.
+Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, and Timestamp for the following reasons.
 
 
 - PublisherPublicKeyDigest is supposed to be used in selecting data packets signed by a particular key.
   We replace PublisherPublicKeyDigest with KeyLocator, which is part of the Signature block (see :ref:`Signature Section <Signature>`), due to the following consideration.
-  First, it requires data consumer to acquire a *valid* public key, as opposed to the key locator, before sending Interest out.
+  First, PublisherPublicKeyDigest requires data consumer to acquire a *valid* public key, as opposed to the key locator, before sending the Interest out.
   Second, if a router is to verify the content objects, it must have other means to locate the keys first.
-  Further, it may require publishers to maintain their public keys and certificates by their public key digests instead of names.
+  Further, PublisherPublicKeyDigest may require publishers to maintain their public keys and certificates by their public key digests instead of names.
 
 - ExtOpt was intended for extending XML-based ccnb format.  Since we are now using TLV, ExtOpt is no longer needed.
 
@@ -55,7 +55,7 @@ ContentType
     ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH
                       nonNegativeInteger
 
-Three ContentTypes are currently defined: default (=0), LINK (=1), and KEY (=2). The **default** type of content is a BLOB (=0), which is the actual data bits identified by the data name. The \textbf{LINK} type of content is another name which identifies the actual data content. The ``KEY`` type of content is a public key.
+Three ContentTypes are currently defined: default (=0), LINK (=1), and KEY (=2). The **default** type of content is a BLOB (=0), which is the actual data bits identified by the data name. The **LINK** type of content is another name which identifies the actual data content. The ``KEY`` type of content is a public key.
 
 Compared with CCNx, three types, ENCR, GONE, and NACK are removed.
 ENCR means the content is encrypted, and since the network layer should not care whether content is encrypted or not, this type is not needed.
@@ -72,6 +72,8 @@ FreshnessPeriod
                           nonNegativeInteger
 
 The optional FreshnessPeriod indicates how long a node should wait after the arrival of this data before marking it as stale.  The encoded value is number of milliseconds.  Note that the stale data is still valid data; the expiration of FreshnessPeriod only means that the producer may have produced newer data.
+
+When FreshnessPeriod is omitted, the Data packet cannot be marked stale.
 
 Each content store associates every piece of Data with a staleness bit.
 The initial setting of this bit for newly-arrived content is "not stale". If the Data carries FreshnessPeriod, then after the Data has been residing in the content store for FreshnessPeriod, it will be marked as stale. This is per object staleness and local to the NDN node. Another possible way to set the staleness bit of a local content is for a local client to send a command to the local NDN daemon.

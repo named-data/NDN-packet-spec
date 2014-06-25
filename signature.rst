@@ -10,6 +10,8 @@ The following general considerations about SignatureInfo and SignatureValue bloc
 
 2. ``SignatureValue`` is **excluded** from signature calculation and represent actual bits of the signature and any other supporting signature material.
 
+The reason for separating the signature into two separate TLV blocks is to allow efficient signing of a contiguous memory block (e.g., for Data packet this block starts from Name TLV and ends with SignatureInfo TLV).
+
 ::
 
     Signature ::= SignatureInfo
@@ -65,7 +67,7 @@ This specification defines the following SignatureType values:
 KeyLocator
 ~~~~~~~~~~
 
-A ``KeyLocator`` specifies either a name that points to another Data packet containing certificate or public key or ``KeyDigest`` to identify the public key within a specific trust model (the trust model definition is outside the scope of the current specification).
+A ``KeyLocator`` specifies either ``Name`` that points to another Data packet containing certificate or public key or ``KeyDigest`` to identify the public key within a specific trust model (the trust model definition is outside the scope of the current specification).
 Note that although ``KeyLocator`` is defined as an optional field in ``SignatureInfo`` block, some signature types may require presence of it and some require ``KeyLocator`` absence.
 
 ::
