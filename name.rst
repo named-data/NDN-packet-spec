@@ -11,15 +11,12 @@ NDN Name Format
 We use a 2-level nested TLV to represent a name.
 The Type in the outer TLV indicates this is a Name.
 All inner TLVs have the same Type indicating that they each contain a name component.
-There is no restriction on the Value field in a name component and it may not contain any bytes:
+There is no restriction on the Value field in a name component and it may contain any non-empty byte sequence.
 
 ::
 
     Name ::= NAME-TYPE TLV-LENGTH NameComponent*
     NameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH BYTE+
-
-.. % 0 or many name components in name
-.. % 0 or many bytes in name component
 
 
 NDN URI Scheme
@@ -56,7 +53,7 @@ The **implicit digest component** consists of the SHA-256 digest of the entire D
 Canonical Order
 ~~~~~~~~~~~~~~~
 
-In several contexts in NDN packet processing, it is useful to have a consistent ordering of names and name components. NDN names consist of a sequence of NameComponents, and each NameComponent is a sequence of zero or more 8-bit bytes. The ordering for components is such that:
+In several contexts in NDN packet processing, it is useful to have a consistent ordering of names and name components. NDN names consist of a sequence of NameComponents, and each NameComponent is a sequence of one or more 8-bit bytes. The ordering for components is such that:
 
 - If *a* is shorter than *b* (i.e., has fewer bytes), then *a* comes before *b*.
 
