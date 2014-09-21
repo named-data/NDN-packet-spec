@@ -11,12 +11,12 @@ NDN Name Format
 We use a 2-level nested TLV to represent a name.
 The Type in the outer TLV indicates this is a Name.
 All inner TLVs have the same Type indicating that they each contain a name component.
-There is no restriction on the Value field in a name component and it may contain any non-empty byte sequence.
+There is no restriction on the Value field in a name component and it may contain any byte sequence.
 
 ::
 
     Name ::= NAME-TYPE TLV-LENGTH NameComponent*
-    NameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH BYTE+
+    NameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH BYTE*
 
 
 NDN URI Scheme
@@ -31,7 +31,7 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
   These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials PLUS (+), PERIOD (.), UNDERSCORE (\_), and HYPHEN (-).
   All other characters are escaped using the percent-encoding method of the URI Generic Syntax.
 
-- To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of one or more periods is encoded using three additional periods.
+- To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of zero or more periods is encoded using three additional periods.
 
 - The authority component (the part after the initial ``//`` in the familiar http and ftp URI schemes) is not relevant to NDN.
   It should not be present, and it is ignored if it is present.
@@ -53,7 +53,7 @@ The **implicit digest component** consists of the SHA-256 digest of the entire D
 Canonical Order
 ~~~~~~~~~~~~~~~
 
-In several contexts in NDN packet processing, it is useful to have a consistent ordering of names and name components. NDN names consist of a sequence of NameComponents, and each NameComponent is a sequence of one or more 8-bit bytes. The ordering for components is such that:
+In several contexts in NDN packet processing, it is useful to have a consistent ordering of names and name components. NDN names consist of a sequence of NameComponents, and each NameComponent is a sequence of zero or more 8-bit bytes. The ordering for components is such that:
 
 - If *a* is shorter than *b* (i.e., has fewer bytes), then *a* comes before *b*.
 

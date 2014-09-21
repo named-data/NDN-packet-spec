@@ -1,6 +1,13 @@
 Changes
 =======
 
+Since version 0.1.1
+-------------------
+
+- **Name**
+
+  + Allow zero-length name component
+
 Since version 0.1
 -----------------
 
