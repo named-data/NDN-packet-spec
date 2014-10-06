@@ -7,6 +7,7 @@ Since version 0.1.1
 - **Name**
 
   + Allow zero-length name component
+  + Require implicit digest to be specified using ``ImplicitSha256Digest`` name component
 
 Since version 0.1
 -----------------
