@@ -64,12 +64,11 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
 Implicit Digest Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Name of every piece of content includes as its final component a derived digest that ultimately makes the name unique.
-This digest may occur in an Interest Name as an ``ImplicitSha256DigestComponent`` and MUST appear as the last component in the name.
-This final component in the name is never included explicitly in the Data packet when it is transmitted on the wire.
-It can be computed by any node based on the Data packet content.
+The full name of every Data packet includes a logical final implicit digest component, which makes the name of every Data packet unique.
+The implicit digest (``ImplicitSha256DigestComponent``) MAY appear in an Interest, either as the last component of Interest Name to request a specific Data packet, or in the Exclude selector to exclude specific Data packet(s).
+``ImplicitSha256DigestComponent`` is never included explicitly in the Data packet when it is transmitted on the wire and, if needed, must be computed by all nodes based on the Data packet content.
 
-The **implicit digest component** consists of the SHA-256 digest of the entire Data packet without the signature component.  Having this digest as the last name component enables us to achieve the following two goals:
+The **implicit digest component** consists of the SHA-256 digest of the entire Data packet bits.  Having this digest as the last name component enables us to achieve the following two goals:
 
 - Identify one specific Data packet and no other.
 
