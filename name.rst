@@ -54,7 +54,7 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
 
   * ``ImplicitSha256DigestComponent``
 
-    + Implicit SHA256 digest component starts with ``sha256digest=`` prefix (case sensitive), following the digest represented as a sequence of 32 hexadecimal numbers.
+    + Implicit SHA256 digest component starts with ``sha256digest=`` prefix (case sensitive), followed by the digest represented as a sequence of 64 hexadecimal numbers.
 
       For example, ``sha256digest=893259d98aca58c451453f29ec7dc38688e690dd0b59ef4f3b9d33738bff0b8d``
 
