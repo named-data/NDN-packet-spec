@@ -11,7 +11,6 @@ NDN Interest packet is TLV defined as follows:
                    Name
                    Selectors?
                    Nonce
-                   Scope?
                    InterestLifetime?
 
 ``Name`` and ``Nonce`` are the only two required elements in an Interest packet.
@@ -19,8 +18,10 @@ Selectors are optional elements that further qualify Data that may match the Int
 They are used for discovering and selecting the Data that matches best to what the application wants. Selectors are placed right after the Name to facilitate implementations that may use continuous memory block of Name and Selectors TLVs together as the index for PIT lookup. By using a TLV to group all the Selectors, an implementation can easily skip them to find Nonce, which is used together with Name to identify looping Interests.
 If Selectors TLV is present in the Interest, it MUST contain at least one selector.
 
-The two other optional elements, Scope and InterestLifetime, are referred to as *Guiders*.
-They affect Interest forwarding behavior, e.g., how far the Interest may be forwarded, and how long an Interest may be kept in the PIT. They are not grouped.
+``InterestLifetime`` is optional and is referred to as a *Guider*.
+It affects Interest forwarding behavior, i.e., how long an Interest may be kept in the PIT.
+
+.. Guiders are not grouped.
 
 
 Name
@@ -149,20 +150,6 @@ This is used to detect looping Interests.
 
 Guiders
 ~~~~~~~
-
-Scope
-+++++
-
-::
-
-    Scope ::= SCOPE-TYPE TLV-LENGTH nonNegativeInteger
-
-This value limits how far the Interest may propagate.
-Scope 0 prevents propagation beyond the local NDN daemon (even to other applications on the same host). Scope 1 limits propagation to the applications on the originating host.
-Scope 2 limits propagation to no further than the next node.
-Other values are not defined at this time, and will cause the Interest packet to be dropped.
-
-Note that Scope is not a hop count---the value is not decremented as the Interest is forwarded.
 
 InterestLifetime
 ++++++++++++++++
