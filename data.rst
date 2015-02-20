@@ -23,7 +23,7 @@ See :ref:`Name section <Name>` for details.
 MetaInfo
 ~~~~~~~~
 
-.. [#f1] If both ``ContentType`` and ``FreshnessPeriod`` are optional, one may consider ``Metainfo`` itself should be optional. But would have all 4 parts of Data packet help simplify implementation? We leave this question to people who are more familiar with high speed implementations.
+.. [#f1] If ``ContentType``, ``FreshnessPeriod`` and ``FinalBlockId`` are optional, one may consider ``Metainfo`` itself should be optional. But would having all 4 parts of Data packet help simplify implementation? We leave this question to people who are more familiar with high speed implementations.
 
 ::
 
@@ -32,7 +32,7 @@ MetaInfo
                    FreshnessPeriod?
                    FinalBlockId?
 
-Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, and Timestamp for the following reasons.
+Compared with CCNx, three fields are removed: PublisherPublicKeyDigest, ExtOpt, and Timestamp for the following reasons.
 
 
 - PublisherPublicKeyDigest is supposed to be used in selecting data packets signed by a particular key.
@@ -43,7 +43,7 @@ Compared with CCNx, four fields are removed: PublisherPublicKeyDigest, ExtOpt, a
 
 - ExtOpt was intended for extending XML-based ccnb format.  Since we are now using TLV, ExtOpt is no longer needed.
 
-- Timestamp and FinalBlockID can be useful meta information for applications, but do not need to be processed at the network layer.
+- Timestamp can be useful meta information for applications, but does not need to be processed at the network layer.
   Therefore, if desired, applications should encode such meta information as part of the content.
 
 
