@@ -48,7 +48,10 @@ This specification defines the following SignatureType values:
 | 3       | :ref:`SignatureSha256WithEcdsa`        | Integrity and provenance protection using       |
 |         |                                        | an ECDSA signature over a SHA-256 digest        |
 +---------+----------------------------------------+-------------------------------------------------+
-| 2,4-200 |                                        | reserved for future assignments                 |
+| 4       | :ref:`SignatureHmacWithSha256`         | Integrity and provenance protection using       |
+|         |                                        | SHA256 hash-based message authentication codes  |
++---------+----------------------------------------+-------------------------------------------------+
+| 2,5-200 |                                        | reserved for future assignments                 |
 +---------+----------------------------------------+-------------------------------------------------+
 | >200    |                                        | unassigned                                      |
 +---------+----------------------------------------+-------------------------------------------------+
@@ -170,6 +173,65 @@ The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER encoded
     Ecdsa-Sig-Value  ::=  SEQUENCE  {
          r     INTEGER,
          s     INTEGER  }
+
+.. _SignatureHmacWithSha256:
+
+SignatureHmacWithSha256
+^^^^^^^^^^^^^^^^^^^^^^^
+
+``SignatureHmacWithSha256`` defines a hash-based message authentication code that is calculated over
+the  :ref:`Name`, :ref:`MetaInfo`, :ref:`Content`, and :ref:`SignatureInfo <Signature>` TLVs, using SHA256
+as the hashing function.  The signature algorithm is defined in `Section 2 in RFC 2104
+<http://tools.ietf.org/html/rfc2104#section-2>`_.
+
+::
+
+    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
+                        SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 4
+                        KeyLocator
+
+    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE++(=SHA256({KeyValue XOR opad, SHA256({KeyValue XOR ipad, Name, MetaInfo, Content, SignatureInfo})}))
+
+where
+
+::
+
+    opad = 0x5c5c5c...5c5c5c (repeated 64 times)
+    ipad = 0x363636...363636 (repeated 64 times)
+
+``Key`` is a shared key known to the sender and receiver of the signed packet.
+``KeyValue`` is derived from a shared ``Key`` as follows. If the byte length of
+``Key`` is less than the SHA256 block length (64 bytes) then append zeros to the
+end of the ``Key`` to create the 64-byte ``KeyValue``. If the byte length of
+``Key`` is greater than 64 bytes then hash it with SHA256 to produce a 32-byte
+value then append 32 zeros to the end to create the 64-byte ``KeyValue``. (The
+HMAC functions in most cryptographic libraries are supplied the ``Key`` and will
+internally derive the ``KeyValue`` in this way.)
+
+.. note::
+
+   ``Key`` is not included in the signature. It is the application’s 
+   responsibility to ensure that the receiver already knows the shared ``Key``.
+   It can be identified using a ``KeyDigest`` as the :ref:`KeyLocator` block in
+   the :ref:`SignatureInfo <Signature>` block of ``SignatureHmacWithSha256`` as
+   follows. If the byte length of ``Key`` is less than or equal to the SHA256
+   block length (64 bytes) then the ``KeyDigest`` is SHA256(``Key``). But if the
+   byte length of ``Key`` is greater than 64 bytes, the ``KeyValue`` is already
+   SHA256(``Key``) with zeros appended, so in this case ``KeyDigest`` is
+   SHA256(SHA256(``Key``)).
+
+.. note::
+
+   As stated in in `Section 3 of RFC 2104
+   <http://tools.ietf.org/html/rfc2104#section-3>`_ , keys shorter than the
+   SHA256 output byte length (32 bytes) are strongly discouraged.
+
+Provided that the signature verifies, this type of signature ensures provenance
+that the Data packet was signed by one of the parties which holds the shared
+``Key``. The key is identified using a ``KeyDigest`` as described above. It is
+the application's responsibility to establish the identities of the parties who
+hold the shared ``Key``.
 
 .. .. _SignatureSha256WithRsaAndMerkle:
 
