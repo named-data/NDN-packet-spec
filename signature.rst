@@ -48,7 +48,10 @@ This specification defines the following SignatureType values:
 | 3       | :ref:`SignatureSha256WithEcdsa`        | Integrity and provenance protection using       |
 |         |                                        | an ECDSA signature over a SHA-256 digest        |
 +---------+----------------------------------------+-------------------------------------------------+
-| 2,4-200 |                                        | reserved for future assignments                 |
+| 4       | :ref:`SignatureHmacWithSha256`         | Integrity and provenance protection using       |
+|         |                                        | SHA256 hash-based message authentication codes  |
++---------+----------------------------------------+-------------------------------------------------+
+| 2,5-200 |                                        | reserved for future assignments                 |
 +---------+----------------------------------------+-------------------------------------------------+
 | >200    |                                        | unassigned                                      |
 +---------+----------------------------------------+-------------------------------------------------+
@@ -170,6 +173,35 @@ The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER encoded
     Ecdsa-Sig-Value  ::=  SEQUENCE  {
          r     INTEGER,
          s     INTEGER  }
+
+.. _SignatureHmacWithSha256:
+
+SignatureHmacWithSha256
+^^^^^^^^^^^^^^^^^^^^^^^
+
+``SignatureHmacWithSha256`` defines a hash-based message authentication code (HMAC) that is calculated over the :ref:`Name`, :ref:`MetaInfo`, :ref:`Content`, and :ref:`SignatureInfo <Signature>` TLVs, using SHA256 as the hash function, salted with a shared secret key.
+The signature algorithm is defined in `Section 2 in RFC 2104 <http://tools.ietf.org/html/rfc2104#section-2>`__.
+
+::
+
+    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
+                        SIGNATURE-TYPE-TYPE TLV-LENGTH(=1) 4
+                        KeyLocator
+
+    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=HMAC{Name, MetaInfo, Content, SignatureInfo})
+
+.. note::
+
+   The shared secret key is not included in the signature and must not be included anywhere in the data packet, as it would invalidate security properties of HMAC.
+
+.. note::
+
+   As stated in `Section 3 of RFC 2104 <http://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA256 output byte length (32 bytes) are strongly discouraged.
+
+Provided that the signature verifies, this type of signature ensures provenance that the Data packet was signed by one of the parties who holds the shared key.
+The shared key used to generate HMAC signature can be identified by the :ref:`KeyLocator` block in :ref:`SignatureInfo <Signature>`, e.g., by using the ``Name`` according to application's naming conventions.
+It is the application's responsibility to establish association between the shared key and the identities of the parties who hold the shared key.
 
 .. .. _SignatureSha256WithRsaAndMerkle:
 
