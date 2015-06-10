@@ -13,6 +13,10 @@ Since version 0.1.1
 
   + Delete deprecated ``Scope`` guider
 
+- **TLV-TYPE**
+
+  + Reserve 800-1000 range for link protocol
+
 Since version 0.1
 -----------------
 
