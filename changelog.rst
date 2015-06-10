@@ -9,6 +9,10 @@ Since version 0.1.1
   + Allow zero-length name component
   + Require implicit digest to be specified using ``ImplicitSha256Digest`` name component
 
+- **Interest**
+
+  + Delete deprecated ``Scope`` guider
+
 Since version 0.1
 -----------------
 
