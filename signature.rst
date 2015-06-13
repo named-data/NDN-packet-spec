@@ -15,7 +15,7 @@ The reason for separating the signature into two separate TLV blocks is to allow
 ::
 
     Signature ::= SignatureInfo
-                  SignatureBits
+                  SignatureValue
 
     SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
                         SignatureType
