@@ -9,7 +9,7 @@ Note that NDN packet format does not have a fixed packet header nor does it enco
 There is also no packet fragmentation support at network level.
 Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]_
 
-.. [#f1] Today's IP networks provide point-to-point packet delivery and perform end-to-end fragmentation. An NDN network, on the other hand, may fetch requested data from any in-network storage, thus the notion of data flowing along an end-to-end path does not apply.
+.. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <http://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
 Variable Size Encoding for type (T) and length (L)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,16 +90,14 @@ TLV encoding for NDN packets is defined as follows::
 
 
 TLV-TYPE SHOULD be unique at all nested levels.
-The TLV Type number space and initial assignments will be specified in the later revision of the current document.
-NDN packet design will try best to keep the length of T staying with a single byte.
+The TLV Type number space and initial assignments listed in Section :ref:`types` of this document.
 
 The ``TLV-LENGTH`` value represents number of bytes that ``TLV-VALUE`` uses.
 It **does not** include number of bytes that ``TLV-TYPE`` and ``TLV-LENGTH`` fields themselves occupy.
 In particular, empty payload TLV will carry ``TLV-LENGTH`` equal to 0.
 
-
 This encoding offers a reasonable balance between compactness and flexibility.
-Most common, standardized Type codes will be allocated from a small-integer number-space, and these common Types will be able to use the compact, single-byte encoding.
+Most common, standardized Type codes will be allocated from a small-integer number-space, and these common types will be able to use the compact, single-byte encoding.
 
 Non Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

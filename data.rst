@@ -32,21 +32,6 @@ MetaInfo
                    FreshnessPeriod?
                    FinalBlockId?
 
-Compared with CCNx, three fields are removed: PublisherPublicKeyDigest, ExtOpt, and Timestamp for the following reasons.
-
-
-- PublisherPublicKeyDigest is supposed to be used in selecting data packets signed by a particular key.
-  We replace PublisherPublicKeyDigest with KeyLocator, which is part of the Signature block (see :ref:`Signature Section <Signature>`), due to the following consideration.
-  First, PublisherPublicKeyDigest requires data consumer to acquire a *valid* public key, as opposed to the key locator, before sending the Interest out.
-  Second, if a router is to verify the content objects, it must have other means to locate the keys first.
-  Further, PublisherPublicKeyDigest may require publishers to maintain their public keys and certificates by their public key digests instead of names.
-
-- ExtOpt was intended for extending XML-based ccnb format.  Since we are now using TLV, ExtOpt is no longer needed.
-
-- Timestamp can be useful meta information for applications, but does not need to be processed at the network layer.
-  Therefore, if desired, applications should encode such meta information as part of the content.
-
-
 ContentType
 +++++++++++
 
@@ -69,11 +54,6 @@ The following ContentTypes are currently defined:
 +-----------------+----------------+--------------------------------------------------------------+
 | NACK            | 3              | application-level NACK                                       |
 +-----------------+----------------+--------------------------------------------------------------+
-
-Compared with CCNx, ENCR and GONE types are removed.
-ENCR means the content is encrypted, and since the network layer should not care whether content is encrypted or not, this type is not needed.
-GONE was a placeholder for implementing cache purging, however the research is yet to be carried out on how to accomplish this goal, if it is feasible to achieve, it is not included in this version of NDN specification.
-
 
 FreshnessPeriod
 +++++++++++++++

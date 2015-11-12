@@ -1,18 +1,20 @@
 Introduction
 ------------
 
-This version 0.1 specification aims to describe the NDN packet format only, a much narrower scope than a full NDN protocol specification. Our plan is to circulate and finalize the packet format first, then write down the full protocol specification. 
+This version of specification aims to describe the NDN packet format only, a much narrower scope than a full NDN protocol specification.
+Full protocol specification will be published as a separate document.  For more information about the overall protocol refer to `"Named Data Networking" by Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and Beichuan Zhang, ACM SIGCOMM Computer Communication Review (CCR), July 2014.`__ and other publications on `Named Data Networking website <https://named-data.net>`__.
 
-In addition to this protocol specification draft, we are also in the process of putting out a set of technical memos that document our reasoning behind the design choices of important issues.  The first few to come out will address the following issues:
+In addition to the packet format and full protocol specification, we have published a set of technical memos and papers that explain the reasoning behind the design choices:
 
-- Packet fragmentation: end-to-end versus hop-by-hop;
+- `NDN Protocol Design Principles <https://named-data.net/project/ndn-design-principles/>`__
 
-- Understanding the tradeoffs of (not) handling Interest selectors;
+- `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <http://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
-- NDN Name discovery: why do we need it?
+- `"SNAMP: Secure Namespace Mapping to Scale NDN Forwarding" by Alexander Afanasyev, Cheng Yi, Lan Wang, Beichuan Zhang, and Lixia Zhang, 18th IEEE Global Internet Symposium, April 2015 <http://named-data.net/publications/snamp-ndn-scalability/>`__
 
-- NDN naming convention; and
+- `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <http://named-data.net/publications/techreports/ndn-tr-22-ndn-memo-naming-conventions/>`__
 
-- Scaling NDN routing.
+Acknowledgment
+--------------
 
-In the rest of the document, we assume readers are familiar with how NDN/CCN works in general. For a description of the current CCNx protocol definition, please refer to `<http://www.ccnx.org/releases/latest/doc/technical/CCNxProtocol.html>`_.
+This NDN packet format specification is evolution of the `CCNx 0.7.2 specification <https://github.com/named-data/ndnx/releases/tag/ccnx-0.7.2-ndn-1>`_ as of May 2013.

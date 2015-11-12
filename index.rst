@@ -4,7 +4,6 @@ NDN Packet Format Specification
 
 
 .. toctree::
-   ack
    intro
    tlv
    name
