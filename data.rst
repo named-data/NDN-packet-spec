@@ -55,12 +55,24 @@ ContentType
     ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH
                       nonNegativeInteger
 
-Three ContentTypes are currently defined: default (=0), LINK (=1), and KEY (=2). The **default** type of content is a BLOB (=0), which is the actual data bits identified by the data name. The **LINK** type of content is another name which identifies the actual data content. The ``KEY`` type of content is a public key.
+The following ContentTypes are currently defined:
 
-Compared with CCNx, three types, ENCR, GONE, and NACK are removed.
++-----------------+----------------+--------------------------------------------------------------+
+| ContentType     | Assigned value | Description of the content                                   |
++=================+================+==============================================================+
+| BLOB            | 0              | payload identified by the data name; this is the default     |
+|                 |                | ContentType                                                  |
++-----------------+----------------+--------------------------------------------------------------+
+| LINK            | 1              | another name which identifies the actual data content        |
++-----------------+----------------+--------------------------------------------------------------+
+| KEY             | 2              | public key                                                   |
++-----------------+----------------+--------------------------------------------------------------+
+| NACK            | 3              | application-level NACK                                       |
++-----------------+----------------+--------------------------------------------------------------+
+
+Compared with CCNx, ENCR and GONE types are removed.
 ENCR means the content is encrypted, and since the network layer should not care whether content is encrypted or not, this type is not needed.
-GONE was a placeholder for implementing cache purging, however the research is yet to be carried out on how to accomplish this goal, if it is feasible to achieve, it is not included in this 0.1 version of NDN specification.
-NACK is used to signal a downstream node that the upstream node is unable to retrieve a matching data.  Since the actual NACK mechanism is still under active investigation, we do not include it in this version of specification, but may add it back in a future version.
+GONE was a placeholder for implementing cache purging, however the research is yet to be carried out on how to accomplish this goal, if it is feasible to achieve, it is not included in this version of NDN specification.
 
 
 FreshnessPeriod
