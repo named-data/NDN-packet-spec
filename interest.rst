@@ -30,6 +30,9 @@ Name
 The Name element in an Interest is synonymous with the term *prefix*.
 See :ref:`Name section <Name>` for details.
 
+The Name element that can be put in the Interest is further restricted to have at least one NameComponent.
+Interests that include Name TLV that has zero name components MUST BE discarded.
+
 .. _Selectors:
 
 Selectors
