@@ -9,9 +9,18 @@ Since version 0.1.1
   + Allow zero-length name component
   + Require implicit digest to be specified using ``ImplicitSha256Digest`` name component
 
+- **Signature**
+
+  + Add spec for ``SignatureHmacWithSha256``
+
 - **Interest**
 
   + Delete deprecated ``Scope`` guider
+  + Restrict Interest to have name with at least one name component
+
+- **Data**
+
+  + Redirect ContentType number assignments to the `wiki page <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__
 
 - **TLV-TYPE**
 
