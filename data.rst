@@ -55,6 +55,9 @@ The following ContentTypes are currently defined:
 | NACK            | 3              | application-level NACK                                       |
 +-----------------+----------------+--------------------------------------------------------------+
 
+Other ContentType numbers are assigned and maintained in `NDN Packet Specification Wiki <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__.
+
+
 FreshnessPeriod
 +++++++++++++++
 
