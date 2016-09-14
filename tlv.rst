@@ -117,7 +117,7 @@ Depending on the length value, a nonNegativeInteger is encoded as follows:
 
 - if the length is 8 (= value length is 8 octets), the nonNegativeInteger is encoded in 8 octets, in net byte-order.
 
-The following shows a few examples of TLVs that has nonNegativeInteger as their value component in hexadecimal format (where ``TT`` represents ``TLV-TYPE``, followed by the ``TLV-LENGTH``, then ``TLV-VALUE``)::
+The following shows a few examples of TLVs that have nonNegativeInteger as their value component in hexadecimal format (where ``TT`` represents ``TLV-TYPE``, followed by the ``TLV-LENGTH``, then ``TLV-VALUE``)::
 
     0     => TT0100
     1     => TT0101

@@ -84,14 +84,14 @@ Exclude
     Exclude ::= EXCLUDE-TYPE TLV-LENGTH Any? (NameComponent (Any)?)+
     Any ::= ANY-TYPE TLV-LENGTH(=0)
 
-The ``Exclude`` selectors allows requester to specify list and/or ranges of names components that MUST NOT appear as a continuation of the Name prefix in the responding Data packet to the Interest.
+The ``Exclude`` selectors allow requesters to specify list and/or ranges of name components that MUST NOT appear as a continuation of the Name prefix in the responding Data packet to the Interest.
 For example, if Interest is expressed for ``/ndn/edu`` and Exclude specifies one name component ``ucla``, then neither data producer nor conforming NDN routers are allowed to return any Data packet that has prefix ``/ndn/edu/ucla``.
 
 Exclude filter applies only to a name component of the Data packet name that is located at a position that numerically equals to the number of name components in the Interest packet, assuming 0 is the first name component.
 
 The Components in the exclusion list MUST occur in strictly increasing order according to the canonical NDN name component ordering (:ref:`Name Section<name>`), with optional leading, trailing, and interleaved ``Any`` components. The following defines processing of ``Any`` components:
 
-- If none of the ``Any`` components are specified, the filter excludes only to the names specified in the Exclude list.
+- If none of the ``Any`` components are specified, the filter excludes only the names specified in the Exclude list.
 
 - If a leading ``Any`` component is specified, then the filter excludes all names that are smaller or equal (in NDN name component canonical ordering) to the first NameComponent in the Exclude list.
 
