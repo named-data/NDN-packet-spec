@@ -78,7 +78,10 @@ Exclude
 
 ::
 
-    Exclude ::= EXCLUDE-TYPE TLV-LENGTH Any? (NameComponent (Any)?)+
+    Exclude ::= EXCLUDE-TYPE TLV-LENGTH AnyLeading? (NameComponent | AnyBetween)* AnyTrailing?
+    AnyLeading ::= Any NameComponent
+    AnyBetween ::= NameComponent Any NameComponent
+    AnyTrailing ::= NameComponent Any
     Any ::= ANY-TYPE TLV-LENGTH(=0)
 
 The ``Exclude`` selectors allow requesters to specify list and/or ranges of name components that MUST NOT appear as a continuation of the Name prefix in the responding Data packet to the Interest.
