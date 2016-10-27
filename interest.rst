@@ -12,6 +12,8 @@ NDN Interest packet is TLV defined as follows:
                    Selectors?
                    Nonce
                    InterestLifetime?
+                   Link?
+                   SelectedDelegation?
 
 ``Name`` and ``Nonce`` are the only two required elements in an Interest packet.
 Selectors are optional elements that further qualify Data that may match the Interest.
@@ -172,3 +174,28 @@ Nodes that forward Interests may decrease the lifetime to account for the time s
 It is the application that sets the value for ``InterestLifetime``.
 If the ``InterestLifetime`` element is omitted, a default value of 4 seconds is used (4000).
 The missing element may be added before forwarding.
+
+Link
+~~~~
+
+The format is the following::
+
+    Link ::= LinkObject
+
+``LinkObject`` is a :ref:`Data packet <data>` of a dedicated ``LINK`` type and specially-formatted content part, listing a set of delegations (name prefixes and the associated priorities) that should be used to guide forwarding of the Internet packet.
+
+See the :ref:`link` section for formal definition of the ``LinkObject``.
+
+Selected Delegation
+~~~~~~~~~~~~~~~~~~~
+
+The SelectedDelegation field indicates the index of the delegation in the attached ``Link`` that was chosen by a downstream forwarder(s).
+
+The format is the following::
+
+   SelectedDelegation ::= SELECTED-DELEGATION-TYPE TLV-LENGTH
+                            nonNegativeInteger
+
+If ``Link`` field is not present, the ``SelectedDelegation`` field MUST NOT be present.
+
+The index value of the ``SelectedDelegation`` field MUST be less than the number of delegations within the ``Link``.

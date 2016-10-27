@@ -1,6 +1,17 @@
 Changes
 =======
 
+Since version 0.2
+-----------------
+
+- Add definition of Link Object
+
+- **Interest**
+
+  + Add specification of Link and SelectedDelegation fields
+
+************************************************************
+
 Since version 0.1.1
 -------------------
 
@@ -26,6 +37,8 @@ Since version 0.1.1
 
   + Reserve 800-1000 range for link protocol
 
+************************************************************
+
 Since version 0.1
 -----------------
 
@@ -35,6 +48,8 @@ Since version 0.1
   + ``KeyLocatorDigest`` renamed to ``KeyDigest``.  The specification now explicitly allows KeyDigest to be a SHA256 of any type of the key.
   + ``KeyLocator`` field is now defined to be optionally present in generic ``SignatureInfo`` block.
     ``SignatureSha256WithRsa`` and ``SignatureSha256WithEcdsa`` still require ``KeyLocator`` to be always present.
+
+************************************************************
 
 Since CCNx 0.7.2
 ----------------

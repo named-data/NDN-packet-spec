@@ -48,7 +48,7 @@ The following ContentTypes are currently defined:
 | BLOB            | 0              | payload identified by the data name; this is the default     |
 |                 |                | ContentType                                                  |
 +-----------------+----------------+--------------------------------------------------------------+
-| LINK            | 1              | another name which identifies the actual data content        |
+| LINK            | 1              | a list of delegations (see :ref:`link`)                      |
 +-----------------+----------------+--------------------------------------------------------------+
 | KEY             | 2              | public key                                                   |
 +-----------------+----------------+--------------------------------------------------------------+
