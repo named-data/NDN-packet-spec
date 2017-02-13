@@ -66,16 +66,20 @@ FreshnessPeriod
     FreshnessPeriod ::= FRESHNESS-PERIOD-TLV TLV-LENGTH
                           nonNegativeInteger
 
-The optional FreshnessPeriod indicates how long a node should wait after the arrival of this data before marking it as stale.  The encoded value is number of milliseconds.  Note that the stale data is still valid data; the expiration of FreshnessPeriod only means that the producer may have produced newer data.
-
-When FreshnessPeriod is omitted, the Data packet cannot be marked stale.
+The optional FreshnessPeriod indicates how long a node should wait after the arrival of this data before marking it as stale.
+The encoded value is number of milliseconds.
+Note that the stale data is still valid data; the expiration of FreshnessPeriod only means that the producer may have produced newer data.
 
 Each content store associates every piece of Data with a staleness bit.
-The initial setting of this bit for newly-arrived content is "not stale". If the Data carries FreshnessPeriod, then after the Data has been residing in the content store for FreshnessPeriod, it will be marked as stale. This is per object staleness and local to the NDN node. Another possible way to set the staleness bit of a local content is for a local client to send a command to the local NDN daemon.
+If the Data carries a FreshnessPeriod, it will initially be considered "fresh" and, after the Data has resided in the content store for FreshnessPeriod, it will be marked as stale.
+This is per object staleness and is local to the NDN node.
 
-If an Interest contains MustBeFresh TLV, a Data that has the staleness bit set is not eligible to be sent in response to that Interest.
+If an Interest contains MustBeFresh TLV, a content store MUST NOT return Data with the staleness bit set in response to this interest.
 The effect is the same as if that stale Data did not exist (i.e., the Interest might be matched by some other Data in the store, or, failing that, get forwarded to other nodes).
-If an exact duplicate of a stale Data arrives, the effect is the same as if the stale Data had not been present. In particular, the Data in the store is no longer stale. As a practical matter, a stale Data should be ranked high on the list of things to discard from the store when a storage quota has been reached.
+When an exact duplicate of the "stale" Data packet, carrying a positive FreshnessPeriod value, is inserted into a content store, the store SHOULD remove the "stale" bit from the cached Data.
+In particular, the Data in the store is no longer stale.
+
+When a content store receives a Data packet without a FreshnessPeriod or with a FreshnessPeriod equal to 0, then it can satisfy an Interest marked MustBeFresh.
 
 FinalBlockId
 ++++++++++++

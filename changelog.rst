@@ -10,6 +10,10 @@ Since version 0.2
 
   + Add specification of Link and SelectedDelegation fields
 
+- **Data**
+
+  + Updated Content Store semantics for Data packets that do not carry FreshnessPeriod.
+
 ************************************************************
 
 Since version 0.1.1
