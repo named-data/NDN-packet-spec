@@ -122,6 +122,7 @@ If the value is 0, the leftmost child is preferred.
 If 1, the rightmost child is preferred.
 Here leftmost and rightmost refer to the least and greatest components according to the canonical NDN name component ordering (:ref:`Name Section<name>`).
 This ordering is only done at the level of the name hierarchy one past the name prefix.
+If the ``ChildSelector`` field is not present, the leftmost child is preferred (a value of 0).
 
 For example, assuming in the name hierarchy the component immediately after the name prefix  is the version number, whose next level is the segment number, then setting ChildSelector to be 1 will retrieve the rightmost version number (i.e., the latest version) and the leftmost segment number (i.e., the first segment). However, this selection is only done with respect to a single content store, not globally. Additional rounds that exclude the earlier versions may be used to explore other content stores for newer versions.
 In this case, the use of ChildSelector does not change the multi-round outcome, but it decreases the number of rounds needed to converge to an answer.
