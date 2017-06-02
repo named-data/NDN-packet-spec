@@ -12,16 +12,15 @@ NDN Interest packet is TLV defined as follows:
                    Selectors?
                    Nonce
                    InterestLifetime?
-                   Link?
-                   SelectedDelegation?
+                   ForwardingHint?
 
 ``Name`` and ``Nonce`` are the only two required elements in an Interest packet.
 Selectors are optional elements that further qualify Data that may match the Interest.
 They are used for discovering and selecting the Data that matches best to what the application wants. Selectors are placed right after the Name to facilitate implementations that may use continuous memory block of Name and Selectors TLVs together as the index for PIT lookup. By using a TLV to group all the Selectors, an implementation can easily skip them to find Nonce, which is used together with Name to identify looping Interests.
 If Selectors TLV is present in the Interest, it MUST contain at least one selector.
 
-``InterestLifetime`` is optional and is referred to as a *Guider*.
-It affects Interest forwarding behavior, i.e., how long an Interest may be kept in the PIT.
+``InterestLifetime`` and ``ForwardingHint`` are optional and are referred to as *Guiders*.
+They affect Interest forwarding behavior.
 
 .. Guiders are not grouped.
 
@@ -176,27 +175,14 @@ It is the application that sets the value for ``InterestLifetime``.
 If the ``InterestLifetime`` element is omitted, a default value of 4 seconds is used (4000).
 The missing element may be added before forwarding.
 
-Link
-~~~~
+ForwardingHint
+++++++++++++++
 
-The format is the following::
+::
 
-    Link ::= LinkObject
+   ForwardingHint ::= FORWARDING-HINT-TYPE TLV-LENGTH
+                        Delegation+
 
-``LinkObject`` is a :ref:`Data packet <data>` of a dedicated ``LINK`` type and specially-formatted content part, listing a set of delegations (name prefixes and the associated priorities) that should be used to guide forwarding of the Internet packet.
-
-See the :ref:`link` section for formal definition of the ``LinkObject``.
-
-Selected Delegation
-~~~~~~~~~~~~~~~~~~~
-
-The SelectedDelegation field indicates the index of the delegation in the attached ``Link`` that was chosen by a downstream forwarder(s).
-
-The format is the following::
-
-   SelectedDelegation ::= SELECTED-DELEGATION-TYPE TLV-LENGTH
-                            nonNegativeInteger
-
-If ``Link`` field is not present, the ``SelectedDelegation`` field MUST NOT be present.
-
-The index value of the ``SelectedDelegation`` field MUST be less than the number of delegations within the ``Link``.
+The ForwardingHint field contains a list of name delegations, as defined in :ref:`link` section.
+Each delegation implies that the requested Data packet can be retrieved by forwarding the Interest along the delegation path.
+Specifics of the forwarding logic for Interests with ``ForwardingHint`` will be defined in a separated document.

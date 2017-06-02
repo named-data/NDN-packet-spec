@@ -23,7 +23,7 @@ The Link Object is a specialized form of a :ref:`Data packet <data>` packet, def
 
 
 Link Object is a data packet, whose content contains a list of one or more name delegations: a pair of name and the associate priority.
-The semantical meaning of the delegations depends on the specific use.  For example, when LinkObject is used as part of Interest packet, each delegation implies that the requested Data packet can be retrieved by forwarding the interest along the delegation path.  Specifics of the forwarding logic for Interests with ``LinkObject`` will be defined in a separated document.
+The LinkObject can be used to derive the ``ForwardingHint`` guider of an Interest packet.
 
 The list of delegations in ``LinkContent`` SHOULD be ordered by preference value in ascending order (i.e., the lowest value first).
 

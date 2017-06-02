@@ -8,8 +8,8 @@ Since version 0.2
 
 - **Interest**
 
-  + Add specification of Link and SelectedDelegation fields
   + Add default of leftmost child if ChildSelector field not present
+  + Add specification of ForwardingHint field
 
 - **Data**
 
