@@ -1,7 +1,7 @@
 Type-Length-Value (TLV) Encoding
 --------------------------------
 
-Each NDN packet is encoded in a Type-Length-Value (TLV) format.  NDN Interest and Data packets are distinguished by the type value in the first and outmost TLV\ :sub:`0`\ .
+Each NDN packet is encoded in a Type-Length-Value (TLV) format.  NDN Interest and Data packets are distinguished by the type number in the first and outmost TLV\ :sub:`0`\ .
 
 An NDN packet is mainly a collection of TLVs inside TLV\ :sub:`0`\ .  Some TLVs may contain sub-TLVs, and each sub-TLV may also be further nested.  A guiding design principle is to keep the order of TLV\ :sub:`i`\ s deterministic, and keep the level of nesting as small as possible to minimize both processing overhead and chances for errors.
 
@@ -23,7 +23,7 @@ We define a variable-length encoding for numbers in NDN as follows::
 
      VAR-NUMBER := BYTE+
 
-The first octet of the number either carries the actual numeric value, or signals that a multi-octet encoding is present, as defined below:
+The first octet of the number either carries the actual number, or signals that a multi-octet encoding is present, as defined below:
 
 - if the first octet is < 253, the number is encoded in that octet;
 
@@ -37,42 +37,42 @@ The first octet of the number either carries the actual numeric value, or signal
   following 8 octets, in net byte-order.
 
 
-One-octet value::
+One-octet number::
 
      0 1 2 3 4 5 6 7
-    +---------------+
-    | < 253 = VALUE |
-    +---------------+
+    +----------------+
+    | < 253 = NUMBER |
+    +----------------+
 
 
-Two-octet value::
+Two-octet number::
 
                          1                   2
      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
     +---------------+---------------+---------------+
-    |      253      |  VALUE (MSB)     VALUE (LSB)  |
+    |      253      |  NUMBER (MSB)    NUMBER (LSB) |
     +---------------+---------------+---------------+
 
-Four-octet value::
+Four-octet number::
 
                          1                   2                   3
      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
     +---------------+---------------+----------------+--------------+
-    |      254      |  VALUE (MSB)                                  /
+    |      254      |  NUMBER (MSB)                                 /
     +---------------+---------------+----------------+--------------+
-    |  VALUE (LSB)  |
+    |  NUMBER (LSB) |
     +---------------+
 
-Eight-octet value::
+Eight-octet number::
 
                          1                   2                   3
      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
     +---------------+---------------+----------------+--------------+
-    |      255      |  VALUE (MSB)                                  /
+    |      255      |  NUMBER (MSB)                                 /
     +---------------+                                               +
     |                                                               /
     +               +---------------+----------------+--------------+
-    |  VALUE (LSB)  |
+    |  NUMBER (LSB) |
     +---------------+
 
 
@@ -92,7 +92,7 @@ TLV encoding for NDN packets is defined as follows::
 TLV-TYPE SHOULD be unique at all nested levels.
 The TLV Type number space and initial assignments listed in Section :ref:`types` of this document.
 
-The ``TLV-LENGTH`` value represents number of bytes that ``TLV-VALUE`` uses.
+The ``TLV-LENGTH`` field indicates number of bytes that ``TLV-VALUE`` uses.
 It **does not** include number of bytes that ``TLV-TYPE`` and ``TLV-LENGTH`` fields themselves occupy.
 In particular, empty payload TLV will carry ``TLV-LENGTH`` equal to 0.
 
@@ -106,7 +106,7 @@ A number of TLV elements in NDN packet format take a non-negative integer as the
 
     nonNegativeInteger ::= BYTE+
 
-Length value of the TLV element MUST be either 1, 2, 4, or 8.
+TLV-LENGTH of the TLV element MUST be either 1, 2, 4, or 8.
 Depending on the length value, a nonNegativeInteger is encoded as follows:
 
 - if the length is 1 (i.e. the value length is 1 octet), the nonNegativeInteger is encoded in one octet;
