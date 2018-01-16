@@ -17,18 +17,30 @@ Inner TLVs should be one of ``NameComponent`` blocks, as defined in the followin
     Name ::= NAME-TYPE TLV-LENGTH NameComponent*
 
     NameComponent ::= GenericNameComponent |
-                      ImplicitSha256DigestComponent
+                      ImplicitSha256DigestComponent |
+                      OtherTypeComponent
 
-    GenericNameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH BYTE*
+    GenericNameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH
+                               BYTE*
 
     ImplicitSha256DigestComponent ::= IMPLICIT-SHA256-DIGEST-COMPONENT-TYPE TLV-LENGTH(=32)
                                         BYTE{32}
 
+    OtherTypeComponent ::= OTHER-TYPE-COMPONENT-TYPE TLV-LENGTH
+                             BYTE*
+
+    OTHER-TYPE-COMPONENT-TYPE ::= number in the range 2-65535 inclusive except 8
 
 - ``GenericNameComponent`` is a generic name component, without any restrictions on the content of the value.
 
 - ``ImplicitSha256DigestComponent`` is an implicit SHA256 digest component and it is required to contain a value of 32 octets.
 
+In addition to two component types, ``Name`` can include other component types governed by `Name Component Assignment policy <https://redmine.named-data.net/projects/ndn-tlv/wiki/NameComponentType>`__.
+
+TLV-TYPE of name component MUST be in the range ``1-65535`` (inclusive).
+``Name`` element containing a sub-element out of this range is invalid and the packet SHOULD be dropped.
+
+Name component with TLV-TYPE ``0`` (zero) is reserved to indicate an invalid name component.
 
 NDN URI Scheme
 ~~~~~~~~~~~~~~
@@ -46,9 +58,8 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
   * ``GenericNameComponent``
 
     + When producing a URI from an NDN Name, only the generic URI unreserved characters are left unescaped.
-      These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials PLUS (+), PERIOD (.), UNDERSCORE (\_), and HYPHEN (-).
+      These are the US-ASCII upper and lower case letters (A-Z, a-z), digits (0-9), and the four specials HYPHEN (-), PERIOD (.), UNDERSCORE (\_), and TILDE (~).
       All other characters are escaped using the percent-encoding method of the URI Generic Syntax.
-
 
     + To unambiguously represent name components that would collide with the use of . and .. for relative URIs, any component that consists solely of zero or more periods is encoded using three additional periods.
 
@@ -58,6 +69,9 @@ Please refer to RFC 3986 (URI Generic Syntax) for background.
 
       For example, ``sha256digest=893259d98aca58c451453f29ec7dc38688e690dd0b59ef4f3b9d33738bff0b8d``
 
+  * Other component types
+
+    + Start with ``<number>=`` prefix (e.g., ``42=...``), followed by the value encoded in the same way as for ``GenericNameComponent``
 
 .. _Implicit Digest Component:
 
@@ -77,21 +91,17 @@ The **implicit digest component** consists of the SHA-256 digest of the entire D
 Canonical Order
 ~~~~~~~~~~~~~~~
 
+
 In several contexts in NDN packet processing, it is necessary to have a consistent ordering of names and name components.
 
 The order between individual name components is defined as follows:
 
-- If components have different type, then
+- If components have different type ``component1`` and ``component2``, then
 
-  + Any ``ImplicitSha256DigestComponent`` is less than any ``GenericNameComponent``
-
-    ::
-
-        ImplicitSha256DigestComponent  <  GenericNameComponent
+  + ``component1`` is less than ``component2`` if  numerical value of ``TLV-CODE(component1)`` is less than numerical value of ``TLV-CODE(component2)``
 
     .. note::
-        This order can be enforced by directly comparing TYPE code of the components.
-        Type code ``ImplicitSha256DigestComponent`` is guaranteed to be less than type code ``GenericNameComponent``.
+        Type code ``ImplicitSha256DigestComponent`` is guaranteed to be less than type code of any other valid name component.
 
 - If components have the same type, then
 
@@ -101,3 +111,15 @@ The order between individual name components is defined as follows:
 
 For Names, the ordering is just based on the ordering of the first component where they differ.
 If one name is a proper prefix of the other, then it comes first.
+
+.. note::
+   The canonical order can be enforced by directly comparing the wire encoding of the ``Name`` field's TLV-VALUE (i.e., excluding TLV-TYPE and TLV-LEGNTH of the whole Name TLV)::
+
+       int
+       canonicalOrder(Name lhs, Name rhs) {
+          int result = memcmp(lhs.value(), rhs.value(), min(lhs.value_size(), rhs.value_size());
+          if (result == 0) {
+            result = lhs.value_size() - rhs.value_size();
+          }
+          return result;
+       }

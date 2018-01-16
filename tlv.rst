@@ -97,17 +97,17 @@ It **does not** include number of bytes that ``TLV-TYPE`` and ``TLV-LENGTH`` fie
 In particular, empty payload TLV will carry ``TLV-LENGTH`` equal to 0.
 
 This encoding offers a reasonable balance between compactness and flexibility.
-Most common, standardized Type codes will be allocated from a small-integer number-space, and these common types will be able to use the compact, single-byte encoding.
+Most common, standardized TLV-TYPE numbers will be allocated from a small-integer number-space, and these common types will be able to use the compact, single-byte encoding.
 
 Non Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A number of TLV elements in NDN packet format take a non-negative integer as their value, with the following definition::
 
-    nonNegativeInteger ::= BYTE+
+    nonNegativeInteger ::= BYTE{1} | BYTE{2} | BYTE{4} | BYTE{8}
 
 TLV-LENGTH of the TLV element MUST be either 1, 2, 4, or 8.
-Depending on the length value, a nonNegativeInteger is encoded as follows:
+Depending on TLV-LENGTH, a nonNegativeInteger is encoded as follows:
 
 - if the length is 1 (i.e. the value length is 1 octet), the nonNegativeInteger is encoded in one octet;
 
@@ -125,3 +125,21 @@ The following shows a few examples of TLVs that have nonNegativeInteger as their
     256   => TT020100
     65535 => TT02FFFF
     65536 => TT0400010000
+
+Considerations for Evolvability of TLV-Based Encoding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To ensure that the TLV-based protocol can evolve over time without requiring flag days, the least significant bit of TLV-TYPE number (unless overriden by the specification of a particular network/library/application TLV element) is reserved to indicate whether that TLV element is "critical" or "non-critical".
+A compliant TLV format decoder should follow the order, quantity, and presence requirements of the recognized elements defined in the corresponding specification.
+At the same time, if decoder encounters an unrecognized or out-of-order element, the behavior should be as follows:
+
+- if the least significant bit of element's TLV-TYPE number is ``1``, abort decoding and report an error;
+- if the least significant bit of element's TLV-TYPE number is ``0``, ignore the element and continue decoding.
+
+.. note::
+    A recognized element is considered out-of-order if it appears in the element order that violates a specification.  For example,
+    - when a specification defines a sequence {``F1`` ``F2`` ``F3``}, an element ``F3`` would be out-of-order in the sequence {``F1`` ``F3`` ``F2``};
+    - for {``F1`` ``F2?`` ``F3``} specification (i.e., when ``F2`` is optional, ``F2`` would be out-of-order in the same sequence {``F1`` ``F3`` ``F2``}.
+
+.. note::
+   TLV-TYPE numbers 0-31 (inclusive) are "grandfathered" and all designated as "critical" for the purpose of packet processing.

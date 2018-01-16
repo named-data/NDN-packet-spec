@@ -13,8 +13,3 @@ In addition to the packet format and full protocol specification, we have publis
 - `"SNAMP: Secure Namespace Mapping to Scale NDN Forwarding" by Alexander Afanasyev, Cheng Yi, Lan Wang, Beichuan Zhang, and Lixia Zhang, 18th IEEE Global Internet Symposium, April 2015 <http://named-data.net/publications/snamp-ndn-scalability/>`__
 
 - `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <http://named-data.net/publications/techreports/ndn-tr-22-ndn-memo-naming-conventions/>`__
-
-Acknowledgment
---------------
-
-This NDN packet format specification is evolution of the `CCNx 0.7.2 specification <https://github.com/named-data/ndnx/releases/tag/ccnx-0.7.2-ndn-1>`__ as of May 2013.

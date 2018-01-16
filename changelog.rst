@@ -1,6 +1,29 @@
 Changes
 =======
 
+Version 0.3
+-----------
+
+- **Interest**
+
+  + Remove ``Selectors`` element
+  + Add optional ``CanBePrefix`` element after Name
+  + Move optional ``MustBeFresh`` element after ``CanBePrefix``
+  + Move optional ``ForwardingHint`` element after ``MustBeFresh`` (before ``Nonce``)
+  + Add optional ``HopLimit`` element
+  + Add optional ``Parameters`` element
+
+- **Data**
+
+  + Make ``MetaInfo`` and ``Content`` elements optional
+  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy
+    Interests with ``MustBeFresh``
+
+- **Name**
+
+  + Lift restriction on name component types, allowing types in the range ``1`` - ``32767``.
+  + Correct definition of name URI encoding: disallow unescaped encoding of PLUS ``+`` and allow TILDE ``~``.
+
 Version 0.2.1
 -------------
 
@@ -8,8 +31,8 @@ Version 0.2.1
 
 - **Interest**
 
-  + Add default of leftmost child if ChildSelector field not present
-  + Add specification of ForwardingHint field
+  + Add default of leftmost child if ChildSelector element not present
+  + Add specification of ForwardingHint element
 
 - **Data**
 
@@ -17,7 +40,7 @@ Version 0.2.1
 
 ************************************************************
 
-Version 2.0
+Version 0.2
 -----------
 
 - **Name**
@@ -51,7 +74,7 @@ Version 0.1.1
 
   + New ``SignatureSha256WithEcdsa`` signature type for Elliptic Curve Digital Signature Algorithm (ECDSA).
   + ``KeyLocatorDigest`` renamed to ``KeyDigest``.  The specification now explicitly allows KeyDigest to be a SHA256 of any type of the key.
-  + ``KeyLocator`` field is now defined to be optionally present in generic ``SignatureInfo`` block.
+  + ``KeyLocator`` element is now defined to be optionally present in generic ``SignatureInfo`` element.
     ``SignatureSha256WithRsa`` and ``SignatureSha256WithEcdsa`` still require ``KeyLocator`` to be always present.
 
 ************************************************************
@@ -93,14 +116,14 @@ Version 0.1
   + ``SignedInfo`` is renamed to ``MetaInfo`` and its content is changed
   + ``PublisherPublicKeyDigest`` and ``ExtOpt`` are removed.
   + ``Timestamp`` is removed
-  + ``KeyLocator`` is moved to be inside the ``Signature`` (``SignatureInfo``) block
+  + ``KeyLocator`` is moved to be inside the ``Signature`` (``SignatureInfo``) element
   + Three content types, ENCR, GONE, and NACK are removed
   + ``FreshnessSeconds`` is renamed to ``FreshnessPeriod`` and is expressed in units of milliseconds
 
 - **Signature**
 
   + ``Signature`` is moved to the end of Data packet.
-  + ``KeyLocator`` is moved to be a part of the ``SignatureInfo`` block, if it is applicable for the specific signature type.
+  + ``KeyLocator`` is moved to be a part of the ``SignatureInfo`` element, if it is applicable for the specific signature type.
 
     The rationale for the move is to make Signature (sequence of ``SignatureInfo`` and ``SignatureValue`` TLVs) self-contained and self-sufficient.
 

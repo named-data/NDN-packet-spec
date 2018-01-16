@@ -9,135 +9,63 @@ NDN Interest packet is TLV defined as follows:
 
     Interest ::= INTEREST-TYPE TLV-LENGTH
                    Name
-                   Selectors?
-                   Nonce
-                   InterestLifetime?
+                   CanBePrefix?
+                   MustBeFresh?
                    ForwardingHint?
+                   Nonce?
+                   InterestLifetime?
+                   HopLimit?
+                   Parameters?
 
-``Name`` and ``Nonce`` are the only two required elements in an Interest packet.
-Selectors are optional elements that further qualify Data that may match the Interest.
-They are used for discovering and selecting the Data that matches best to what the application wants. Selectors are placed right after the Name to facilitate implementations that may use continuous memory block of Name and Selectors TLVs together as the index for PIT lookup. By using a TLV to group all the Selectors, an implementation can easily skip them to find Nonce, which is used together with Name to identify looping Interests.
-If Selectors TLV is present in the Interest, it MUST contain at least one selector.
-
-``InterestLifetime`` and ``ForwardingHint`` are optional and are referred to as *Guiders*.
-They affect Interest forwarding behavior.
-
-.. Guiders are not grouped.
-
+``Name`` is the only required element in an Interest packet.
+``Nonce`` is required when an Interest is transmitted over the network links, i.e., a compliant forwarder must augment the Interest with the ``Nonce`` element if it is missing.
+``CanBePrefix``, ``MustBeFresh``, ``InterestLifetime``, and ``ForwardingHint`` are optional elements to guide Interest matching or forwarding.
+Interest can also include an optional ``Parameters`` element.
 
 Name
 ~~~~
 
-The Name element in an Interest is synonymous with the term *prefix*.
 See :ref:`Name section <Name>` for details.
 
-The Name element that can be put in the Interest is further restricted to have at least one NameComponent.
-Interests that include Name TLV that has zero name components MUST BE discarded.
+The ``Name`` element that can be put in the Interest is further restricted to have at least one name component.
+Interests that include Name TLV that has zero name components MUST be discarded.
 
-.. _Selectors:
-
-Selectors
-~~~~~~~~~
+CanBePrefix
+~~~~~~~~~~~
 
 ::
 
-    Selectors ::= SELECTORS-TYPE TLV-LENGTH
-                    MinSuffixComponents?
-                    MaxSuffixComponents?
-                    PublisherPublicKeyLocator?
-                    Exclude?
-                    ChildSelector?
-                    MustBeFresh?
+    CanBePrefix ::= CAN-BE-PREFIX-TYPE TLV-LENGTH(=0)
 
-MinSuffixComponents, MaxSuffixComponents
-++++++++++++++++++++++++++++++++++++++++
+When present, ``Name`` element in the Interest is a prefix, exact, or full name of the requested Data packet.
 
-::
+When not present, the ``Name`` element is either exact or full name of the Data packet:
 
-    MinSuffixComponents ::= MIN-SUFFIX-COMPONENTS-TYPE TLV-LENGTH
-                              nonNegativeInteger
+- if the last component of the ``Name`` has type ``ImplicitSha256DigestComponent``, Interest can be matched only to a Data packet with full name that includes the implicit digest component;
 
-    MaxSuffixComponents ::= MAX-SUFFIX-COMPONENTS-TYPE TLV-LENGTH
-                              nonNegativeInteger
-
-When needed, ``MinSuffixComponents`` and ``MaxSuffixComponents`` allow a data consumer to indicate whether the Name in the Interest is the full name including the digest, or the full name except for the digest, or the content it is seeking has a known range of legitimate component counts.
-These two parameters refer to the number of name components beyond those in the prefix, and counting the implicit digest, that may occur in the matching Data.
-The default for ``MinSuffixComponents`` is 0 and for ``MaxSuffixComponents`` is effectively infinite, meaning that any Data whose name starts with the prefix is a match.  Often only one of these will be needed to get the desired effect.
-
-
-PublisherPublicKeyLocator
-+++++++++++++++++++++++++
-
-::
-
-    PublisherPublicKeyLocator ::= KeyLocator
-
-This element specifies the name of the key which is used to sign the Data packet that the consumer is requesting.
-This is a way for the Interest to select answers from a particular publisher.
-
-See :ref:`KeyLocator` section for more detail.
-
-Exclude
-+++++++
-
-::
-
-    Exclude ::= EXCLUDE-TYPE TLV-LENGTH AnyLeading? (NameComponent | AnyBetween)* AnyTrailing?
-    AnyLeading ::= Any NameComponent
-    AnyBetween ::= NameComponent Any NameComponent
-    AnyTrailing ::= NameComponent Any
-    Any ::= ANY-TYPE TLV-LENGTH(=0)
-
-The ``Exclude`` selectors allow requesters to specify list and/or ranges of name components that MUST NOT appear as a continuation of the Name prefix in the responding Data packet to the Interest.
-For example, if Interest is expressed for ``/ndn/edu`` and Exclude specifies one name component ``ucla``, then neither data producer nor conforming NDN routers are allowed to return any Data packet that has prefix ``/ndn/edu/ucla``.
-
-Exclude filter applies only to a name component of the Data packet name that is located at a position that numerically equals to the number of name components in the Interest packet, assuming 0 is the first name component.
-
-The Components in the exclusion list MUST occur in strictly increasing order according to the canonical NDN name component ordering (:ref:`Name Section<name>`), with optional leading, trailing, and interleaved ``Any`` components. The following defines processing of ``Any`` components:
-
-- If none of the ``Any`` components are specified, the filter excludes only the names specified in the Exclude list.
-
-- If a leading ``Any`` component is specified, then the filter excludes all names that are smaller or equal (in NDN name component canonical ordering) to the first NameComponent in the Exclude list.
-
-- If a trailing ``Any`` component is specified, then the filter excludes all names that are larger or equal (in NDN name component canonical ordering) to the last NameComponent in the Exclude list.
-
-- If ``Any`` component is specified between two NameComponents in the list, then the filter excludes all names from the range from the right NameComponent to the left NameComponent, including both ends.
-
-
-Exclude filter MUST not consist of a single ``Any`` component or one NameComponent with leading and trailing ``Any`` components.
-
-
-ChildSelector
-+++++++++++++
-
-::
-
-    ChildSelector ::= CHILD-SELECTOR-TYPE TLV-LENGTH
-                        nonNegativeInteger
-
-Often a given Interest can match more than one Data within a given content store.
-The ``ChildSelector`` provides a way of expressing a preference for which of these should be returned.
-If the value is 0, the leftmost child is preferred.
-If 1, the rightmost child is preferred.
-Here leftmost and rightmost refer to the least and greatest components according to the canonical NDN name component ordering (:ref:`Name Section<name>`).
-This ordering is only done at the level of the name hierarchy one past the name prefix.
-If the ``ChildSelector`` field is not present, the leftmost child is preferred (a value of 0).
-
-For example, assuming in the name hierarchy the component immediately after the name prefix  is the version number, whose next level is the segment number, then setting ChildSelector to be 1 will retrieve the rightmost version number (i.e., the latest version) and the leftmost segment number (i.e., the first segment). However, this selection is only done with respect to a single content store, not globally. Additional rounds that exclude the earlier versions may be used to explore other content stores for newer versions.
-In this case, the use of ChildSelector does not change the multi-round outcome, but it decreases the number of rounds needed to converge to an answer.
+- if the last component has any other type, Interest is matched to Data if all name components in Interest's ``Name`` element equal to components in Data's ``Name`` element, without consideration of the implicit digest component.
 
 MustBeFresh
-+++++++++++
+~~~~~~~~~~~
 
 ::
 
    MustBeFresh ::= MUST-BE-FRESH-TYPE TLV-LENGTH(=0)
 
-This selector is encoded with Type and Length but no Value part.
-When it is absent from an Interest packet, the router can respond with a Data packet from its content store whose FreshnessPeriod is either still valid or expired.
-When it is present in an Interest packet, the router should not return Data packet from its content store whose FreshnessPeriod has expired.
+The presence or absense of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
+Refer for :ref:`FreshnessPeriod section <FreshnessPeriod>` for more information.
 
-The FreshnessPeriod carried in each Data packet (:ref:`Data Section<data>`) is set by the original producer.  It starts counting down when the Data packet arrives at a node. Consequently if a node is N hops away from the original producer, it may not consider the Data stale until N *X* FreshnessPeriod after the Data is produced.
+ForwardingHint
+~~~~~~~~~~~~~~
+
+::
+
+   ForwardingHint ::= FORWARDING-HINT-TYPE TLV-LENGTH
+                        Delegation+
+
+The ForwardingHint element contains a list of name delegations, as defined in :ref:`link` section.
+Each delegation implies that the requested Data packet can be retrieved by forwarding the Interest along the delegation path.
+Specifics of the forwarding logic for Interests with ``ForwardingHint`` will be defined in a separated document.
 
 .. _Nonce:
 
@@ -154,13 +82,8 @@ The Nonce carries a randomly-generated 4-octet long byte-string.
 The combination of Name and Nonce should uniquely identify an Interest packet.
 This is used to detect looping Interests.
 
-.. _Guiders:
-
-Guiders
-~~~~~~~
-
 InterestLifetime
-++++++++++++++++
+~~~~~~~~~~~~~~~~
 
 ::
 
@@ -175,14 +98,37 @@ It is the application that sets the value for ``InterestLifetime``.
 If the ``InterestLifetime`` element is omitted, a default value of 4 seconds is used (4000).
 The missing element may be added before forwarding.
 
-ForwardingHint
-++++++++++++++
+HopLimit
+~~~~~~~~
 
 ::
 
-   ForwardingHint ::= FORWARDING-HINT-TYPE TLV-LENGTH
-                        Delegation+
+    HopLimit ::= HOP-LIMIT-TYPE TLV-LENGTH(=1) BYTE{1}
 
-The ForwardingHint field contains a list of name delegations, as defined in :ref:`link` section.
-Each delegation implies that the requested Data packet can be retrieved by forwarding the Interest along the delegation path.
-Specifics of the forwarding logic for Interests with ``ForwardingHint`` will be defined in a separated document.
+The optional ``HopLimit`` element indicates the number of hops the Interest is allowed to be forwarded.  The value is encoded as a 1-byte unsigned integer value in the range 0-255.
+
+If element is present:
+
+- if the ``HopLimit`` value is larger than or equal to 1, a node should accept the packet and decrease the encoded value by 1.
+
+  If the ``HopLimit`` value becomes 0, a node can satisfy this Interest locally (cache or applications bound to local faces), but must not forward the Interests to any non-local faces.
+
+- if ``HopLimit`` is 0, a node must drop the packet
+
+If omitted:
+
+- a node should accept the packet;
+
+- when desired, a node can augment the Interest with the ``HopLimit`` element.
+
+Parameters
+~~~~~~~~~~
+
+::
+
+   Parameters ::= PARAMETERS-TYPE TLV-LENGTH
+                    BYTE*
+
+The ``Parameters`` element can carry any arbitrary data that parameterizes the request for Data.
+The Interest's name should include a component or components to ensure uniqueness of the parametrized Interest.
+For example, a SHA256 digest of the ``Parameters`` TLV can be included as one of the components of the Interest name.
