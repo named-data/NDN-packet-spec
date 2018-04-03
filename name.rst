@@ -10,7 +10,7 @@ NDN Name Format
 
 We use a 2-level nested TLV to represent a name.
 The Type in the outer TLV indicates this is a Name.
-Inner TLVs should be one of ``NameComponent`` blocks, as defined in the following:
+Inner TLVs should be ``NameComponent`` elements, as defined in the following:
 
 ::
 
@@ -79,14 +79,10 @@ Implicit Digest Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The full name of every Data packet includes a logical final implicit digest component, which makes the name of every Data packet unique.
-The implicit digest (``ImplicitSha256DigestComponent``) MAY appear in an Interest, either as the last component of Interest Name to request a specific Data packet, or in the Exclude selector to exclude specific Data packet(s).
+The implicit digest (``ImplicitSha256DigestComponent``) MAY appear in an Interest as the last component of the Interest name to request a specific Data packet.
 ``ImplicitSha256DigestComponent`` is never included explicitly in the Data packet when it is transmitted on the wire and, if needed, must be computed by all nodes based on the Data packet content.
 
-The **implicit digest component** consists of the SHA-256 digest of the entire Data packet bits.  Having this digest as the last name component enables us to achieve the following two goals:
-
-- Identify one specific Data packet and no other.
-
-- Exclude a specific Data packet in an Interest (independent from whether it has a valid signature).
+The **implicit digest component** consists of the SHA-256 digest of the entire Data packet bits.  Having this digest as the last name component allows identifying one specific Data packet and no other.
 
 Canonical Order
 ~~~~~~~~~~~~~~~
