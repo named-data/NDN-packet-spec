@@ -39,6 +39,7 @@ In addition to two component types, ``Name`` can include other component types g
 
 TLV-TYPE of name component MUST be in the range ``1-65535`` (inclusive).
 ``Name`` element containing a sub-element out of this range is invalid and the packet SHOULD be dropped.
+This requirement overrides the TLV evolvability guidelines.
 
 Name component with TLV-TYPE ``0`` (zero) is reserved to indicate an invalid name component.
 

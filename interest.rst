@@ -22,6 +22,9 @@ NDN Interest packet is TLV defined as follows:
 ``CanBePrefix``, ``MustBeFresh``, ``InterestLifetime``, and ``ForwardingHint`` are optional elements to guide Interest matching or forwarding.
 Interest can also include an optional ``Parameters`` element.
 
+As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Interest packet.
+However, they must not appear before the ``Name`` element.
+
 Name
 ~~~~
 
