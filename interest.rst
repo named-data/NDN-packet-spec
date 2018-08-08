@@ -133,5 +133,4 @@ Parameters
                     BYTE*
 
 The ``Parameters`` element can carry any arbitrary data that parameterizes the request for Data.
-The Interest's name should include a component or components to ensure uniqueness of the parametrized Interest.
-For example, a SHA256 digest of the ``Parameters`` TLV can be included as one of the components of the Interest name.
+The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parametrized Interest (see :ref:`Interest Parameters Digest Component` section for additional details).
