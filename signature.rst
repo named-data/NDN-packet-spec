@@ -1,9 +1,12 @@
+Signature
+=========
+
 .. _Signature:
 
-Signature
----------
+Data Signature
+--------------
 
-NDN Signature is defined as two consecutive TLV blocks: ``SignatureInfo`` and ``SignatureValue``.
+NDN Data Signature is defined as two consecutive TLV blocks: ``SignatureInfo`` and ``SignatureValue``.
 The following general considerations about SignatureInfo and SignatureValue blocks that apply for all signature types:
 
 1. ``SignatureInfo`` is **included** in signature calculation and fully describes the signature, signature algorithm, and any other relevant information to obtain parent certificate(s), such as :ref:`KeyLocator`.
@@ -20,13 +23,36 @@ The reason for separating the signature into two separate TLV blocks is to allow
     SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
                         SignatureType
                         KeyLocator?
-                        SignatureNonce?
-                        Timestamp?
-                        ... (SignatureType-specific TLVs)
 
     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
                          BYTE+
 
+.. _InterestSignature:
+
+Interest Signature
+------------------
+
+NDN Interest Signature is defined as two consecutive TLV blocks: ``InterestSignatureInfo`` and ``InterestSignatureValue``.
+
+To ensure uniqueness of the signed Interest name and to mitigate potential replay attacks, the ``InterestSignatureInfo`` element can include a ``SignatureNonce`` element, ``SignatureTime`` element, and/or ``SignatureSeqNum`` element.
+
+The cryptographic signature in the ``InterestSignatureValue`` element covers all the ``NameComponent`` elements inside ``Name`` up to but not including ``ParametersSha256DigestComponent`` component, and the complete TLVs starting from ``ApplicationParameters`` up until but not including ``InterestSignatureValue``.
+
+
+::
+
+    InterestSignatureInfo ::= INTEREST-SIGNATURE-INFO-TYPE TLV-LENGTH
+                                SignatureType
+                                KeyLocator?
+                                SignatureNonce?
+                                SignatureTime?
+                                SignatureSeqNum?
+
+    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH
+                                 BYTE+
+
+Signature Elements
+------------------
 
 SignatureType
 ~~~~~~~~~~~~~
@@ -92,29 +118,43 @@ SignatureNonce
 
 The ``SignatureNonce`` element adds additional assurances that a signature will be unique.
 
-.. _Timestamp:
+.. _SignatureTime:
 
-Timestamp
-~~~~~~~~~
+SignatureTime
+~~~~~~~~~~~~~
 
 ::
 
-    Timestamp ::= TIMESTAMP-TYPE TLV-LENGTH
+    SignatureTime ::= SIGNATURE-TIME-TYPE TLV-LENGTH
                     nonNegativeInteger
 
 
-The value of the ``Timestamp`` element is the signature's timestamp (in terms of milliseconds since 1970-01-01 00:00:00 UTC) encoded as nonNegativeInteger.
-The timestamp may be used to protect against replay attacks.
+The value of the ``SignatureTime`` element is the signature's timestamp (in terms of milliseconds since 1970-01-01 00:00:00 UTC) encoded as nonNegativeInteger.
+The ``SignatureTime`` element may be used to protect against replay attacks.
+
+.. _SignatureSeqNum:
+
+SignatureSeqNum
+~~~~~~~~~~~~~~~
+
+::
+
+    SignatureSeqNum ::= SIGNATURE-SEQ-NUM-TYPE TLV-LENGTH
+                 nonNegativeInteger
+
+
+The ``SignatureSeqNum`` element adds additional assurances that a signature will be unique.
+The ``SignatureSeqNum`` may be used to protect against replay attacks.
+
 
 Different Types of Signature
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each signature type has different requirements on the format of its ``SignatureInfo`` element.
-In the following sections, these requirements are specified along 3 dimensions:
+Each signature type has different requirements on the format of its ``SignatureInfo`` or ``InterestSignatureInfo`` element.
+In the following sections, these requirements are specified along 2 dimensions:
 
 * The TLV-VALUE of ``SignatureType``
 * ``KeyLocator`` is required/forbidden
-* If ``SignatureType``-specific elements are needed, express so using a ``SignatureInfoByType`` rule
 
 .. _DigestSha256:
 
@@ -134,6 +174,11 @@ This signature type is intended only for debug purposes and limited circumstance
     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
                          BYTE+(=SHA256{Name, MetaInfo, Content, SignatureInfo})
 
+    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                       ApplicationParameters,
+                                       InterestSignatureInfo})
+
 .. _SignatureSha256WithRsa:
 
 SignatureSha256WithRsa
@@ -149,6 +194,11 @@ As suggested by the name, it defines an RSA public key signature that is calcula
 
     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
                          BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+
+    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=RSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                                ApplicationParameters,
+                                                InterestSignatureInfo})
 
 .. note::
 
@@ -180,6 +230,11 @@ The signature algorithm is defined in `[RFC5753], Section 2.1 <http://tools.ietf
 
     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
                          BYTE+(=ECDSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+
+    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=ECDSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                                  ApplicationParameters,
+                                                  InterestSignatureInfo})
 
 .. note::
 
@@ -213,6 +268,11 @@ The signature algorithm is defined in `Section 2 in RFC 2104 <http://tools.ietf.
 
     SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
                          BYTE+(=HMAC{Name, MetaInfo, Content, SignatureInfo})
+
+    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
+                         BYTE+(=HMAC{Name(without T, L, and ParametersSha256DigestComponent),
+                                     ApplicationParameters,
+                                     InterestSignatureInfo})
 
 .. note::
 

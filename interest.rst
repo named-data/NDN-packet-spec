@@ -15,12 +15,16 @@ NDN Interest packet is TLV defined as follows:
                    Nonce?
                    InterestLifetime?
                    HopLimit?
-                   ApplicationParameters?
+                   (ApplicationParameters |
+                    ApplicationParameters InterestSignatureInfo InterestSignatureValue)?
 
 ``Name`` is the only required element in an Interest packet.
 ``Nonce`` is required when an Interest is transmitted over the network links, i.e., a compliant forwarder must augment the Interest with the ``Nonce`` element if it is missing.
 ``CanBePrefix``, ``MustBeFresh``, ``InterestLifetime``, and ``ForwardingHint`` are optional elements to guide Interest matching or forwarding.
 Interest can also include an optional ``ApplicationParameters`` element.
+
+If an Interest contains ``InterestSignatureInfo`` and ``InterestSignatureValue``, it is considered a Signed Interest.
+See :doc:`Signed Interest section <signed-interest>` for details.
 
 As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Interest packet.
 However, they must not appear before the ``Name`` element.

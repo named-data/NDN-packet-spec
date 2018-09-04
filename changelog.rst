@@ -11,14 +11,14 @@ Version 0.3
   + Move optional ``MustBeFresh`` element after ``CanBePrefix``
   + Move optional ``ForwardingHint`` element after ``MustBeFresh`` (before ``Nonce``)
   + Add optional ``HopLimit`` element
-  + Add optional ``Parameters`` element
+  + Add optional ``ApplicationParameters`` element
+  + Define a new specification for Signed Interest using new optional elements ``InterestSignatureInfo`` and ``InterestSignatureValue``
 
 - **Data**
 
   + Make ``MetaInfo`` and ``Content`` elements optional
   + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy
     Interests with ``MustBeFresh``
-  + Add optional ``SignatureNonce`` and ``Timestamp`` elements to ``SignatureInfo``
 
 - **Name**
 

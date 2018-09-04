@@ -11,6 +11,7 @@ NDN Packet Format Specification
    data
    signature
    link
+   signed-interest
    types
    changelog
    :maxdepth: 3
