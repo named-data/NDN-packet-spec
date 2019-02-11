@@ -111,12 +111,13 @@ The **implicit digest component** consists of the SHA-256 digest of the entire D
 Parameters Digest Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The parameters digest component consists of the SHA-256 digest computed over the type, length, and value of the ``Parameters`` element of an Interest.
-This component MUST appear in an Interest name if the Interest contains a ``Parameters`` element.
-The position of the component is determined by the application protocol, generally, it should be at the end of the name but before version/segment numbers.
+The parameters digest component (``ParametersSha256DigestComponent``) contains the SHA-256 digest computed over the portion of an Interest starting from and including the ``Parameters`` element until the end of the Interest.
+This digest provides uniqueness of the Interest name for a given set of parameters and securely ensures that the retrieved Data packet is a response generated against the correct set of parameters.
 
-The parameters digest (``ParametersSha256DigestComponent``) provides uniqueness of the Interest name for a given set of parameters and ensures securely that the retrieved Data packet is a response generated against the correct set of parameters.
-Producers should recalculate the digest based on the actual ``Parameters`` element in the received Interest and verify that it matches the parameters digest component in the Interest name.
+This component MUST appear in an Interest name if the Interest contains a ``Parameters`` element.
+The position of the component is determined by the application protocol.
+Generally, it should be at the end of the name but before version/segment numbers.
+Producers should recompute the digest over the specified portion of a received Interest, and drop the Interest if the computed digest does not match the parameters digest component in the name.
 
 Canonical Order
 ~~~~~~~~~~~~~~~
