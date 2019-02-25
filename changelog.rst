@@ -18,6 +18,7 @@ Version 0.3
   + Make ``MetaInfo`` and ``Content`` elements optional
   + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy
     Interests with ``MustBeFresh``
+  + Add optional ``SignatureNonce`` and ``Timestamp`` elements to ``SignatureInfo``
 
 - **Name**
 
