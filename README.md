@@ -3,26 +3,15 @@ Prerequisites
 
 To "compile" documentation into html form you would need to install Sphinx documentation package, which should be relatively trivial.
 
-If you're on OSX platform:
-
-- If you have macports, then
-
-    sudo port install py27-sphinx
-    sudo port selectsphinx py27-sphinx
-
-    sudo easy_install-2.7 sphinxcontrib-fulltoc
-    sudo easy_install-2.7 sphinxcontrib-bibtex
+If you're on macOS:
 
 - Install from source: http://sphinx-doc.org/install.html
 
-- Install from .pkg binary package: http://named-data.net/binaries/sphinx-doc-0.2.pkg
+If you're on Ubuntu Linux 16.04:
 
-If you're on Ubuntu Linux:
-
-    sudo apt-get install python-sphinx python-setuptools
-
-    sudo easy_install sphinxcontrib-fulltoc
-    sudo easy_install sphinxcontrib-bibtex
+    sudo apt install python3-pip
+    sudo pip3 install -U pip setuptools
+    sudo pip3 install -U sphinx sphinxcontrib-bibtex sphinxcontrib-fulltoc
 
 Compilation
 ===========
