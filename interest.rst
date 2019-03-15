@@ -15,12 +15,12 @@ NDN Interest packet is TLV defined as follows:
                    Nonce?
                    InterestLifetime?
                    HopLimit?
-                   Parameters?
+                   ApplicationParameters?
 
 ``Name`` is the only required element in an Interest packet.
 ``Nonce`` is required when an Interest is transmitted over the network links, i.e., a compliant forwarder must augment the Interest with the ``Nonce`` element if it is missing.
 ``CanBePrefix``, ``MustBeFresh``, ``InterestLifetime``, and ``ForwardingHint`` are optional elements to guide Interest matching or forwarding.
-Interest can also include an optional ``Parameters`` element.
+Interest can also include an optional ``ApplicationParameters`` element.
 
 As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Interest packet.
 However, they must not appear before the ``Name`` element.
@@ -55,7 +55,7 @@ MustBeFresh
 
    MustBeFresh ::= MUST-BE-FRESH-TYPE TLV-LENGTH(=0)
 
-The presence or absense of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
+The presence or absence of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
 Refer for :ref:`FreshnessPeriod section <FreshnessPeriod>` for more information.
 
 ForwardingHint
@@ -124,13 +124,13 @@ If omitted:
 
 - when desired, a node can augment the Interest with the ``HopLimit`` element.
 
-Parameters
-~~~~~~~~~~
+ApplicationParameters
+~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
-   Parameters ::= PARAMETERS-TYPE TLV-LENGTH
-                    BYTE*
+   ApplicationParameters ::= APPLICATION-PARAMETERS-TYPE TLV-LENGTH
+                               BYTE*
 
-The ``Parameters`` element can carry any arbitrary data that parameterizes the request for Data.
-The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parametrized Interest (see :ref:`Interest Parameters Digest Component` section for additional details).
+The ``ApplicationParameters`` element can carry any arbitrary data that parameterizes the request for Data.
+The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parameterized Interest (see :ref:`Interest Parameters Digest Component` section for additional details).
