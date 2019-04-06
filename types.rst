@@ -84,10 +84,6 @@ TLV-TYPE number reservations
 +----------------+-----------------------------------------------------------+
 | Number range   | Designation                                               |
 +================+===========================================================+
-| 0, 3, 4,       |                                                           |
-| 35, 37, 39,    |                                                           |
-| 41-79          | Reserved for future assignments (1-byte encoding)         |
-+----------------+-----------------------------------------------------------+
 | 9              | Reserved, formerly `Selectors`                            |
 +----------------+-----------------------------------------------------------+
 | 11             | Reserved, formerly `Scope`                                |
@@ -106,21 +102,26 @@ TLV-TYPE number reservations
 +----------------+-----------------------------------------------------------+
 | 32             | Reserved, formerly `SelectedDelegation`                   |
 +----------------+-----------------------------------------------------------+
-| 80-100         | Reserved for assignments related to local-link data       |
+| [80, 100]      | Reserved for assignments related to local-link data       |
 |                | processing, e.g., `NDNLP`_, etc. (1-byte encoding)        |
 +----------------+-----------------------------------------------------------+
-| 101-127        | Reserved for assignments related to the forwarder         |
+| [101, 127]     | Reserved for assignments related to the forwarder         |
 |                | (1-byte encoding)                                         |
 +----------------+-----------------------------------------------------------+
-| 128-252        | For application use (1-byte encoding)                     |
+| all other      |                                                           |
+| numbers in     |                                                           |
+| [1, 127]       | Reserved for future assignments (1-byte encoding)         |
 +----------------+-----------------------------------------------------------+
-| 800-1000       | Reserved for assignments related to local-link data       |
+| [128, 252]     | For application use (1-byte encoding)                     |
++----------------+-----------------------------------------------------------+
+| [800, 1000]    | Reserved for assignments related to local-link data       |
 |                | processing, e.g., `NDNLP`_, etc. (3-byte encoding)        |
 +----------------+-----------------------------------------------------------+
-| 253-799,       | Reserved for future assignments (3-byte encoding)         |
-| 1001-32767     |                                                           |
+| all other      | Reserved for future assignments (3-byte encoding)         |
+| numbers in     |                                                           |
+| [253, 32767]   |                                                           |
 +----------------+-----------------------------------------------------------+
-| >32767         | For application use (3+-byte encoding)                    |
+| >32767         | For application use (3-byte or 5-byte encoding)           |
 +----------------+-----------------------------------------------------------+
 
 .. _NDNLP: https://redmine.named-data.net/projects/nfd/wiki/NDNLPv2

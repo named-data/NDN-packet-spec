@@ -89,8 +89,10 @@ TLV encoding for NDN packets is defined as follows::
      TLV-VALUE := BYTE+
 
 
+TLV-TYPE MUST be in the range ``1-4294967295`` (inclusive).
+Zero is reserved to indicate an invalid TLV element and MUST NOT appear on the wire.
 TLV-TYPE SHOULD be unique at all nested levels.
-The TLV Type number space and initial assignments listed in Section :ref:`types` of this document.
+Section :ref:`types` of this document lists initial TLV-TYPE assignments.
 
 The ``TLV-LENGTH`` field indicates number of bytes that ``TLV-VALUE`` uses.
 It **does not** include number of bytes that ``TLV-TYPE`` and ``TLV-LENGTH`` fields themselves occupy.
