@@ -5,21 +5,17 @@ Link Object
 
 The Link Object is a specialized form of a :ref:`Data packet <data>` packet, defined as follows::
 
-    LinkObject ::= DATA-TLV TLV-LENGTH
-                     Name
-                     MetaInfo (.ContentType = LINK)
-                     LinkContent
-                     Signature
+    LinkObject = DATA-TYPE TLV-LENGTH
+                   Name
+                   MetaInfo ; ContentType == LINK
+                   LinkContent
+                   Signature
 
-    LinkContent ::= CONTENT-TYPE TLV-LENGTH
-                      Delegation+
+    LinkContent = CONTENT-TYPE TLV-LENGTH 1*Delegation
 
-    Delegation ::= LINK-DELEGATION-TYPE TLV-LENGTH
-                     Preference
-                     Name
+    Delegation = LINK-DELEGATION-TYPE TLV-LENGTH Preference Name
 
-    Preference ::= LINK-PREFERENCE-TYPE TLV-LENGTH
-                     nonNegativeInteger
+    Preference = LINK-PREFERENCE-TYPE TLV-LENGTH nonNegativeInteger
 
 
 Link Object is a data packet, whose content contains a list of one or more name delegations: a pair of name and the associate priority.

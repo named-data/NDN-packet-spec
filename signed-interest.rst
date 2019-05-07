@@ -5,22 +5,12 @@ Signed Interest
 
 **Signed Interest** is a mechanism to issue an authenticated Interest.
 
-::
+A signed Interest is an Interest where:
 
-    SignedInterest ::= INTEREST-TYPE TLV-LENGTH
-                         Name (must end with ParametersSha256DigestComponent)
-                         CanBePrefix?
-                         MustBeFresh?
-                         ForwardingHint?
-                         Nonce?
-                         InterestLifetime?
-                         HopLimit?
-                         ApplicationParameters
-                         InterestSignatureInfo
-                         InterestSignatureValue
+* Name ends with ``ParametersSha256DigestComponent``.
+* ``InterestSignature`` is present.
 
-
-See :ref:`Interest Signature section <InterestSignature>` for details of ``InterestSignatureInfo`` and ``InterestSignatureValue``.
+See :ref:`Interest Signature section <InterestSignature>` for details on ``InterestSignature``.
 
 Construction of Signed Interest
 -------------------------------

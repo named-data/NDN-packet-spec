@@ -14,26 +14,26 @@ Inner TLVs should be ``NameComponent`` elements, as defined in the following:
 
 ::
 
-    Name ::= NAME-TYPE TLV-LENGTH NameComponent*
+    Name = NAME-TYPE TLV-LENGTH *NameComponent
 
-    NameComponent ::= GenericNameComponent |
-                      ImplicitSha256DigestComponent |
-                      ParametersSha256DigestComponent |
-                      OtherTypeComponent
+    NameComponent = GenericNameComponent /
+                    ImplicitSha256DigestComponent /
+                    ParametersSha256DigestComponent /
+                    OtherTypeComponent
 
-    GenericNameComponent ::= NAME-COMPONENT-TYPE TLV-LENGTH
-                               BYTE*
+    GenericNameComponent = GENERIC-NAME-COMPONENT-TYPE TLV-LENGTH *OCTET
 
-    ImplicitSha256DigestComponent ::= IMPLICIT-SHA256-DIGEST-COMPONENT-TYPE TLV-LENGTH(=32)
-                                        BYTE{32}
+    ImplicitSha256DigestComponent = IMPLICIT-SHA256-DIGEST-COMPONENT-TYPE
+                                    TLV-LENGTH ; == 32
+                                    32OCTET
 
-    ParametersSha256DigestComponent ::= PARAMETERS-SHA256-DIGEST-COMPONENT-TYPE TLV-LENGTH(=32)
-                                          BYTE{32}
+    ParametersSha256DigestComponent = PARAMETERS-SHA256-DIGEST-COMPONENT-TYPE
+                                      TLV-LENGTH ; == 32
+                                      32OCTET
 
-    OtherTypeComponent ::= OTHER-TYPE-COMPONENT-TYPE TLV-LENGTH
-                             BYTE*
+    OtherTypeComponent = OTHER-TYPE-COMPONENT-TYPE TLV-LENGTH *OCTET
 
-    OTHER-TYPE-COMPONENT-TYPE ::= number in the range 3-65535 inclusive except 8
+    ; OTHER-TYPE-COMPONENT-TYPE is a TLV-TYPE in the range 1-65535 (inclusive) other than the above defined types
 
 - ``GenericNameComponent`` is a generic name component, without any restrictions on the content of the value.
 

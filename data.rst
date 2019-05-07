@@ -5,11 +5,11 @@ Data Packet
 
 NDN Data packet is TLV defined as follows::
 
-    Data ::= DATA-TLV TLV-LENGTH
-               Name
-               MetaInfo?
-               Content?
-               Signature
+    Data = DATA-TYPE TLV-LENGTH
+             Name
+             [MetaInfo]
+             [Content]
+             DataSignature
 
 The Data packet represents some arbitrary binary data (held in the optional ``Content`` element) together with its ``Name``, some additional bits of optional information (``MetaInfo``), and a digital ``Signature`` of the other element(s). The Name is the first element since all NDN packet processing starts with the name.  Signature is put at the end of the packet to ease the implementation because signature computation covers all the elements before Signature.
 
@@ -28,18 +28,17 @@ MetaInfo
 
 ::
 
-    MetaInfo ::= META-INFO-TYPE TLV-LENGTH
-                   ContentType?
-                   FreshnessPeriod?
-                   FinalBlockId?
+    MetaInfo = META-INFO-TYPE TLV-LENGTH
+                 [ContentType]
+                 [FreshnessPeriod]
+                 [FinalBlockId]
 
 ContentType
 +++++++++++
 
 ::
 
-    ContentType ::= CONTENT-TYPE-TYPE TLV-LENGTH
-                      nonNegativeInteger
+    ContentType = CONTENT-TYPE-TYPE TLV-LENGTH nonNegativeInteger
 
 The following ContentTypes are currently defined:
 
@@ -65,8 +64,7 @@ FreshnessPeriod
 
 ::
 
-    FreshnessPeriod ::= FRESHNESS-PERIOD-TLV TLV-LENGTH
-                          nonNegativeInteger
+    FreshnessPeriod = FRESHNESS-PERIOD-TYPE TLV-LENGTH nonNegativeInteger
 
 The optional ``FreshnessPeriod`` indicates how long a node should wait after the arrival of this data before marking it "non-fresh".
 The encoded value is number of milliseconds.
@@ -84,8 +82,7 @@ FinalBlockId
 
 ::
 
-    FinalBlockId ::= FINAL-BLOCK-ID-TYPE TLV-LENGTH
-                       NameComponent
+    FinalBlockId = FINAL-BLOCK-ID-TYPE TLV-LENGTH NameComponent
 
 The optional FinalBlockId identifies the final block in a sequence of fragments.
 It should be present in the final block itself, and may also be present in other fragments to provide advanced warning of the end to consumers.
@@ -99,6 +96,6 @@ Content
 
 ::
 
-    Content ::= CONTENT-TYPE TLV-LENGTH BYTE*
+    Content = CONTENT-TYPE TLV-LENGTH *OCTET
 
 The ``Content`` element can carry any arbitrary sequence of bytes.

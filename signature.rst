@@ -17,15 +17,13 @@ The reason for separating the signature into two separate TLV blocks is to allow
 
 ::
 
-    Signature ::= SignatureInfo
-                  SignatureValue
+    DataSignature = SignatureInfo SignatureValue
 
-    SignatureInfo ::= SIGNATURE-INFO-TYPE TLV-LENGTH
-                        SignatureType
-                        KeyLocator?
+    SignatureInfo = SIGNATURE-INFO-TYPE TLV-LENGTH
+                      SignatureType
+                      [KeyLocator]
 
-    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
-                         BYTE+
+    SignatureValue = SIGNATURE-VALUE-TYPE TLV-LENGTH *OCTET
 
 .. _InterestSignature:
 
@@ -41,15 +39,16 @@ The cryptographic signature in the ``InterestSignatureValue`` element covers all
 
 ::
 
-    InterestSignatureInfo ::= INTEREST-SIGNATURE-INFO-TYPE TLV-LENGTH
-                                SignatureType
-                                KeyLocator?
-                                SignatureNonce?
-                                SignatureTime?
-                                SignatureSeqNum?
+    InterestSignature = InterestSignatureInfo InterestSignatureValue
 
-    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH
-                                 BYTE+
+    InterestSignatureInfo = INTEREST-SIGNATURE-INFO-TYPE TLV-LENGTH
+                              SignatureType
+                              [KeyLocator]
+                              [SignatureNonce]
+                              [SignatureTime]
+                              [SignatureSeqNum]
+
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH *OCTET
 
 Signature Elements
 ------------------
@@ -59,8 +58,7 @@ SignatureType
 
 ::
 
-    SignatureType ::= SIGNATURE-TYPE-TYPE TLV-LENGTH
-                        nonNegativeInteger
+    SignatureType = SIGNATURE-TYPE-TYPE TLV-LENGTH nonNegativeInteger
 
 
 This specification defines the following SignatureType values:
@@ -94,9 +92,9 @@ Note that although ``KeyLocator`` is defined as an optional field in ``Signature
 
 ::
 
-    KeyLocator ::= KEY-LOCATOR-TYPE TLV-LENGTH (Name | KeyDigest)
+    KeyLocator = KEY-LOCATOR-TYPE TLV-LENGTH (Name / KeyDigest)
 
-    KeyDigest ::= KEY-DIGEST-TYPE TLV-LENGTH BYTE+
+    KeyDigest = KEY-DIGEST-TYPE TLV-LENGTH *OCTET
 
 See :ref:`Name specification <Name>` for the definition of Name field.
 
@@ -112,8 +110,9 @@ SignatureNonce
 
 ::
 
-    SignatureNonce ::= SIGNATURE-NONCE-TYPE TLV-LENGTH(=4)
-                         BYTE{4}
+    SignatureNonce = SIGNATURE-NONCE-TYPE
+                     TLV-LENGTH ; == 4
+                     4OCTET
 
 
 The ``SignatureNonce`` element adds additional assurances that a signature will be unique.
@@ -125,8 +124,7 @@ SignatureTime
 
 ::
 
-    SignatureTime ::= SIGNATURE-TIME-TYPE TLV-LENGTH
-                    nonNegativeInteger
+    SignatureTime = SIGNATURE-TIME-TYPE TLV-LENGTH nonNegativeInteger
 
 
 The value of the ``SignatureTime`` element is the signature's timestamp (in terms of milliseconds since 1970-01-01 00:00:00 UTC) encoded as nonNegativeInteger.
@@ -139,8 +137,7 @@ SignatureSeqNum
 
 ::
 
-    SignatureSeqNum ::= SIGNATURE-SEQ-NUM-TYPE TLV-LENGTH
-                 nonNegativeInteger
+    SignatureSeqNum = SIGNATURE-SEQ-NUM-TYPE TLV-LENGTH nonNegativeInteger
 
 
 The ``SignatureSeqNum`` element adds additional assurances that a signature will be unique.
@@ -171,13 +168,14 @@ This signature type is intended only for debug purposes and limited circumstance
 
 ::
 
-    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue = SIGNATURE-VALUE-TYPE
+                     TLV-LENGTH ; == 32
+                     32OCTET ; == SHA256{Name, MetaInfo, Content, SignatureInfo}
 
-    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=SHA256{Name(without T, L, and ParametersSha256DigestComponent),
-                                       ApplicationParameters,
-                                       InterestSignatureInfo})
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE
+                             TLV-LENGTH ; == 32
+                             32OCTET ; == SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                     ;           ApplicationParameters, InterestSignatureInfo}
 
 .. _SignatureSha256WithRsa:
 
@@ -192,17 +190,16 @@ As suggested by the name, it defines an RSA public key signature that is calcula
 
 ::
 
-    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
-                         BYTE+(=RSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue = SIGNATURE-VALUE-TYPE TLV-LENGTH
+                       *OCTET ; == RSA over SHA256{Name, MetaInfo, Content, SignatureInfo}
 
-    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=RSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
-                                                ApplicationParameters,
-                                                InterestSignatureInfo})
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH
+                               *OCTET ; == RSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                                           ApplicationParameters, InterestSignatureInfo}
 
 .. note::
 
-   SignatureValue size varies (typically 128 or 256 bytes) depending on the private key length used during the signing process.
+   The TLV-LENGTH of these elements varies (typically 128 or 256 bytes) depending on the private key length used during the signing process.
 
 This type of signature ensures strict provenance of a Data packet, provided that the signature verifies and signature issuer is authorized to sign the Data packet.
 The signature issuer is identified using :ref:`KeyLocator` block in :ref:`SignatureInfo <Signature>` block of ``SignatureSha256WithRsa``.
@@ -228,24 +225,23 @@ The signature algorithm is defined in `[RFC5753], Section 2.1 <http://tools.ietf
 
 ::
 
-    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH
-                         BYTE+(=ECDSA over SHA256{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue = SIGNATURE-VALUE-TYPE TLV-LENGTH
+                       *OCTET ; == ECDSA over SHA256{Name, MetaInfo, Content, SignatureInfo}
 
-    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=ECDSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
-                                                  ApplicationParameters,
-                                                  InterestSignatureInfo})
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH
+                               *OCTET ; == ECDSA over SHA256{Name(without T, L, and ParametersSha256DigestComponent),
+                                                             ApplicationParameters, InterestSignatureInfo}
 
 .. note::
 
-   The SignatureValue size depends on the private key length used during the signing process (about 63 bytes for a 224 bit key).
+   The TLV-LENGTH of these elements depends on the elliptic curve used during the signing process (about 63 bytes for a 224 bit key).
 
 This type of signature ensures strict provenance of a Data packet, provided that the signature verifies and the signature issuer is authorized to sign the Data packet.
 The signature issuer is identified using the :ref:`KeyLocator` block in the :ref:`SignatureInfo <Signature>` block of the ``SignatureSha256WithEcdsa``.
 KeyDigest option in ``KeyLocator`` is defined as SHA256 digest over the DER encoding of the SubjectPublicKeyInfo for an EC key as defined by `RFC 5480 <http://www.ietf.org/rfc/rfc5480.txt>`_.
 See the :ref:`KeyLocator section <KeyLocator>` for more detail.
 
-The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER encoded DSA signature as defined in `Section 2.2.3 in RFC 3279 <http://tools.ietf.org/html/rfc3279#section-2.2.3>`_.
+The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER encoded ECDSA signature as defined in `Section 2.2.3 in RFC 3279 <http://tools.ietf.org/html/rfc3279#section-2.2.3>`_.
 
 ::
 
@@ -266,13 +262,14 @@ The signature algorithm is defined in `Section 2 in RFC 2104 <http://tools.ietf.
 
 ::
 
-    SignatureValue ::= SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=HMAC{Name, MetaInfo, Content, SignatureInfo})
+    SignatureValue = SIGNATURE-VALUE-TYPE
+                     TLV-LENGTH ; == 32
+                     32OCTET ; == HMAC{Name, MetaInfo, Content, SignatureInfo}
 
-    InterestSignatureValue ::= INTEREST-SIGNATURE-VALUE-TYPE TLV-LENGTH(=32)
-                         BYTE+(=HMAC{Name(without T, L, and ParametersSha256DigestComponent),
-                                     ApplicationParameters,
-                                     InterestSignatureInfo})
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE
+                             TLV-LENGTH ; == 32
+                             32OCTET ; == HMAC{Name(without T, L, and ParametersSha256DigestComponent),
+                                               ApplicationParameters, InterestSignatureInfo}
 
 .. note::
 

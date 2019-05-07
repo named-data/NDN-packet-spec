@@ -7,23 +7,22 @@ NDN Interest packet is TLV defined as follows:
 
 ::
 
-    Interest ::= INTEREST-TYPE TLV-LENGTH
-                   Name
-                   CanBePrefix?
-                   MustBeFresh?
-                   ForwardingHint?
-                   Nonce?
-                   InterestLifetime?
-                   HopLimit?
-                   (ApplicationParameters |
-                    ApplicationParameters InterestSignatureInfo InterestSignatureValue)?
+    Interest = INTEREST-TYPE TLV-LENGTH
+                 Name
+                 [CanBePrefix]
+                 [MustBeFresh]
+                 [ForwardingHint]
+                 [Nonce]
+                 [InterestLifetime]
+                 [HopLimit]
+                 [ApplicationParameters [InterestSignature]]
 
 ``Name`` is the only required element in an Interest packet.
 ``Nonce`` is required when an Interest is transmitted over the network links, i.e., a compliant forwarder must augment the Interest with the ``Nonce`` element if it is missing.
 ``CanBePrefix``, ``MustBeFresh``, ``InterestLifetime``, and ``ForwardingHint`` are optional elements to guide Interest matching or forwarding.
 Interest can also include an optional ``ApplicationParameters`` element.
 
-If an Interest contains ``InterestSignatureInfo`` and ``InterestSignatureValue``, it is considered a Signed Interest.
+If an Interest contains ``InterestSignature``, it is considered a Signed Interest.
 See :doc:`Signed Interest section <signed-interest>` for details.
 
 As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Interest packet.
@@ -42,7 +41,8 @@ CanBePrefix
 
 ::
 
-    CanBePrefix ::= CAN-BE-PREFIX-TYPE TLV-LENGTH(=0)
+    CanBePrefix = CAN-BE-PREFIX-TYPE
+                  TLV-LENGTH ; == 0
 
 When present, ``Name`` element in the Interest is a prefix, exact, or full name of the requested Data packet.
 
@@ -57,7 +57,8 @@ MustBeFresh
 
 ::
 
-   MustBeFresh ::= MUST-BE-FRESH-TYPE TLV-LENGTH(=0)
+   MustBeFresh = MUST-BE-FRESH-TYPE
+                 TLV-LENGTH ; == 0
 
 The presence or absence of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
 Refer for :ref:`FreshnessPeriod section <FreshnessPeriod>` for more information.
@@ -67,8 +68,7 @@ ForwardingHint
 
 ::
 
-   ForwardingHint ::= FORWARDING-HINT-TYPE TLV-LENGTH
-                        Delegation+
+   ForwardingHint = FORWARDING-HINT-TYPE TLV-LENGTH 1*Delegation
 
 The ForwardingHint element contains a list of name delegations, as defined in :ref:`link` section.
 Each delegation implies that the requested Data packet can be retrieved by forwarding the Interest along the delegation path.
@@ -83,7 +83,9 @@ Nonce defined as follows:
 
 ::
 
-    Nonce ::= NONCE-TYPE TLV-LENGTH(=4) BYTE{4}
+    Nonce = NONCE-TYPE
+            TLV-LENGTH ; == 4
+            4OCTET
 
 The Nonce carries a randomly-generated 4-octet long byte-string.
 The combination of Name and Nonce should uniquely identify an Interest packet.
@@ -94,7 +96,7 @@ InterestLifetime
 
 ::
 
-    InterestLifetime ::= INTEREST-LIFETIME-TYPE TLV-LENGTH nonNegativeInteger
+    InterestLifetime = INTEREST-LIFETIME-TYPE TLV-LENGTH nonNegativeInteger
 
 ``InterestLifetime`` indicates the (approximate) time remaining before the Interest times out.
 The value is the number of milliseconds.  The timeout is relative to the arrival time of the Interest at the current node.
@@ -110,7 +112,9 @@ HopLimit
 
 ::
 
-    HopLimit ::= HOP-LIMIT-TYPE TLV-LENGTH(=1) BYTE{1}
+    HopLimit = HOP-LIMIT-TYPE
+               TLV-LENGTH ; == 1
+               OCTET
 
 The optional ``HopLimit`` element indicates the number of hops the Interest is allowed to be forwarded.  The value is encoded as a 1-byte unsigned integer value in the range 0-255.
 
@@ -133,8 +137,7 @@ ApplicationParameters
 
 ::
 
-   ApplicationParameters ::= APPLICATION-PARAMETERS-TYPE TLV-LENGTH
-                               BYTE*
+   ApplicationParameters = APPLICATION-PARAMETERS-TYPE TLV-LENGTH *OCTET
 
 The ``ApplicationParameters`` element can carry any arbitrary data that parameterizes the request for Data.
 The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parameterized Interest (see :ref:`Interest Parameters Digest Component` section for additional details).

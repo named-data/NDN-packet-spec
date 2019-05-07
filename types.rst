@@ -82,6 +82,10 @@ TLV-TYPE number assignments
 | Preference                                  | 30               | 0x1e            |
 +---------------------------------------------+------------------+-----------------+
 
+.. note::
+   ABNF grammar of this specification denotes TLV-TYPE of element X as ``X-TYPE``.
+   For example, ``INTEREST-TYPE`` means ``%x05``, the TLV-TYPE of ``Interest`` encoded as ``VAR-NUMBER``.
+
 .. _type reservations:
 
 TLV-TYPE number reservations

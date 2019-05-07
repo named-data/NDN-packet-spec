@@ -21,60 +21,20 @@ For implementation simplicity, both type and length take the same encoding forma
 
 We define a variable-length encoding for numbers in NDN as follows::
 
-     VAR-NUMBER := BYTE+
+     VAR-NUMBER = %x00-FC / %xFD 2OCTET / %xFE 4OCTET / %xFF 8OCTET
 
 The first octet of the number either carries the actual number, or signals that a multi-octet encoding is present, as defined below:
 
-- if the first octet is < 253, the number is encoded in that octet;
+- if the first octet is less than or equal to 252 (0xFC), the number is encoded in that octet;
 
-- if the first octet == 253, the number is encoded in the
-  following 2 octets, in net byte-order;
+- if the first octet is 253 (0xFD), the number is encoded in the following 2 octets, in network byte-order;
 
-- if the first octet == 254, the number is encoded in the
-  following 4 octets, in net byte-order;
+- if the first octet is 254 (0xFE), the number is encoded in the following 4 octets, in network byte-order;
 
-- if the first octet == 255, the number is encoded in the
-  following 8 octets, in net byte-order.
+- if the first octet is 255 (0xFF), the number is encoded in the following 8 octets, in network byte-order.
 
-
-One-octet number::
-
-     0 1 2 3 4 5 6 7
-    +----------------+
-    | < 253 = NUMBER |
-    +----------------+
-
-
-Two-octet number::
-
-                         1                   2
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
-    +---------------+---------------+---------------+
-    |      253      |  NUMBER (MSB)    NUMBER (LSB) |
-    +---------------+---------------+---------------+
-
-Four-octet number::
-
-                         1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +---------------+---------------+----------------+--------------+
-    |      254      |  NUMBER (MSB)                                 /
-    +---------------+---------------+----------------+--------------+
-    |  NUMBER (LSB) |
-    +---------------+
-
-Eight-octet number::
-
-                         1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +---------------+---------------+----------------+--------------+
-    |      255      |  NUMBER (MSB)                                 /
-    +---------------+                                               +
-    |                                                               /
-    +               +---------------+----------------+--------------+
-    |  NUMBER (LSB) |
-    +---------------+
-
+.. note::
+   The formal grammar of NDN packet format in this specification is given using `Augmented BNF for Syntax Specifications <https://tools.ietf.org/html/rfc5234>`__
 
 .. _TLV:
 
@@ -83,11 +43,10 @@ TLV Encoding
 
 TLV encoding for NDN packets is defined as follows::
 
-     NDN-TLV := TLV-TYPE TLV-LENGTH TLV-VALUE?
-     TLV-TYPE := VAR-NUMBER
-     TLV-LENGTH := VAR-NUMBER
-     TLV-VALUE := BYTE+
-
+    NDN-TLV = TLV-TYPE TLV-LENGTH TLV-VALUE
+    TLV-TYPE = VAR-NUMBER
+    TLV-LENGTH = VAR-NUMBER
+    TLV-VALUE = *OCTET
 
 TLV-TYPE MUST be in the range ``1-4294967295`` (inclusive).
 Zero is reserved to indicate an invalid TLV element and MUST NOT appear on the wire.
@@ -104,20 +63,20 @@ Most common, standardized TLV-TYPE numbers will be allocated from a small-intege
 Non Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A number of TLV elements in NDN packet format take a non-negative integer as their value, with the following definition::
+A number of TLV elements in NDN packet format take a non-negative integer as their TLV-VALUE, with the following definition::
 
-    nonNegativeInteger ::= BYTE{1} | BYTE{2} | BYTE{4} | BYTE{8}
+    nonNegativeInteger = 1OCTET / 2OCTET / 4OCTET / 8OCTET
 
 TLV-LENGTH of the TLV element MUST be either 1, 2, 4, or 8.
 Depending on TLV-LENGTH, a nonNegativeInteger is encoded as follows:
 
-- if the length is 1 (i.e. the value length is 1 octet), the nonNegativeInteger is encoded in one octet;
+- if the length is 1, the nonNegativeInteger is encoded in one octet;
 
-- if the length is 2 (= value length is 2 octets), the nonNegativeInteger is encoded in 2 octets, in net byte-order;
+- if the length is 2, the nonNegativeInteger is encoded in 2 octets, in network byte-order;
 
-- if the length is 4 (= value length is 4 octets), the nonNegativeInteger is encoded in 4 octets, in net byte-order;
+- if the length is 4, the nonNegativeInteger is encoded in 4 octets, in network byte-order;
 
-- if the length is 8 (= value length is 8 octets), the nonNegativeInteger is encoded in 8 octets, in net byte-order.
+- if the length is 8, the nonNegativeInteger is encoded in 8 octets, in network byte-order.
 
 The following shows a few examples of TLVs that have nonNegativeInteger as their value component in hexadecimal format (where ``TT`` represents ``TLV-TYPE``, followed by the ``TLV-LENGTH``, then ``TLV-VALUE``)::
 
