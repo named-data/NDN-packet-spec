@@ -6,6 +6,8 @@ Version 0.3
 
 - Rewrite TLV syntax specifications using `IETF Augmented BNF (RFC 5234) <https://tools.ietf.org/html/rfc5234>`__
 
+  + Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
+
 - **Interest**
 
   + Remove ``Selectors`` element
