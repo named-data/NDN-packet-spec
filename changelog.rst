@@ -16,19 +16,23 @@ Version 0.3
   + Move optional ``ForwardingHint`` element after ``MustBeFresh`` (before ``Nonce``)
   + Add optional ``HopLimit`` element
   + Add optional ``ApplicationParameters`` element
-  + Define a new specification for Signed Interest using new optional elements ``InterestSignatureInfo`` and ``InterestSignatureValue``
+  + Define a new specification for Signed Interest using two new elements: ``InterestSignatureInfo`` and ``InterestSignatureValue``
 
 - **Data**
 
   + Make ``MetaInfo`` and ``Content`` elements optional
-  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy
-    Interests with ``MustBeFresh``
+  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh``
 
 - **Name**
 
-  + Lift restriction on name component types, allowing types in the range ``1`` - ``32767``.
-  + Correct definition of name URI encoding: disallow unescaped encoding of PLUS ``+`` and allow TILDE ``~``.
+  + Lift restriction on name component types, allowing types in the range ``1`` - ``32767``
+  + Correct definition of name URI encoding: disallow unescaped encoding of PLUS ``+`` and allow TILDE ``~``
   + Add ``ParametersSha256DigestComponent``
+
+- **Signature**
+
+  + Require all compliant implementations to support the ``SignatureSha256WithEcdsa`` signature type using NIST curve P-256
+  + Redefine the signed portion of Data packets to be more future-proof
 
 Version 0.2.1
 -------------
@@ -43,8 +47,6 @@ Version 0.2.1
 - **Data**
 
   + Updated Content Store semantics for Data packets that do not carry FreshnessPeriod.
-
-************************************************************
 
 Version 0.2
 -----------
@@ -71,8 +73,6 @@ Version 0.2
 
   + Reserve 800-1000 range for link protocol
 
-************************************************************
-
 Version 0.1.1
 -------------
 
@@ -82,8 +82,6 @@ Version 0.1.1
   + ``KeyLocatorDigest`` renamed to ``KeyDigest``.  The specification now explicitly allows KeyDigest to be a SHA256 of any type of the key.
   + ``KeyLocator`` element is now defined to be optionally present in generic ``SignatureInfo`` element.
     ``SignatureSha256WithRsa`` and ``SignatureSha256WithEcdsa`` still require ``KeyLocator`` to be always present.
-
-************************************************************
 
 Version 0.1
 -----------

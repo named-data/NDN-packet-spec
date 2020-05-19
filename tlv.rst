@@ -101,17 +101,15 @@ The following shows a few examples of TLVs that have nonNegativeInteger as their
 Considerations for Evolvability of TLV-Based Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To ensure that the TLV-based protocol can evolve over time without requiring flag days, the least significant bit of TLV-TYPE number (unless overriden by the specification of a particular network/library/application TLV element) is reserved to indicate whether that TLV element is "critical" or "non-critical".
+To ensure that the TLV-based protocol can evolve over time without requiring flag days, the least significant bit of TLV-TYPE number (unless overridden by the specification of a particular network/library/application TLV element) is reserved to indicate whether that TLV element is "critical" or "non-critical".
 A compliant TLV format decoder should follow the order, quantity, and presence requirements of the recognized elements defined in the corresponding specification.
-At the same time, if decoder encounters an unrecognized or out-of-order element, the behavior should be as follows:
+At the same time, if the decoder encounters an unrecognized or out-of-order element, the behavior should be as follows:
 
-- if the least significant bit of element's TLV-TYPE number is ``1``, abort decoding and report an error;
-- if the least significant bit of element's TLV-TYPE number is ``0``, ignore the element and continue decoding.
+- if the least significant bit of the element's TLV-TYPE number is ``1``, abort decoding and report an error;
+- if the least significant bit of the element's TLV-TYPE number is ``0``, ignore the element and continue decoding;
+- TLV-TYPE numbers 0-31 (inclusive) are "grandfathered" and are all designated as "critical" for the purposes of packet processing.
 
 .. note::
     A recognized element is considered out-of-order if it appears in the element order that violates a specification.  For example,
     - when a specification defines a sequence {``F1`` ``F2`` ``F3``}, an element ``F3`` would be out-of-order in the sequence {``F1`` ``F3`` ``F2``};
     - for {``F1`` ``F2?`` ``F3``} specification (i.e., when ``F2`` is optional, ``F2`` would be out-of-order in the same sequence {``F1`` ``F3`` ``F2``}.
-
-.. note::
-   TLV-TYPE numbers 0-31 (inclusive) are "grandfathered" and all designated as "critical" for the purpose of packet processing.

@@ -11,15 +11,17 @@ NDN Data packet is TLV defined as follows::
              [Content]
              DataSignature
 
-The Data packet represents some arbitrary binary data (held in the optional ``Content`` element) together with its ``Name``, some additional bits of optional information (``MetaInfo``), and a digital ``Signature`` of the other element(s). The Name is the first element since all NDN packet processing starts with the name.  Signature is put at the end of the packet to ease the implementation because signature computation covers all the elements before Signature.
+The Data packet represents some arbitrary binary data (held in the optional :ref:`Content` element) together with its ``Name``, some additional bits of optional information (:ref:`MetaInfo`), and a digital signature (:ref:`DataSignature <DataSignature>`).
 
-As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Data packet.
+As recommended by the :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in a Data packet.
 However, they must not appear before the ``Name`` element.
+
 
 Name
 ~~~~
 
-See :ref:`Name section <Name>` for details.
+See :ref:`Name`.
+
 
 .. _MetaInfo:
 
