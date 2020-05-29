@@ -114,11 +114,10 @@ SignatureNonce
 
 ::
 
-    SignatureNonce = SIGNATURE-NONCE-TYPE
-                     TLV-LENGTH ; == 4
-                     4OCTET
+    SignatureNonce = SIGNATURE-NONCE-TYPE TLV-LENGTH 1*OCTET
 
 The ``SignatureNonce`` element adds additional assurances that a signature will be unique.
+The recommended minimum length for a ``SignatureNonce`` element is 8 octets.
 
 .. _SignatureTime:
 
