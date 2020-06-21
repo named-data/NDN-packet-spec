@@ -72,22 +72,19 @@ Most common, standardized TLV-TYPE numbers will be allocated from a small-intege
 Non Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A number of TLV elements in NDN packet format take a non-negative integer as their TLV-VALUE, with the following definition::
+A number of TLV elements in the NDN packet format take a non-negative integer as their TLV-VALUE, with the following definition::
 
-    nonNegativeInteger = 1OCTET / 2OCTET / 4OCTET / 8OCTET
+    NonNegativeInteger = 1OCTET / 2OCTET / 4OCTET / 8OCTET
 
-TLV-LENGTH of the TLV element MUST be either 1, 2, 4, or 8.
-Depending on TLV-LENGTH, a nonNegativeInteger is encoded as follows:
+The TLV-LENGTH of the TLV element enclosing a ``NonNegativeInteger`` MUST be either 1, 2, 4, or 8.
+Depending on the TLV-LENGTH, a ``NonNegativeInteger`` is encoded as follows:
 
-- if the length is 1, the nonNegativeInteger is encoded in one octet;
+- if the length is 1, the ``NonNegativeInteger`` is encoded in 1 octet;
+- if the length is 2, the ``NonNegativeInteger`` is encoded in 2 octets, in network byte-order;
+- if the length is 4, the ``NonNegativeInteger`` is encoded in 4 octets, in network byte-order;
+- if the length is 8, the ``NonNegativeInteger`` is encoded in 8 octets, in network byte-order.
 
-- if the length is 2, the nonNegativeInteger is encoded in 2 octets, in network byte-order;
-
-- if the length is 4, the nonNegativeInteger is encoded in 4 octets, in network byte-order;
-
-- if the length is 8, the nonNegativeInteger is encoded in 8 octets, in network byte-order.
-
-The following shows a few examples of TLVs that have nonNegativeInteger as their value component in hexadecimal format (where ``TT`` represents ``TLV-TYPE``, followed by the ``TLV-LENGTH``, then ``TLV-VALUE``)::
+The following shows a few examples of TLVs that have a ``NonNegativeInteger`` as their value component in hexadecimal format (where ``TT`` represents the TLV-TYPE, followed by the TLV-LENGTH, and then the TLV-VALUE)::
 
     0     => TT0100
     1     => TT0101

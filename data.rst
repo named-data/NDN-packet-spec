@@ -40,7 +40,7 @@ ContentType
 
 ::
 
-    ContentType = CONTENT-TYPE-TYPE TLV-LENGTH nonNegativeInteger
+    ContentType = CONTENT-TYPE-TYPE TLV-LENGTH NonNegativeInteger
 
 The following ContentTypes are currently defined:
 
@@ -66,7 +66,7 @@ FreshnessPeriod
 
 ::
 
-    FreshnessPeriod = FRESHNESS-PERIOD-TYPE TLV-LENGTH nonNegativeInteger
+    FreshnessPeriod = FRESHNESS-PERIOD-TYPE TLV-LENGTH NonNegativeInteger
 
 The optional ``FreshnessPeriod`` indicates how long a node should wait after the arrival of this data before marking it "non-fresh".
 The encoded value is number of milliseconds.

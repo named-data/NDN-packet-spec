@@ -63,7 +63,7 @@ SignatureType
 
 ::
 
-    SignatureType = SIGNATURE-TYPE-TYPE TLV-LENGTH nonNegativeInteger
+    SignatureType = SIGNATURE-TYPE-TYPE TLV-LENGTH NonNegativeInteger
 
 This specification defines the following values for ``SignatureType``:
 
@@ -126,7 +126,7 @@ SignatureTime
 
 ::
 
-    SignatureTime = SIGNATURE-TIME-TYPE TLV-LENGTH nonNegativeInteger
+    SignatureTime = SIGNATURE-TIME-TYPE TLV-LENGTH NonNegativeInteger
 
 The value of the ``SignatureTime`` element is the timestamp of the signature, represented as the number of milliseconds since 1970-01-01T00:00:00Z (Unix epoch).
 This element can be used to indicate that the packet was signed at a particular point in time.
@@ -138,7 +138,7 @@ SignatureSeqNum
 
 ::
 
-    SignatureSeqNum = SIGNATURE-SEQ-NUM-TYPE TLV-LENGTH nonNegativeInteger
+    SignatureSeqNum = SIGNATURE-SEQ-NUM-TYPE TLV-LENGTH NonNegativeInteger
 
 The ``SignatureSeqNum`` element adds additional assurances that a signature will be unique.
 The ``SignatureSeqNum`` may be used to protect against replay attacks.

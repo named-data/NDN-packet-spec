@@ -96,7 +96,7 @@ InterestLifetime
 
 ::
 
-    InterestLifetime = INTEREST-LIFETIME-TYPE TLV-LENGTH nonNegativeInteger
+    InterestLifetime = INTEREST-LIFETIME-TYPE TLV-LENGTH NonNegativeInteger
 
 ``InterestLifetime`` indicates the (approximate) time remaining before the Interest times out.
 The value is the number of milliseconds.  The timeout is relative to the arrival time of the Interest at the current node.

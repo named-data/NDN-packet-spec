@@ -15,7 +15,7 @@ The Link Object is a specialized form of a :ref:`Data packet <data>` packet, def
 
     Delegation = LINK-DELEGATION-TYPE TLV-LENGTH Preference Name
 
-    Preference = LINK-PREFERENCE-TYPE TLV-LENGTH nonNegativeInteger
+    Preference = LINK-PREFERENCE-TYPE TLV-LENGTH NonNegativeInteger
 
 
 Link Object is a data packet, whose content contains a list of one or more name delegations: a pair of name and the associate priority.
