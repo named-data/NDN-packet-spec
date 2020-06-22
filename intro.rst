@@ -8,8 +8,8 @@ In addition to the packet format and full protocol specification, we have publis
 
 - `NDN Protocol Design Principles <https://named-data.net/project/ndn-design-principles/>`__
 
-- `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <http://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
+- `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
-- `"SNAMP: Secure Namespace Mapping to Scale NDN Forwarding" by Alexander Afanasyev, Cheng Yi, Lan Wang, Beichuan Zhang, and Lixia Zhang, 18th IEEE Global Internet Symposium, April 2015 <http://named-data.net/publications/snamp-ndn-scalability/>`__
+- `"SNAMP: Secure Namespace Mapping to Scale NDN Forwarding" by Alexander Afanasyev, Cheng Yi, Lan Wang, Beichuan Zhang, and Lixia Zhang, 18th IEEE Global Internet Symposium, April 2015 <https://named-data.net/publications/snamp-ndn-scalability/>`__
 
-- `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <http://named-data.net/publications/techreports/ndn-tr-22-ndn-memo-naming-conventions/>`__
+- `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <https://named-data.net/publications/techreports/ndn-tr-22-2-ndn-memo-naming-conventions/>`__

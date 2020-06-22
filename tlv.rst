@@ -9,7 +9,7 @@ Note that NDN packet format does not have a fixed packet header nor does it enco
 There is also no packet fragmentation support at network level.
 Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]_
 
-.. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <http://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
+.. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
 Variable Size Encoding for type (T) and length (L)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

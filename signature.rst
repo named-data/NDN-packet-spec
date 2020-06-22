@@ -218,7 +218,7 @@ SignatureSha256WithEcdsa
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``SignatureSha256WithEcdsa`` defines an ECDSA public key signature that is calculated over the SHA-256 hash of the "signed portion" of an Interest or Data packet.
-This signature algorithm is defined in `RFC 5753, Section 2.1 <http://tools.ietf.org/html/rfc5753#section-2.1>`__.
+This signature algorithm is defined in `RFC 5753, Section 2.1 <https://tools.ietf.org/html/rfc5753#section-2.1>`__.
 All NDN implementations MUST support this signature type with the NIST P-256 curve.
 
 * The TLV-VALUE of ``SignatureType`` is 3
@@ -241,7 +241,7 @@ All NDN implementations MUST support this signature type with the NIST P-256 cur
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
 The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest of the DER encoding of the ``SubjectPublicKeyInfo`` for an EC key as defined by `RFC 5480 <https://tools.ietf.org/html/rfc5480>`__.
 
-The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER-encoded ``Ecdsa-Sig-Value`` structure as defined in `RFC 3279, Section 2.2.3 <http://tools.ietf.org/html/rfc3279#section-2.2.3>`__.
+The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER-encoded ``Ecdsa-Sig-Value`` structure as defined in `RFC 3279, Section 2.2.3 <https://tools.ietf.org/html/rfc3279#section-2.2.3>`__.
 
 .. _SignatureHmacWithSha256:
 
@@ -249,7 +249,7 @@ SignatureHmacWithSha256
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 ``SignatureHmacWithSha256`` defines a hash-based message authentication code (HMAC) that is calculated over the "signed portion" of an Interest or Data packet, using SHA-256 as the hash function, salted with a shared secret key.
-This signature algorithm is defined in `RFC 2104, Section 2 <http://tools.ietf.org/html/rfc2104#section-2>`__.
+This signature algorithm is defined in `RFC 2104, Section 2 <https://tools.ietf.org/html/rfc2104#section-2>`__.
 
 * The TLV-VALUE of ``SignatureType`` is 4
 * ``KeyLocator`` is required
@@ -270,7 +270,7 @@ This signature algorithm is defined in `RFC 2104, Section 2 <http://tools.ietf.o
 
 .. note::
 
-   As stated in `RFC 2104, Section 3 <http://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA-256 output byte length (32 bytes) are strongly discouraged.
+   As stated in `RFC 2104, Section 3 <https://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA-256 output byte length (32 bytes) are strongly discouraged.
 
 Provided that the signature verifies, this type of signature ensures the authenticity of the packet, namely, that it was signed by a party possessing the shared key, and that it was not altered in transit (integrity).
 The shared key used to generate the HMAC signature can be identified by the :ref:`KeyLocator` element, e.g., by using the ``Name`` according to the application's naming conventions.
