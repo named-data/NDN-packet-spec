@@ -1,31 +1,29 @@
-Prerequisites
-=============
+# NDN Packet Format Specification
 
-To "compile" documentation into html form you would need to install Sphinx documentation package, which should be relatively trivial.
+## Prerequisites
 
-If you're on macOS:
+To "compile" the specification in HTML format, you must first install the Sphinx documentation generator.
 
-- Install from source: http://sphinx-doc.org/install.html
+If you're running Ubuntu Linux:
 
-If you're on Ubuntu Linux 16.04:
+    sudo apt install make python3-pip
+    pip3 install -U pip setuptools
+    pip3 install -U sphinx sphinxcontrib-bibtex sphinxcontrib-fulltoc
 
-    sudo apt install python3-pip
-    sudo pip3 install -U pip setuptools
-    sudo pip3 install -U sphinx sphinxcontrib-bibtex sphinxcontrib-fulltoc
+If you're running macOS or another operating system, see the instructions at https://www.sphinx-doc.org/en/master/usage/installation.html
 
-Compilation
-===========
+## Compilation
 
-Just type
+Just type:
 
     make html
 
-And a set of HTML pages will be build under ``_build/html``
+And a set of HTML pages will be generated under `_build/html`.
 
-
-You can also type
+You can also type:
 
     make latexpdf
 
-This way Sphinx will prepare .tex file and will try to build .pdf document.
+Sphinx will generate a `.tex` file and will try to create a `.pdf` document from it using `pdflatex` (which must be installed).
 
+For further options, type `make help`.
