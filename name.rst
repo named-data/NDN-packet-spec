@@ -141,13 +141,15 @@ For Names, the ordering is just based on the ordering of the first component whe
 If one name is a proper prefix of the other, then it comes first.
 
 .. note::
-   The canonical order can be enforced by directly comparing the wire encoding of the ``Name`` field's TLV-VALUE (i.e., excluding TLV-TYPE and TLV-LEGNTH of the whole Name TLV)::
+    The canonical order can be enforced by directly comparing the wire encoding of the ``Name`` field's TLV-VALUE (i.e., excluding TLV-TYPE and TLV-LENGTH of the Name element itself):
 
-       int
-       canonicalOrder(Name lhs, Name rhs) {
-          int result = memcmp(lhs.value(), rhs.value(), min(lhs.value_size(), rhs.value_size()));
-          if (result == 0) {
-            result = lhs.value_size() - rhs.value_size();
-          }
-          return result;
-       }
+    .. code-block:: c
+
+        int canonicalOrder(Name lhs, Name rhs)
+        {
+            int result = memcmp(lhs.value(), rhs.value(), min(lhs.value_size(), rhs.value_size()));
+            if (result == 0) {
+                result = lhs.value_size() - rhs.value_size();
+            }
+            return result;
+        }

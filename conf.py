@@ -68,5 +68,5 @@ html_theme_path = ['.']
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-# Disable syntax highlighting.
-highlight_language = 'none'
+# Use ABNF syntax highlighting by default for code blocks.
+highlight_language = 'abnf'
