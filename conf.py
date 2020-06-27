@@ -68,5 +68,9 @@ html_theme_path = ['.']
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_title = '{} version {}'.format(project, version)
+html_copy_source = False
+html_show_sourcelink = False
+
 # Use ABNF syntax highlighting by default for code blocks.
 highlight_language = 'abnf'

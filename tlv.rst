@@ -11,7 +11,7 @@ Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]
 
 .. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
-Variable Size Encoding for type (T) and length (L)
+Variable Size Encoding for Type (T) and Length (L)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (Both the text below and that in :ref:`TLV encoding section <TLV>` are adopted from an earlier packet specification draft by Mark Stapp)
@@ -47,8 +47,8 @@ For example, the number 1024 is encoded as %xFD0400 in VAR-NUMBER-3 format, not 
 
 .. _TLV:
 
-TLV Encoding
-~~~~~~~~~~~~
+NDN TLV Encoding
+~~~~~~~~~~~~~~~~
 
 TLV encoding for NDN packets is defined as follows::
 
@@ -69,7 +69,7 @@ In particular, empty payload TLV will carry ``TLV-LENGTH`` equal to 0.
 This encoding offers a reasonable balance between compactness and flexibility.
 Most common, standardized TLV-TYPE numbers will be allocated from a small-integer number-space, and these common types will be able to use the compact, single-byte encoding.
 
-Non Negative Integer Encoding
+Non-Negative Integer Encoding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A number of TLV elements in the NDN packet format take a non-negative integer as their TLV-VALUE, with the following definition::
