@@ -27,7 +27,15 @@ Version 0.3
 
   + Lift restriction on name component types, allowing types in the range ``1`` - ``32767``
   + Correct definition of name URI encoding: disallow unescaped encoding of PLUS ``+`` and allow TILDE ``~``
-  + Add ``ParametersSha256DigestComponent``
+  + Add well-known special-use component types:
+
+    - ``ParametersSha256DigestComponent`` (type 2)
+    - ``KeywordNameComponent`` (type 32)
+    - ``SegmentNameComponent`` (type 50)
+    - ``ByteOffsetNameComponent`` (type 52)
+    - ``VersionNameComponent`` (type 54)
+    - ``TimestampNameComponent`` (type 56)
+    - ``SequenceNumNameComponent`` (type 58)
 
 - **Signature**
 
