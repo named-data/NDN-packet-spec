@@ -6,7 +6,7 @@ Version 0.3
 
 - Rewrite TLV syntax specifications using `IETF Augmented BNF (RFC 5234) <https://tools.ietf.org/html/rfc5234>`__
 
-  + Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
+- Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
 
 - **Interest**
 
@@ -25,8 +25,8 @@ Version 0.3
 
 - **Name**
 
-  + Lift restriction on name component types, allowing types in the range ``1`` - ``32767``
-  + Correct definition of name URI encoding: disallow unescaped encoding of PLUS ``+`` and allow TILDE ``~``
+  + Lift restriction on name component types, allowing types in the range 1-65535
+  + Correct definition of name URI encoding: disallow unescaped encoding of PLUS (``+``) and allow TILDE (``~``)
   + Add well-known special-use component types:
 
     - ``ParametersSha256DigestComponent`` (type 2)

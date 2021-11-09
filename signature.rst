@@ -276,4 +276,4 @@ Provided that the signature verifies, this type of signature ensures the authent
 The shared key used to generate the HMAC signature can be identified by the :ref:`KeyLocator` element, e.g., by using the ``Name`` according to the application's naming conventions.
 It is the application's responsibility to associate the shared key with the identities of the parties who hold the shared key.
 
-.. bibliography:: ndnspec-refs.bib
+.. bibliography::

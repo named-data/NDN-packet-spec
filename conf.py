@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'NDN Packet Format Specification'
-copyright = '2013-2020, Named Data Networking Project'
+copyright = '2013-2021, Named Data Networking Project'
 
 # The short X.Y version.
 version = '0.3'
@@ -31,7 +31,7 @@ release = '0.3'
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
-needs_sphinx = '1.3'
+needs_sphinx = '2.1'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -51,6 +51,8 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+bibtex_bibfiles = ['refs.bib']
 
 
 # -- Options for HTML output -------------------------------------------------
