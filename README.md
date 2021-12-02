@@ -8,7 +8,7 @@ If you're running Ubuntu Linux:
 
     sudo apt install make python3-pip
     pip3 install -U pip setuptools
-    pip3 install -U sphinx sphinxcontrib-bibtex
+    pip3 install -U sphinx
 
 If you're running macOS or another operating system, see the instructions at https://www.sphinx-doc.org/en/master/usage/installation.html
 

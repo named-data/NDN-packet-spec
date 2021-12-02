@@ -105,9 +105,7 @@ See :ref:`Name specification <Name>` for the definition of ``Name``.
 The specific definition of the proper usage of the ``Name`` and ``KeyDigest`` options in the ``KeyLocator`` field is outside the scope of this specification.
 Generally, ``Name`` names the Data packet containing the corresponding certificate.
 However, it is up to the specific trust model to define whether this name is the full name of the Data packet or a prefix that can match multiple Data packets.
-For example, the hierarchical trust model :cite:`testbed-key-management` uses the latter approach, requiring clients to fetch the latest version of the Data packet pointed to by ``KeyLocator`` (the latest version of the public key certificate) in order to ensure that the public key was not yet revoked.
-
-.. _SignatureInfoNonce:
+For example, the `hierarchical trust model`_ uses the latter approach, requiring clients to fetch the latest version of the Data packet pointed to by ``KeyLocator`` (the latest version of the public key certificate) in order to ensure that the public key was not yet revoked.
 
 SignatureNonce
 ^^^^^^^^^^^^^^
@@ -119,8 +117,6 @@ SignatureNonce
 The ``SignatureNonce`` element adds additional assurances that a signature will be unique.
 The recommended minimum length for a ``SignatureNonce`` element is 8 octets.
 
-.. _SignatureTime:
-
 SignatureTime
 ^^^^^^^^^^^^^
 
@@ -130,8 +126,6 @@ SignatureTime
 
 The value of the ``SignatureTime`` element is the timestamp of the signature, represented as the number of milliseconds since 1970-01-01T00:00:00Z (Unix epoch).
 This element can be used to indicate that the packet was signed at a particular point in time.
-
-.. _SignatureSeqNum:
 
 SignatureSeqNum
 ^^^^^^^^^^^^^^^
@@ -210,7 +204,7 @@ The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest o
 
     It is the application's responsibility to define rules (a trust model) concerning when a specific issuer (``KeyLocator``) is authorized to sign a specific packet.
     While trust models are outside the scope of this specification, generally, trust models need to specify authorization rules between key names and Data packet names, as well as clearly define trust anchor(s).
-    For example, an application can elect to use a hierarchical trust model :cite:`testbed-key-management` to ensure Data integrity and provenance.
+    For example, an application can elect to use a `hierarchical trust model`_ to ensure Data integrity and provenance.
 
 .. _SignatureSha256WithEcdsa:
 
@@ -276,4 +270,4 @@ Provided that the signature verifies, this type of signature ensures the authent
 The shared key used to generate the HMAC signature can be identified by the :ref:`KeyLocator` element, e.g., by using the ``Name`` according to the application's naming conventions.
 It is the application's responsibility to associate the shared key with the identities of the parties who hold the shared key.
 
-.. bibliography::
+.. _hierarchical trust model: https://named-data.net/publications/techreports/trpublishkey-rev2/
