@@ -38,7 +38,6 @@ needs_sphinx = '2.1'
 # ones.
 extensions = [
     'sphinxcontrib.bibtex',
-    'sphinxcontrib.fulltoc',
 ]
 
 # The master toctree document.
