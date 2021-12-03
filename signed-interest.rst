@@ -53,8 +53,8 @@ Additionally, a signed Interest must be treated as invalid if any of the followi
    If `t0` >= `t`, consider the Interest as invalid.
    Update `t0` to `t` if the signed Interest has been validated according to this and all other rules.
 
-  .. note::
-     Sharing private keys is not recommended. If private key sharing is inevitable, it is the key owner's responsibility to keep clocks synchronized.
+   .. note::
+      Sharing private keys is not recommended. If private key sharing is inevitable, it is the key owner's responsibility to keep clocks synchronized.
 
 7. If ``SignatureNonce`` is present:
 
@@ -63,8 +63,8 @@ Additionally, a signed Interest must be treated as invalid if any of the followi
    If it is a repetition, treat the Interest as invalid.
    Add the newly received ``SignatureNonce`` into the ``SignatureNonce`` list if the signed Interest has been validated according to this and all other rules.
 
-  .. note::
-     The size of the ``SignatureNonce`` list and the lifetime of each ``SignatureNonce`` remembered by the receiver depend on the application protocol's need.
+   .. note::
+      The size of the ``SignatureNonce`` list and the lifetime of each ``SignatureNonce`` remembered by the receiver depend on the application protocol's need.
 
 8. If ``SignatureSeqNum`` (`s`) is present:
 
@@ -73,5 +73,5 @@ Additionally, a signed Interest must be treated as invalid if any of the followi
    If `s` does not satisfy the application policy, treat the signed Interest as invalid.
    Update `s0` to `s` if the signed Interest has been validated according to this and all other rules.
 
-  .. note::
-     The first ``SignatureSeqNum`` received is considered valid only if it satisfies the application's policy. For example, application can decide the first ``SeqNum`` can only be a minimum value like 0 or 1, or a value that both sender and receiver agree on.
+   .. note::
+      The first ``SignatureSeqNum`` received is considered valid only if it satisfies the application's policy. For example, application can decide the first ``SeqNum`` can only be a minimum value like 0 or 1, or a value that both sender and receiver agree on.

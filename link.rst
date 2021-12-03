@@ -1,9 +1,9 @@
-.. _link:
+.. _Link:
 
 Link Object
 -----------
 
-The Link Object is a specialized form of a :ref:`Data packet <data>` packet, defined as follows::
+The Link Object is a specialized form of a :ref:`Data packet <Data>`, defined as follows::
 
     LinkObject = DATA-TYPE TLV-LENGTH
                    Name

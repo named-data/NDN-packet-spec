@@ -1,25 +1,16 @@
-
 NDN Packet Format Specification
 ===============================
 
-
 .. toctree::
+   :maxdepth: 3
+
    intro
    tlv
    name
    interest
    data
    signature
-   link
    signed-interest
+   link
    types
    changelog
-   :maxdepth: 3
-
-
-.. Indices and tables
-.. ==================
-
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`

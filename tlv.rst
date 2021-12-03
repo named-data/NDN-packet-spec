@@ -14,17 +14,21 @@ Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]
 Variable Size Encoding for Type (T) and Length (L)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-(Both the text below and that in :ref:`TLV encoding section <TLV>` are adopted from an earlier packet specification draft by Mark Stapp)
+.. note::
+   The text below and that in the :ref:`TLV` section are adapted from an earlier packet specification draft by Mark Stapp.
 
 To minimize the overhead during early deployment and to allow flexibility of future protocol extensions to meet unforeseeable needs, both type (T) and length (L) take a variable size format.
 For implementation simplicity, both type and length take the same encoding format.
 
 We define a variable-length encoding for numbers in NDN as follows::
 
-     VAR-NUMBER-1 = %x00-FC
-     VAR-NUMBER-3 = %xFD 2OCTET
-     VAR-NUMBER-5 = %xFE 4OCTET
-     VAR-NUMBER-9 = %xFF 8OCTET
+    VAR-NUMBER-1 = %x00-FC
+    VAR-NUMBER-3 = %xFD 2OCTET
+    VAR-NUMBER-5 = %xFE 4OCTET
+    VAR-NUMBER-9 = %xFF 8OCTET
+
+.. note::
+   The formal grammar of NDN packet format in this specification is given using :rfc:`Augmented BNF for Syntax Specifications <5234>`.
 
 The first octet of the number either carries the actual number, or signals that a multi-octet encoding is present, as defined below:
 
@@ -41,9 +45,6 @@ The first octet of the number either carries the actual number, or signals that 
 
 A number MUST be encoded in the shortest format.
 For example, the number 1024 is encoded as %xFD0400 in VAR-NUMBER-3 format, not %xFE00000400 in VAR-NUMBER-5 format.
-
-.. note::
-   The formal grammar of NDN packet format in this specification is given using `Augmented BNF for Syntax Specifications <https://tools.ietf.org/html/rfc5234>`__
 
 .. _TLV:
 
@@ -109,6 +110,7 @@ At the same time, if the decoder encounters an unrecognized or out-of-order elem
 - TLV-TYPE numbers 0-31 (inclusive) are "grandfathered" and are all designated as "critical" for the purposes of packet processing.
 
 .. note::
-    A recognized element is considered out-of-order if it appears in the element order that violates a specification.  For example,
-    - when a specification defines a sequence {``F1`` ``F2`` ``F3``}, an element ``F3`` would be out-of-order in the sequence {``F1`` ``F3`` ``F2``};
-    - for {``F1`` ``F2?`` ``F3``} specification (i.e., when ``F2`` is optional, ``F2`` would be out-of-order in the same sequence {``F1`` ``F3`` ``F2``}.
+   A recognized element is considered out-of-order if it appears in the element order that violates a specification. For example:
+
+   - when a specification defines a sequence {``F1`` ``F2`` ``F3``}, an element ``F3`` would be out-of-order in the sequence {``F1`` ``F3`` ``F2``};
+   - for {``F1`` ``F2?`` ``F3``} specification (i.e., when ``F2`` is optional, ``F2`` would be out-of-order in the same sequence {``F1`` ``F3`` ``F2``}.

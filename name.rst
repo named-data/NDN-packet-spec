@@ -129,27 +129,26 @@ The order between individual name components is defined as follows:
   + ``component1`` is less than ``component2`` if numerical value of ``TLV-TYPE(component1)`` is less than numerical value of ``TLV-TYPE(component2)``
 
     .. note::
-        Type number of ``ImplicitSha256DigestComponent`` is guaranteed to be less than type number of any other valid name component.
+       Type number of ``ImplicitSha256DigestComponent`` is guaranteed to be less than type number of any other valid name component.
 
 - If components have the same type, then
 
-    + If *a* is shorter than *b* (i.e., has fewer bytes), then *a* comes before *b*.
-
-    + If *a* and *b* have the same length, then they are compared in lexicographic order based on absolute value of octet values (e.g., ordering based on memcmp() operation.)
+  + If *a* is shorter than *b* (i.e., has fewer bytes), then *a* comes before *b*.
+  + If *a* and *b* have the same length, then they are compared in lexicographic order based on absolute value of octet values (e.g., ordering based on memcmp() operation.)
 
 For Names, the ordering is just based on the ordering of the first component where they differ.
 If one name is a proper prefix of the other, then it comes first.
 
-.. note::
-    The canonical order can be enforced by directly comparing the wire encoding of the ``Name`` field's TLV-VALUE (i.e., excluding TLV-TYPE and TLV-LENGTH of the Name element itself):
+.. tip::
+   The canonical order can be enforced by directly comparing the wire encoding of the ``Name`` field's TLV-VALUE (i.e., excluding TLV-TYPE and TLV-LENGTH of the Name element itself):
 
-    .. code-block:: c
+   .. code-block:: cpp
 
-        int canonicalOrder(Name lhs, Name rhs)
-        {
-            int result = memcmp(lhs.value(), rhs.value(), min(lhs.value_size(), rhs.value_size()));
-            if (result == 0) {
-                result = lhs.value_size() - rhs.value_size();
-            }
-            return result;
-        }
+      int canonicalOrder(Name lhs, Name rhs)
+      {
+          int result = memcmp(lhs.value(), rhs.value(), min(lhs.value_size(), rhs.value_size()));
+          if (result == 0) {
+              result = lhs.value_size() - rhs.value_size();
+          }
+          return result;
+      }

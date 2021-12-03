@@ -194,17 +194,15 @@ It uses the RSASSA-PKCS1-v1_5 signature scheme, as defined in `RFC 8017, Section
                              1*OCTET ; == RSA over SHA-256{Interest signed portion}
 
 .. note::
-
    The TLV-LENGTH of these elements varies depending on the length of the private key used for signing (e.g., 256 bytes for a 2048-bit key).
 
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
 The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an RSA key as defined by `RFC 3279 <https://tools.ietf.org/html/rfc3279>`__."
 
 .. note::
-
-    It is the application's responsibility to define rules (a trust model) concerning when a specific issuer (``KeyLocator``) is authorized to sign a specific packet.
-    While trust models are outside the scope of this specification, generally, trust models need to specify authorization rules between key names and Data packet names, as well as clearly define trust anchor(s).
-    For example, an application can elect to use a `hierarchical trust model`_ to ensure Data integrity and provenance.
+   It is the application's responsibility to define rules (a trust model) concerning when a specific issuer (``KeyLocator``) is authorized to sign a specific packet.
+   While trust models are outside the scope of this specification, generally, trust models need to specify authorization rules between key names and Data packet names, as well as clearly define trust anchor(s).
+   For example, an application can elect to use a `hierarchical trust model`_ to ensure Data integrity and provenance.
 
 .. _SignatureSha256WithEcdsa:
 
@@ -229,7 +227,6 @@ All NDN implementations MUST support this signature type with the NIST P-256 cur
                              1*OCTET ; == ECDSA over SHA-256{Interest signed portion}
 
 .. note::
-
    The TLV-LENGTH of these elements depends on the specific elliptic curve used for signing (e.g., up to 72 bytes for the NIST P-256 curve).
 
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
@@ -245,6 +242,9 @@ SignatureHmacWithSha256
 ``SignatureHmacWithSha256`` defines a hash-based message authentication code (HMAC) that is calculated over the "signed portion" of an Interest or Data packet, using SHA-256 as the hash function, salted with a shared secret key.
 This signature algorithm is defined in `RFC 2104, Section 2 <https://tools.ietf.org/html/rfc2104#section-2>`__.
 
+.. warning::
+   As stated in `RFC 2104, Section 3 <https://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA-256 output length (32 bytes) are strongly discouraged.
+
 * The TLV-VALUE of ``SignatureType`` is 4
 * ``KeyLocator`` is required
 
@@ -258,16 +258,11 @@ This signature algorithm is defined in `RFC 2104, Section 2 <https://tools.ietf.
                              TLV-LENGTH ; == 32
                              32OCTET ; == HMAC-SHA-256{Interest signed portion}
 
-.. note::
-
-   The shared secret key is not included in the signature and must not be included anywhere in the packet, as this would invalidate the security properties of HMAC.
-
-.. note::
-
-   As stated in `RFC 2104, Section 3 <https://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA-256 output byte length (32 bytes) are strongly discouraged.
-
 Provided that the signature verifies, this type of signature ensures the authenticity of the packet, namely, that it was signed by a party possessing the shared key, and that it was not altered in transit (integrity).
 The shared key used to generate the HMAC signature can be identified by the :ref:`KeyLocator` element, e.g., by using the ``Name`` according to the application's naming conventions.
 It is the application's responsibility to associate the shared key with the identities of the parties who hold the shared key.
+
+.. danger::
+   The shared secret key is not included in the signature and must not be included anywhere in the packet, as this would invalidate the security properties of HMAC.
 
 .. _hierarchical trust model: https://named-data.net/publications/techreports/trpublishkey-rev2/
