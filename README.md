@@ -7,8 +7,8 @@ To "compile" the specification in HTML format, you must first install the Sphinx
 If you're running Ubuntu Linux:
 
     sudo apt install make python3-pip
-    pip3 install -U pip setuptools
-    pip3 install -U sphinx
+    pip3 install -U pip
+    pip3 install -r requirements.txt
 
 If you're running macOS or another operating system, see the instructions at https://www.sphinx-doc.org/en/master/usage/installation.html
 
@@ -18,7 +18,7 @@ Just type:
 
     make html
 
-And a set of HTML pages will be generated under `_build/html`.
+And a set of HTML pages will be generated inside `_build/html`.
 
 You can also type:
 
