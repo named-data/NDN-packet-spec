@@ -68,10 +68,10 @@ ForwardingHint
 
 ::
 
-   ForwardingHint = FORWARDING-HINT-TYPE TLV-LENGTH 1*Delegation
+   ForwardingHint = FORWARDING-HINT-TYPE TLV-LENGTH 1*Name
 
-The ForwardingHint element contains a list of name delegations, as defined in :ref:`link` section.
-Each delegation implies that the requested Data packet can be retrieved by forwarding the Interest along the delegation path.
+The ForwardingHint element contains a list of Names ("delegations").
+Presence of the forwarding hint implies that Data can be retrieved by forwarding the Interest over path(s) pointed by the listed Names.
 Specifics of the forwarding logic for Interests with ``ForwardingHint`` will be defined in a separated document.
 
 .. _Nonce:

@@ -17,11 +17,16 @@ Version 0.3
   + Add optional ``HopLimit`` element
   + Add optional ``ApplicationParameters`` element
   + Define a new specification for Signed Interest using two new elements: ``InterestSignatureInfo`` and ``InterestSignatureValue``
+  + Redefine the contents of the ``ForwardingHint`` (remove numerical preference and nesting inside the ``Delegation`` TLV)
 
 - **Data**
 
   + Make ``MetaInfo`` and ``Content`` elements optional
   + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh``
+
+- **LinkObject**
+
+  + The content is now just a list of names (remove numerical preference)
 
 - **Name**
 
