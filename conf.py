@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'NDN Packet Format Specification'
-copyright = '2013-2021, Named Data Networking Project'
+copyright = '2013-2022, Named Data Networking Project'
 
 # The short X.Y version.
 version = '0.3'
@@ -31,7 +31,7 @@ release = '0.3'
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
-needs_sphinx = '2.1'
+needs_sphinx = '4.0'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -55,19 +55,30 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'named_data_theme'
-
-# Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ['.']
+html_theme = 'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_title = '{} version {}'.format(project, version)
+html_title = '{} {}'.format(project, version)
+html_logo = '_static/ndn-logo.svg'
 html_copy_source = False
 html_show_sourcelink = False
 
+html_theme_options = {
+    "light_css_variables": {
+        "color-brand-primary": "#fd7800",
+        "color-brand-content": "#fd7800",
+    },
+    "dark_css_variables": {
+        "color-brand-primary": "#fd7800",
+        "color-brand-content": "#fd7800",
+    },
+}
+
 # Use ABNF syntax highlighting by default for code blocks.
 highlight_language = 'abnf'
+
+pygments_dark_style = 'material'

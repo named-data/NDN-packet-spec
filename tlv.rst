@@ -11,8 +11,8 @@ Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]
 
 .. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
 
-Variable Size Encoding for Type (T) and Length (L)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Variable-Size Encoding for Type and Length
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
    The text below and that in the :ref:`TLV` section are adapted from an earlier packet specification draft by Mark Stapp.
