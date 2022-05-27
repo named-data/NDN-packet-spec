@@ -46,6 +46,7 @@ Version 0.3
 
   + Require all compliant implementations to support the ``SignatureSha256WithEcdsa`` signature type using NIST curve P-256
   + Redefine the signed portion of Data packets to be more future-proof
+  + Add ``SignatureEd25519`` signature type
 
 Version 0.2.1
 -------------

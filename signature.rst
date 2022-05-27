@@ -81,7 +81,10 @@ This specification defines the following values for ``SignatureType``:
 | 4       | :ref:`SignatureHmacWithSha256`         | Integrity and provenance protection using       |
 |         |                                        | a SHA-256 hash-based message authentication code|
 +---------+----------------------------------------+-------------------------------------------------+
-| 2,5-200 |                                        | Reserved for future assignments                 |
+| 5       | :ref:`SignatureEd25519`                | Integrity and provenance protection using       |
+|         |                                        | an Ed25519 signature                            |
++---------+----------------------------------------+-------------------------------------------------+
+| 2,6-200 |                                        | Reserved for future assignments                 |
 +---------+----------------------------------------+-------------------------------------------------+
 | >200    |                                        | Unassigned                                      |
 +---------+----------------------------------------+-------------------------------------------------+
@@ -264,5 +267,29 @@ It is the application's responsibility to associate the shared key with the iden
 
 .. danger::
    The shared secret key is not included in the signature and must not be included anywhere in the packet, as this would invalidate the security properties of HMAC.
+
+.. _SignatureEd25519:
+
+SignatureEd25519
+^^^^^^^^^^^^^^^^
+
+``SignatureEd25519`` defines an Ed25519 public key signature that is calculated over the "signed portion" of an Interest or Data packet.
+This signature algorithm is defined in `RFC 8032, Section 5.1 <https://datatracker.ietf.org/doc/html/rfc8032#section-5.1>`__.
+
+* The TLV-VALUE of ``SignatureType`` is 5
+* ``KeyLocator`` is required
+
+::
+
+    SignatureValue = SIGNATURE-VALUE-TYPE
+                     TLV-LENGTH
+                     64OCTET ; == Ed25519{Data signed portion}
+
+    InterestSignatureValue = INTEREST-SIGNATURE-VALUE-TYPE
+                             TLV-LENGTH
+                             64OCTET ; == Ed25519{Interest signed portion}
+
+This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
+The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an Ed25519 key as defined by `RFC 8410, Section 4 <https://datatracker.ietf.org/doc/html/rfc8410#section-4>`__."
 
 .. _hierarchical trust model: https://named-data.net/publications/techreports/trpublishkey-rev2/
