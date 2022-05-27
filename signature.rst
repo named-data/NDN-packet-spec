@@ -181,7 +181,7 @@ SignatureSha256WithRsa
 ^^^^^^^^^^^^^^^^^^^^^^
 
 ``SignatureSha256WithRsa`` defines an RSA public key signature that is calculated over the SHA-256 hash of the "signed portion" of an Interest or Data packet.
-It uses the RSASSA-PKCS1-v1_5 signature scheme, as defined in `RFC 8017, Section 8.2 <https://tools.ietf.org/html/rfc8017#section-8.2>`__.
+It uses the RSASSA-PKCS1-v1_5 signature scheme, as defined in :rfc:`RFC 8017, Section 8.2 <8017#section-8.2>`.
 
 * The TLV-VALUE of ``SignatureType`` is 1
 * ``KeyLocator`` is required
@@ -200,7 +200,7 @@ It uses the RSASSA-PKCS1-v1_5 signature scheme, as defined in `RFC 8017, Section
    The TLV-LENGTH of these elements varies depending on the length of the private key used for signing (e.g., 256 bytes for a 2048-bit key).
 
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
-The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an RSA key as defined by `RFC 3279 <https://tools.ietf.org/html/rfc3279>`__."
+The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an RSA key as defined by :rfc:`3279`.
 
 .. note::
    It is the application's responsibility to define rules (a trust model) concerning when a specific issuer (``KeyLocator``) is authorized to sign a specific packet.
@@ -213,7 +213,7 @@ SignatureSha256WithEcdsa
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 ``SignatureSha256WithEcdsa`` defines an ECDSA public key signature that is calculated over the SHA-256 hash of the "signed portion" of an Interest or Data packet.
-This signature algorithm is defined in `RFC 5753, Section 2.1 <https://tools.ietf.org/html/rfc5753#section-2.1>`__.
+This signature algorithm is defined in :rfc:`RFC 5753, Section 2.1 <5753#section-2.1>`.
 All NDN implementations MUST support this signature type with the NIST P-256 curve.
 
 * The TLV-VALUE of ``SignatureType`` is 3
@@ -233,9 +233,9 @@ All NDN implementations MUST support this signature type with the NIST P-256 cur
    The TLV-LENGTH of these elements depends on the specific elliptic curve used for signing (e.g., up to 72 bytes for the NIST P-256 curve).
 
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
-The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest of the DER encoding of the ``SubjectPublicKeyInfo`` for an EC key as defined by `RFC 5480 <https://tools.ietf.org/html/rfc5480>`__.
+The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest of the DER encoding of the ``SubjectPublicKeyInfo`` for an EC key as defined by :rfc:`5480`.
 
-The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER-encoded ``Ecdsa-Sig-Value`` structure as defined in `RFC 3279, Section 2.2.3 <https://tools.ietf.org/html/rfc3279#section-2.2.3>`__.
+The value of ``SignatureValue`` of ``SignatureSha256WithEcdsa`` is a DER-encoded ``Ecdsa-Sig-Value`` structure as defined in :rfc:`RFC 3279, Section 2.2.3 <3279#section-2.2.3>`.
 
 .. _SignatureHmacWithSha256:
 
@@ -243,10 +243,10 @@ SignatureHmacWithSha256
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 ``SignatureHmacWithSha256`` defines a hash-based message authentication code (HMAC) that is calculated over the "signed portion" of an Interest or Data packet, using SHA-256 as the hash function, salted with a shared secret key.
-This signature algorithm is defined in `RFC 2104, Section 2 <https://tools.ietf.org/html/rfc2104#section-2>`__.
+This signature algorithm is defined in :rfc:`RFC 2104, Section 2 <2104#section-2>`.
 
 .. warning::
-   As stated in `RFC 2104, Section 3 <https://tools.ietf.org/html/rfc2104#section-3>`__, shared keys shorter than the SHA-256 output length (32 bytes) are strongly discouraged.
+   As stated in :rfc:`RFC 2104, Section 3 <2104#section-3>`, shared keys shorter than the SHA-256 output length (32 bytes) are strongly discouraged.
 
 * The TLV-VALUE of ``SignatureType`` is 4
 * ``KeyLocator`` is required
@@ -274,7 +274,7 @@ SignatureEd25519
 ^^^^^^^^^^^^^^^^
 
 ``SignatureEd25519`` defines an Ed25519 public key signature that is calculated over the "signed portion" of an Interest or Data packet.
-This signature algorithm is defined in `RFC 8032, Section 5.1 <https://datatracker.ietf.org/doc/html/rfc8032#section-5.1>`__.
+This signature algorithm is defined in :rfc:`RFC 8032, Section 5.1 <8032#section-5.1>`.
 
 * The TLV-VALUE of ``SignatureType`` is 5
 * ``KeyLocator`` is required
@@ -290,6 +290,6 @@ This signature algorithm is defined in `RFC 8032, Section 5.1 <https://datatrack
                              64OCTET ; == Ed25519{Interest signed portion}
 
 This type of signature, if verified, provides very strong assurances that a packet was created by the claimed producer (authentication/provenance) and was not tampered with while in transit (integrity).
-The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an Ed25519 key as defined by `RFC 8410, Section 4 <https://datatracker.ietf.org/doc/html/rfc8410#section-4>`__."
+The ``KeyDigest`` option in :ref:`KeyLocator` is defined as the SHA-256 digest over the DER encoding of the ``SubjectPublicKeyInfo`` for an Ed25519 key as defined by :rfc:`RFC 8410, Section 4 <8410#section-4>`.
 
 .. _hierarchical trust model: https://named-data.net/publications/techreports/trpublishkey-rev2/

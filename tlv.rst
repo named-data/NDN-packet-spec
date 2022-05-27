@@ -1,15 +1,14 @@
 Type-Length-Value (TLV) Encoding
 --------------------------------
 
-Each NDN packet is encoded in a Type-Length-Value (TLV) format.  NDN Interest and Data packets are distinguished by the type number in the first and outmost TLV\ :sub:`0`\ .
+Each NDN packet is encoded in :abbr:`TLV (Type-Length-Value)` format.
+NDN Interest and Data packets are distinguished by the type number in the first and outermost TLV\ :sub:`0`\ .
 
 An NDN packet is mainly a collection of TLVs inside TLV\ :sub:`0`\ .  Some TLVs may contain sub-TLVs, and each sub-TLV may also be further nested.  A guiding design principle is to keep the order of TLV\ :sub:`i`\ s deterministic, and keep the level of nesting as small as possible to minimize both processing overhead and chances for errors.
 
 Note that NDN packet format does not have a fixed packet header nor does it encode a protocol version number. Instead the design uses the TLV format to provide the flexibility of adding new types and phasing out old types as the protocol evolves over time.  The absence of a fixed header makes it possible to support packets of very small sizes efficiently, without the header overhead.
 There is also no packet fragmentation support at network level.
-Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop. [#f1]_
-
-.. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__
+Whenever needed, NDN packets may be fragmented and reassembled hop-by-hop\ [#f1]_.
 
 Variable-Size Encoding for Type and Length
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,23 +27,23 @@ We define a variable-length encoding for numbers in NDN as follows::
     VAR-NUMBER-9 = %xFF 8OCTET
 
 .. note::
-   The formal grammar of NDN packet format in this specification is given using :rfc:`Augmented BNF for Syntax Specifications <5234>`.
+   The formal grammar of the NDN packet format in this specification is given using :rfc:`Augmented BNF for Syntax Specifications <5234>`.
 
 The first octet of the number either carries the actual number, or signals that a multi-octet encoding is present, as defined below:
 
-- If the first octet is less than or equal to 252 (0xFC), the number is encoded in that octet.
+- If the first octet is less than or equal to 252 (``0xFC``), the number is encoded in that octet.
 
-- If the first octet is 253 (0xFD), the number is encoded in the following 2 octets, in network byte-order.
-  This number must be greater than 252 (0xFC).
+- If the first octet is 253 (``0xFD``), the number is encoded in the following 2 octets, in network byte-order.
+  This number must be greater than 252 (``0xFC``).
 
-- If the first octet is 254 (0xFE), the number is encoded in the following 4 octets, in network byte-order.
-  This number must be greater than 65535 (0xFFFF).
+- If the first octet is 254 (``0xFE``), the number is encoded in the following 4 octets, in network byte-order.
+  This number must be greater than 65535 (``0xFFFF``).
 
-- If the first octet is 255 (0xFF), the number is encoded in the following 8 octets, in network byte-order.
-  This number must be greater than 4294967295 (0xFFFFFFFF).
+- If the first octet is 255 (``0xFF``), the number is encoded in the following 8 octets, in network byte-order.
+  This number must be greater than 4294967295 (``0xFFFFFFFF``).
 
 A number MUST be encoded in the shortest format.
-For example, the number 1024 is encoded as %xFD0400 in VAR-NUMBER-3 format, not %xFE00000400 in VAR-NUMBER-5 format.
+For example, the number 1024 is encoded as ``%xFD0400`` in ``VAR-NUMBER-3`` format, not ``%xFE00000400`` in ``VAR-NUMBER-5`` format.
 
 .. _TLV:
 
@@ -114,3 +113,7 @@ At the same time, if the decoder encounters an unrecognized or out-of-order elem
 
    - when a specification defines a sequence {``F1`` ``F2`` ``F3``}, an element ``F3`` would be out-of-order in the sequence {``F1`` ``F3`` ``F2``};
    - for {``F1`` ``F2?`` ``F3``} specification (i.e., when ``F2`` is optional, ``F2`` would be out-of-order in the same sequence {``F1`` ``F3`` ``F2``}.
+
+.. rubric:: Footnotes
+
+.. [#f1] `"Packet Fragmentation in NDN: Why NDN Uses Hop-By-Hop Fragmentation (NDN Memo)" by A. Afanasyev, J. Shi, L. Wang, B. Zhang, and L. Zhang., NDN Memo, Technical Report NDN-0032 <https://named-data.net/publications/techreports/ndn-0032-1-ndn-memo-fragmentation/>`__

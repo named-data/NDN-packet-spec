@@ -51,7 +51,7 @@ NDN URI Scheme
 ~~~~~~~~~~~~~~
 
 For textual representation, it is often convenient to use URI to represent NDN names.
-Please refer to RFC 3986 (URI Generic Syntax) for background.
+Please refer to :rfc:`3986` (URI Generic Syntax) for background.
 
 The scheme identifier is ``ndn``.
 

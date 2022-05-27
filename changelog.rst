@@ -4,7 +4,7 @@ Changes
 Version 0.3
 -----------
 
-- Rewrite TLV syntax specifications using `IETF Augmented BNF (RFC 5234) <https://tools.ietf.org/html/rfc5234>`__
+- Rewrite TLV syntax specifications using IETF Augmented BNF (:rfc:`5234`)
 
 - Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
 
