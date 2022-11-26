@@ -1,18 +1,17 @@
 .. _Name:
 
 Name
-----
+====
 
 An NDN Name is a hierarchical name for NDN content, which contains a sequence of name components.
 
-NDN Name Format
-~~~~~~~~~~~~~~~
+
+Name TLV Encoding
+-----------------
 
 We use a 2-level nested TLV to represent a name.
 The NAME-TYPE in the outer TLV indicates this is a Name.
-Inner TLVs should be ``NameComponent`` elements, as defined in the following:
-
-::
+Inner TLVs should be ``NameComponent`` elements, defined as follows::
 
     Name = NAME-TYPE TLV-LENGTH *NameComponent
 
@@ -47,8 +46,9 @@ TLV-TYPE of name component MUST be in the range ``1-65535`` (inclusive).
 ``Name`` element containing a sub-element out of this range is invalid and the packet SHOULD be dropped.
 This requirement overrides the TLV evolvability guidelines.
 
+
 NDN URI Scheme
-~~~~~~~~~~~~~~
+--------------
 
 For textual representation, it is often convenient to use URI to represent NDN names.
 Please refer to :rfc:`3986` (URI Generic Syntax) for background.
@@ -93,21 +93,21 @@ Name components of the following types have alternate URI representations for be
 
   Such alternate representations should be defined in `Name Component Assignment policy <https://redmine.named-data.net/projects/ndn-tlv/wiki/NameComponentType>`__.
 
-.. _Implicit Digest Component:
 
 Implicit Digest Component
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 The full name of every Data packet includes a logical final implicit digest component, which makes the name of every Data packet unique.
 The implicit digest (``ImplicitSha256DigestComponent``) MAY appear in an Interest as the last component of the Interest name to request a specific Data packet.
 ``ImplicitSha256DigestComponent`` is never included explicitly in the Data packet when it is transmitted on the wire and, if needed, must be computed by all nodes based on the Data packet content.
 
-The **implicit digest component** consists of the SHA-256 digest of the entire Data packet bits.  Having this digest as the last name component allows identifying one specific Data packet and no other.
+The implicit digest component consists of the SHA-256 digest of the entire Data packet bits.  Having this digest as the last name component allows identifying one specific Data packet and no other.
 
-.. _Interest Parameters Digest Component:
+
+.. _ParametersDigestComponent:
 
 Parameters Digest Component
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 The parameters digest component (``ParametersSha256DigestComponent``) contains the SHA-256 digest computed over the portion of an Interest starting from and including the ``ApplicationParameters`` element until the end of the Interest.
 This digest provides uniqueness of the Interest name for a given set of parameters and securely ensures that the retrieved Data packet is a response generated against the correct set of parameters.
@@ -117,8 +117,9 @@ The position of the component is determined by the application protocol.
 Generally, it should be at the end of the name but before version/segment numbers.
 Producers should recompute the digest over the specified portion of a received Interest, and drop the Interest if the computed digest does not match the parameters digest component in the name.
 
+
 Canonical Order
-~~~~~~~~~~~~~~~
+---------------
 
 In several contexts in NDN packet processing, it is necessary to have a consistent ordering of names and name components.
 

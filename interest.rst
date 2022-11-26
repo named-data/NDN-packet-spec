@@ -1,11 +1,9 @@
 .. _Interest:
 
 Interest Packet
----------------
+===============
 
-NDN Interest packet is TLV defined as follows:
-
-::
+The NDN Interest packet is a TLV defined as follows::
 
     Interest = INTEREST-TYPE TLV-LENGTH
                  Name
@@ -28,16 +26,18 @@ See :doc:`Signed Interest section <signed-interest>` for details.
 As recommended by :ref:`TLV evolvability guidelines <evolvability>`, unrecognized non-critical TLV elements may appear in the Interest packet.
 However, they must not appear before the ``Name`` element.
 
-Name
-~~~~
 
-See :ref:`Name section <Name>` for details.
+Name
+----
+
+See :ref:`Name` for details.
 
 The ``Name`` element that can be put in the Interest is further restricted to have at least one name component.
 Interests that include Name TLV that has zero name components MUST be discarded.
 
+
 CanBePrefix
-~~~~~~~~~~~
+-----------
 
 ::
 
@@ -52,8 +52,9 @@ When not present, the ``Name`` element is either exact or full name of the Data 
 
 - if the last component has any other type, Interest is matched to Data if all name components in Interest's ``Name`` element equal to components in Data's ``Name`` element, without consideration of the implicit digest component.
 
+
 MustBeFresh
-~~~~~~~~~~~
+-----------
 
 ::
 
@@ -61,10 +62,11 @@ MustBeFresh
                  TLV-LENGTH ; == 0
 
 The presence or absence of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
-Refer for :ref:`FreshnessPeriod section <FreshnessPeriod>` for more information.
+See :ref:`FreshnessPeriod` for more information.
+
 
 ForwardingHint
-~~~~~~~~~~~~~~
+--------------
 
 ::
 
@@ -74,12 +76,11 @@ The ForwardingHint element contains a list of Names ("delegations").
 Presence of the forwarding hint implies that Data can be retrieved by forwarding the Interest over path(s) pointed by the listed Names.
 Specifics of the forwarding logic for Interests with ``ForwardingHint`` will be defined in a separated document.
 
+
 .. _Nonce:
 
 Nonce
-~~~~~
-
-Nonce defined as follows:
+-----
 
 ::
 
@@ -91,8 +92,9 @@ The Nonce carries a randomly-generated 4-octet long byte-string.
 The combination of Name and Nonce should uniquely identify an Interest packet.
 This is used to detect looping Interests.
 
+
 InterestLifetime
-~~~~~~~~~~~~~~~~
+----------------
 
 ::
 
@@ -107,8 +109,9 @@ It is the application that sets the value for ``InterestLifetime``.
 If the ``InterestLifetime`` element is omitted, a default value of 4 seconds is used (4000).
 The missing element may be added before forwarding.
 
+
 HopLimit
-~~~~~~~~
+--------
 
 ::
 
@@ -116,7 +119,7 @@ HopLimit
                TLV-LENGTH ; == 1
                OCTET
 
-The optional ``HopLimit`` element indicates the number of hops the Interest is allowed to be forwarded.  The value is encoded as a 1-byte unsigned integer value in the range 0-255.
+The optional ``HopLimit`` element indicates the number of hops the Interest is allowed to be forwarded.  The value is encoded as a 1-byte unsigned integer value in the range [0, 255].
 
 If element is present:
 
@@ -132,12 +135,19 @@ If omitted:
 
 - when desired, a node can augment the Interest with the ``HopLimit`` element.
 
+
 ApplicationParameters
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 ::
 
    ApplicationParameters = APPLICATION-PARAMETERS-TYPE TLV-LENGTH *OCTET
 
 The ``ApplicationParameters`` element can carry any arbitrary data that parameterizes the request for Data.
-The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parameterized Interest (see :ref:`Interest Parameters Digest Component` section for additional details).
+The Interest's name MUST include a Interest parameters digest component to ensure uniqueness and integrity of the parameterized Interest (see :ref:`ParametersDigestComponent` for additional details).
+
+
+InterestSignature
+-----------------
+
+See :ref:`InterestSignature`.

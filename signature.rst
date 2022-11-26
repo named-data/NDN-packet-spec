@@ -103,7 +103,7 @@ Note that although ``KeyLocator`` is defined as an optional field in ``Signature
 
     KeyDigest = KEY-DIGEST-TYPE TLV-LENGTH *OCTET
 
-See :ref:`Name specification <Name>` for the definition of ``Name``.
+See :ref:`Name` for the definition of the ``Name`` element.
 
 The specific definition of the proper usage of the ``Name`` and ``KeyDigest`` options in the ``KeyLocator`` field is outside the scope of this specification.
 Generally, ``Name`` names the Data packet containing the corresponding certificate.

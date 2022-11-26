@@ -1,5 +1,5 @@
 Introduction
-------------
+============
 
 This version of specification aims to describe the NDN packet format only, a much narrower scope than a full NDN protocol specification.
 Full protocol specification will be published as a separate document.  For more information about the overall protocol refer to `"Named Data Networking" by Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and Beichuan Zhang, ACM SIGCOMM Computer Communication Review (CCR), July 2014 <https://named-data.net/publications/named_data_networking_ccr/>`__ and other publications on `Named Data Networking website <https://named-data.net>`__.
@@ -12,4 +12,4 @@ In addition to the packet format and full protocol specification, we have publis
 
 - `"SNAMP: Secure Namespace Mapping to Scale NDN Forwarding" by Alexander Afanasyev, Cheng Yi, Lan Wang, Beichuan Zhang, and Lixia Zhang, 18th IEEE Global Internet Symposium, April 2015 <https://named-data.net/publications/snamp-ndn-scalability/>`__
 
-- `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <https://named-data.net/publications/techreports/ndn-tr-22-2-ndn-memo-naming-conventions/>`__
+- `"NDN Technical Memo: Naming Conventions" by NDN Project Team. NDN, Technical Report NDN-0022 <https://named-data.net/publications/techreports/ndn-tr-22-3-ndn-memo-naming-conventions/>`__

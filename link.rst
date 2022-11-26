@@ -1,7 +1,7 @@
 .. _Link:
 
 Link Object
------------
+===========
 
 The Link Object is a specialized form of a :ref:`Data packet <Data>`, defined as follows::
 

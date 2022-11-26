@@ -8,29 +8,9 @@ Version 0.3
 
 - Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
 
-- **Interest**
-
-  + Remove ``Selectors`` element
-  + Add optional ``CanBePrefix`` element after Name
-  + Move optional ``MustBeFresh`` element after ``CanBePrefix``
-  + Move optional ``ForwardingHint`` element after ``MustBeFresh`` (before ``Nonce``)
-  + Add optional ``HopLimit`` element
-  + Add optional ``ApplicationParameters`` element
-  + Define a new specification for Signed Interest using two new elements: ``InterestSignatureInfo`` and ``InterestSignatureValue``
-  + Redefine the contents of the ``ForwardingHint`` (remove numerical preference and nesting inside the ``Delegation`` TLV)
-
-- **Data**
-
-  + Make ``MetaInfo`` and ``Content`` elements optional
-  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh``
-
-- **LinkObject**
-
-  + The content is now just a list of names (remove numerical preference)
-
 - **Name**
 
-  + Lift restriction on name component types, allowing types in the range 1-65535
+  + Lift restriction on name component types, allowing types in the range [1, 65535]
   + Correct definition of name URI encoding: disallow unescaped encoding of PLUS (``+``) and allow TILDE (``~``)
   + Add well-known special-use component types:
 
@@ -42,11 +22,32 @@ Version 0.3
     - ``TimestampNameComponent`` (type 56)
     - ``SequenceNumNameComponent`` (type 58)
 
+- **Interest**
+
+  + Remove ``Selectors`` element
+  + Add optional ``CanBePrefix`` element after Name
+  + Move optional ``MustBeFresh`` element after ``CanBePrefix``
+  + Move optional ``ForwardingHint`` element after ``MustBeFresh`` (before ``Nonce``)
+  + Redefine the contents of the ``ForwardingHint`` (remove numerical preference and nesting inside the ``Delegation`` TLV)
+  + Add optional ``HopLimit`` element
+  + Add optional ``ApplicationParameters`` element
+  + Define a new specification for Signed Interest using two new elements: ``InterestSignatureInfo`` and ``InterestSignatureValue``
+
+- **Data**
+
+  + Make ``MetaInfo`` and ``Content`` elements optional
+  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh``
+
 - **Signature**
 
   + Require all compliant implementations to support the ``SignatureSha256WithEcdsa`` signature type using NIST curve P-256
   + Redefine the signed portion of Data packets to be more future-proof
   + Add ``SignatureEd25519`` signature type
+
+- **LinkObject**
+
+  + The content is now just a list of names (remove numerical preference)
+
 
 Version 0.2.1
 -------------
@@ -55,12 +56,13 @@ Version 0.2.1
 
 - **Interest**
 
-  + Add default of leftmost child if ChildSelector element not present
-  + Add specification of ForwardingHint element
+  + Add default of leftmost child if ``ChildSelector`` element not present
+  + Add specification of ``ForwardingHint`` element
 
 - **Data**
 
-  + Updated Content Store semantics for Data packets that do not carry FreshnessPeriod.
+  + Updated Content Store semantics for Data packets that do not carry ``FreshnessPeriod``.
+
 
 Version 0.2
 -----------
@@ -70,10 +72,6 @@ Version 0.2
   + Allow zero-length name component
   + Require implicit digest to be specified using ``ImplicitSha256Digest`` name component
 
-- **Signature**
-
-  + Add spec for ``SignatureHmacWithSha256``
-
 - **Interest**
 
   + Delete deprecated ``Scope`` guider
@@ -81,11 +79,16 @@ Version 0.2
 
 - **Data**
 
-  + Redirect ContentType number assignments to the `wiki page <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__
+  + Redirect ``ContentType`` number assignments to the `wiki page <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__
+
+- **Signature**
+
+  + Add spec for ``SignatureHmacWithSha256``
 
 - **TLV-TYPE**
 
-  + Reserve 800-1000 range for link protocol
+  + Reserve range [800, 1000] for link protocol
+
 
 Version 0.1.1
 -------------
@@ -96,6 +99,7 @@ Version 0.1.1
   + ``KeyLocatorDigest`` renamed to ``KeyDigest``.  The specification now explicitly allows KeyDigest to be a SHA256 of any type of the key.
   + ``KeyLocator`` element is now defined to be optionally present in generic ``SignatureInfo`` element.
     ``SignatureSha256WithRsa`` and ``SignatureSha256WithEcdsa`` still require ``KeyLocator`` to be always present.
+
 
 Version 0.1
 -----------

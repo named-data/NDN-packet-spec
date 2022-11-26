@@ -1,10 +1,10 @@
 .. _types:
 
 TLV Type Registry
------------------
+=================
 
 Assigned numbers
-~~~~~~~~~~~~~~~~
+----------------
 
 +---------------------------------------------+--------------------+-----------------+
 | Type                                        | Assigned number    | Assigned number |
@@ -113,8 +113,9 @@ Assigned numbers
    The ABNF grammar of this specification denotes the TLV-TYPE of element ``X`` as ``X-TYPE``.
    For example, ``INTEREST-TYPE`` means ``%x05``, the TLV-TYPE of ``Interest`` encoded in ``VAR-NUMBER-1`` format.
 
+
 Reserved ranges
-~~~~~~~~~~~~~~~
+---------------
 
 +----------------+-----------------------------------------------------------+
 | Number range   | Designation                                               |

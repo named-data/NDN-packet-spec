@@ -1,9 +1,9 @@
 .. _Data:
 
 Data Packet
------------
+===========
 
-NDN Data packet is TLV defined as follows::
+The NDN Data packet is a TLV defined as follows::
 
     Data = DATA-TYPE TLV-LENGTH
              Name
@@ -18,7 +18,7 @@ However, they must not appear before the ``Name`` element.
 
 
 Name
-~~~~
+----
 
 See :ref:`Name`.
 
@@ -26,7 +26,7 @@ See :ref:`Name`.
 .. _MetaInfo:
 
 MetaInfo
-~~~~~~~~
+--------
 
 ::
 
@@ -36,7 +36,7 @@ MetaInfo
                  [FinalBlockId]
 
 ContentType
-+++++++++++
+^^^^^^^^^^^
 
 ::
 
@@ -50,19 +50,19 @@ The following ContentTypes are currently defined:
 | BLOB            | 0               | payload identified by the data name; this is the default     |
 |                 |                 | ContentType                                                  |
 +-----------------+-----------------+--------------------------------------------------------------+
-| LINK            | 1               | a list of delegations (see :ref:`link`)                      |
+| LINK            | 1               | list of delegations (see :ref:`Link`)                        |
 +-----------------+-----------------+--------------------------------------------------------------+
 | KEY             | 2               | public key                                                   |
 +-----------------+-----------------+--------------------------------------------------------------+
 | NACK            | 3               | application-level NACK                                       |
 +-----------------+-----------------+--------------------------------------------------------------+
 
-Other ContentType numbers are assigned and maintained in `NDN Packet Specification Wiki <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__.
+Other ContentType numbers are assigned and maintained in the `NDN Packet Specification Wiki <https://redmine.named-data.net/projects/ndn-tlv/wiki/ContentType>`__.
 
 .. _FreshnessPeriod:
 
 FreshnessPeriod
-+++++++++++++++
+^^^^^^^^^^^^^^^
 
 ::
 
@@ -80,7 +80,7 @@ The effect is the same as if that "non-fresh" Data did not exist (i.e., the Inte
 When an exact duplicate of the "non-fresh" Data packet with a positive ``FreshnessPeriod`` value arrives at the node, the node SHOULD re-mark it as "fresh" for the specified duration.
 
 FinalBlockId
-++++++++++++
+^^^^^^^^^^^^
 
 ::
 
@@ -94,10 +94,16 @@ The value here should be equal to the last explicit name component of the final 
 .. _Content:
 
 Content
-~~~~~~~
+-------
 
 ::
 
     Content = CONTENT-TYPE TLV-LENGTH *OCTET
 
 The ``Content`` element can carry any arbitrary sequence of bytes.
+
+
+DataSignature
+-------------
+
+See :ref:`DataSignature`.
