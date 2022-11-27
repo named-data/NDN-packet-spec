@@ -8,6 +8,8 @@ Version 0.3
 
 - Require shortest encoding for TLV-TYPE and TLV-LENGTH numbers
 
+- Add ``Certificate`` specification
+
 - **Name**
 
   + Lift restriction on name component types, allowing types in the range [1, 65535]

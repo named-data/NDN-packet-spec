@@ -106,7 +106,7 @@ Note that although ``KeyLocator`` is defined as an optional field in ``Signature
 See :ref:`Name` for the definition of the ``Name`` element.
 
 The specific definition of the proper usage of the ``Name`` and ``KeyDigest`` options in the ``KeyLocator`` field is outside the scope of this specification.
-Generally, ``Name`` names the Data packet containing the corresponding certificate.
+Generally, ``Name`` names the Data packet containing the corresponding :ref:`certificate <Certificate>`.
 However, it is up to the specific trust model to define whether this name is the full name of the Data packet or a prefix that can match multiple Data packets.
 For example, the `hierarchical trust model`_ uses the latter approach, requiring clients to fetch the latest version of the Data packet pointed to by ``KeyLocator`` (the latest version of the public key certificate) in order to ensure that the public key was not yet revoked.
 

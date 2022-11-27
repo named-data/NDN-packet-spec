@@ -92,7 +92,7 @@ Assigned numbers
 +---------------------------------------------+--------------------+-----------------+
 | SignatureSeqNum                             | 42 (non-critical)  | 0x2a            |
 +---------------------------------------------+--------------------+-----------------+
-|                      |Certificate|_                                                |
+|                      **Certificate**                                               |
 +---------------------------------------------+--------------------+-----------------+
 | ValidityPeriod                              | 253                | 0xfd            |
 +---------------------------------------------+--------------------+-----------------+
@@ -159,6 +159,3 @@ Reserved ranges
 
 .. |Name components| replace:: **Name components**
 .. _Name components: https://redmine.named-data.net/projects/ndn-tlv/wiki/NameComponentType
-
-.. |Certificate| replace:: **Certificate**
-.. _Certificate: https://named-data.net/doc/ndn-cxx/current/specs/certificate-format.html

@@ -12,5 +12,6 @@ NDN Packet Format Specification
    signature
    signed-interest
    link
+   certificate
    types
    changelog

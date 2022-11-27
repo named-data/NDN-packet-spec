@@ -30,9 +30,9 @@ Inner TLVs should be ``NameComponent`` elements, defined as follows::
                                       TLV-LENGTH ; == 32
                                       32OCTET
 
-    OtherTypeComponent = OTHER-TYPE-COMPONENT-TYPE TLV-LENGTH *OCTET
-
-    ; OTHER-TYPE-COMPONENT-TYPE is a TLV-TYPE in the range 1-65535 (inclusive) other than the above defined types
+    OtherTypeComponent = OTHER-TYPE-COMPONENT-TYPE ; any unassigned number in [1, 65535]
+                         TLV-LENGTH
+                         *OCTET
 
 - ``GenericNameComponent`` is a generic name component, without any restrictions on the content of the value.
 
@@ -42,8 +42,8 @@ Inner TLVs should be ``NameComponent`` elements, defined as follows::
 
 In addition to the above component types, ``Name`` can include other component types governed by `Name Component Assignment policy <https://redmine.named-data.net/projects/ndn-tlv/wiki/NameComponentType>`__.
 
-TLV-TYPE of name component MUST be in the range ``1-65535`` (inclusive).
-``Name`` element containing a sub-element out of this range is invalid and the packet SHOULD be dropped.
+TLV-TYPE of name component MUST be in the range [1, 65535].
+A ``Name`` element containing a sub-element out of this range is invalid and the packet SHOULD be dropped.
 This requirement overrides the TLV evolvability guidelines.
 
 
