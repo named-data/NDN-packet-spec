@@ -1,0 +1,55 @@
+name: Publish
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.mailmap'
+      - 'README.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  HTML:
+    runs-on: ubuntu-latest
+    concurrency: docs.named-data.net
+    environment:
+      name: docs.named-data.net
+      url: https://docs.named-data.net/NDN-packet-spec/${{ steps.version.outputs.version }}/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Extract version
+        id: version
+        run: |
+          v=$(sed -nE "s/^version\s*=\s*['\"]([0-9]+(\.[0-9]+){0,3})['\"]/\1/p" conf.py)
+          if [[ -z $v ]]; then
+            echo "::error::Could not find a valid version in conf.py"
+            exit 1
+          fi
+          echo "::notice::Publishing version $v"
+          echo "version=$v" >> $GITHUB_OUTPUT
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Generate HTML pages
+        run: make html
+        env:
+          SPHINXOPTS: --color
+      - name: Publish HTML pages
+        uses: easingthemes/ssh-deploy@v4
+        with:
+          ARGS: -chirvEW --delay-updates --delete-delay
+          REMOTE_HOST: ${{ vars.DOCS_DEPLOYMENT_HOST }}
+          REMOTE_PORT: ${{ secrets.DOCS_DEPLOYMENT_PORT }}
+          REMOTE_USER: ${{ secrets.DOCS_DEPLOYMENT_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.DOCS_DEPLOYMENT_SSH_KEY }}
+          SOURCE: _build/html/
+          TARGET: /srv/docs/NDN-packet-spec/${{ steps.version.outputs.version }}/
