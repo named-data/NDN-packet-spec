@@ -7,13 +7,13 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'NDN Packet Format Specification'
-copyright = '2013-2022, Named Data Networking Project'
+copyright = '2013-2023, Named Data Networking Project'
+author = 'Named Data Networking Project'
 
 # The short X.Y version.
 version = '0.3'
-
 # The full version, including alpha/beta/rc tags.
-release = '0.3'
+release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -24,6 +24,9 @@ extensions = []
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+# Use ABNF syntax highlighting by default for code blocks.
+highlight_language = 'abnf'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -36,8 +39,9 @@ html_theme = 'furo'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_title = '{} {}'.format(project, version)
+html_title = f'{project} v{version}'
 html_logo = '_static/ndn-logo.svg'
+html_last_updated_fmt = ''
 html_copy_source = False
 html_show_sourcelink = False
 
@@ -50,9 +54,9 @@ html_theme_options = {
         'color-brand-primary': '#fd7800',
         'color-brand-content': '#fd7800',
     },
+    'source_repository': 'https://github.com/named-data/NDN-packet-spec',
+    'source_branch': 'master',
 }
 
-# Use ABNF syntax highlighting by default for code blocks.
-highlight_language = 'abnf'
-
+pygments_style = 'tango'
 pygments_dark_style = 'material'
