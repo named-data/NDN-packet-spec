@@ -53,3 +53,30 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.DOCS_DEPLOYMENT_SSH_KEY }}
           SOURCE: _build/html/
           TARGET: /srv/docs/NDN-packet-spec/${{ steps.version.outputs.version }}/
+
+  PDF:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qy install --no-install-recommends latexmk \
+            texlive-latex-extra texlive-fonts-recommended tex-gyre
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Generate PDF document
+        run: make latexpdf
+        env:
+          SPHINXOPTS: --color
+      - name: Publish PDF document
+        uses: actions/upload-artifact@v3
+        with:
+          name: ndn-packet-spec
+          path: _build/latex/ndn-packet-spec.pdf
+          if-no-files-found: error

@@ -65,3 +65,11 @@ html_theme_options = {
 
 pygments_style = 'tango'
 pygments_dark_style = 'material'
+
+
+# -- Options for LaTeX output ------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
+
+latex_documents = [
+    ('index', 'ndn-packet-spec.tex', project, author, 'manual')
+]
