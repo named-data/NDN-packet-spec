@@ -7,17 +7,19 @@ on:
       - '.mailmap'
       - 'README.md'
   workflow_dispatch:
+    inputs:
+      skip-deploy:
+        description: 'Skip deployment?'
+        required: true
+        type: boolean
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
-  HTML:
+  html:
     runs-on: ubuntu-latest
-    concurrency: docs.named-data.net
-    environment:
-      name: docs.named-data.net
-      url: https://docs.named-data.net/NDN-packet-spec/${{ steps.version.outputs.version }}/
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -29,7 +31,6 @@ jobs:
             echo "::error::Could not find a valid version in conf.py"
             exit 1
           fi
-          echo "::notice::Publishing version $v"
           echo "version=$v" >> $GITHUB_OUTPUT
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -44,17 +45,13 @@ jobs:
         env:
           SPHINXOPTS: --color
       - name: Publish HTML pages
-        uses: easingthemes/ssh-deploy@v4
+        uses: actions/upload-artifact@v3
         with:
-          ARGS: -chirvEW --delay-updates --delete-delay
-          REMOTE_HOST: ${{ vars.DOCS_DEPLOYMENT_HOST }}
-          REMOTE_PORT: ${{ secrets.DOCS_DEPLOYMENT_PORT }}
-          REMOTE_USER: ${{ secrets.DOCS_DEPLOYMENT_USER }}
-          SSH_PRIVATE_KEY: ${{ secrets.DOCS_DEPLOYMENT_SSH_KEY }}
-          SOURCE: _build/html/
-          TARGET: /srv/docs/NDN-packet-spec/${{ steps.version.outputs.version }}/
+          name: ndn-packet-spec-html
+          path: _build/html
+          if-no-files-found: error
 
-  PDF:
+  pdf:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -77,6 +74,15 @@ jobs:
       - name: Publish PDF document
         uses: actions/upload-artifact@v3
         with:
-          name: ndn-packet-spec
+          name: ndn-packet-spec-pdf
           path: _build/latex/ndn-packet-spec.pdf
           if-no-files-found: error
+
+  deploy:
+    if: github.ref_name == 'master' && !inputs.skip-deploy
+    needs: html
+    uses: named-data/actions/.github/workflows/docs-deployment.yml@v1
+    with:
+      artifact-name: ndn-packet-spec-html
+      version: ${{ needs.html.outputs.version }}
+    secrets: inherit

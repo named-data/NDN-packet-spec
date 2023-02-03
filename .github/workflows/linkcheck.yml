@@ -4,8 +4,7 @@ on:
     - cron: '0 12 * * 3'
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   check:
