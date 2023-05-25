@@ -138,7 +138,7 @@ Reserved ranges
 +----------------+-----------------------------------------------------------+
 | 31             | Reserved, formerly *Delegation*                           |
 +----------------+-----------------------------------------------------------+
-| 126            | Reserved, TLV element must be *ignored* during processing |
+| 126            | Reserved, TLV element must be ignored during processing   |
 +----------------+-----------------------------------------------------------+
 | [80, 100]      | Reserved for assignments related to local-link data       |
 |                | processing, e.g., NDNLP_ (1-byte encoding)                |
