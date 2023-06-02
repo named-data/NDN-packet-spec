@@ -38,7 +38,7 @@ Version 0.3
 - **Data**
 
   + Make ``MetaInfo`` and ``Content`` elements optional
-  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh``
+  + Change semantics of omitted (or set to zero) ``FreshnessPeriod`` element: it cannot be used to satisfy Interests with ``MustBeFresh`` during content store lookup
 
 - **Signature**
 
