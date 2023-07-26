@@ -10,7 +10,6 @@ on:
     inputs:
       skip-deploy:
         description: 'Skip deployment?'
-        required: true
         type: boolean
 
 permissions: {}
