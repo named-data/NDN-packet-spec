@@ -8,8 +8,8 @@ on:
       - 'README.md'
   workflow_dispatch:
     inputs:
-      skip-deploy:
-        description: 'Skip deployment?'
+      deploy:
+        description: 'Enable deployment'
         type: boolean
 
 permissions: {}
@@ -81,7 +81,7 @@ jobs:
           if-no-files-found: error
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref_name == 'master' && !inputs.skip-deploy
+    if: (github.event_name == 'push' && github.ref_name == 'master') || (github.event_name == 'workflow_dispatch' && inputs.deploy)
     needs: html
     uses: named-data/actions/.github/workflows/docs-deployment.yml@v1
     with:
