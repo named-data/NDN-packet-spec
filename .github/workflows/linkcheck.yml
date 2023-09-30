@@ -14,7 +14,7 @@ env:
   SPHINXOPTS: --color
 
 jobs:
-  check:
+  linkcheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
