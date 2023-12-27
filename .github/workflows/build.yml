@@ -42,12 +42,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-      - name: Generate HTML pages
+      - name: Generate HTML
         run: |
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           make html
-      - name: Publish HTML pages
-        uses: actions/upload-artifact@v3
+      - name: Upload HTML
+        uses: actions/upload-artifact@v4
         with:
           name: ndn-packet-spec-html
           path: _build/html
@@ -69,12 +69,12 @@ jobs:
             texlive-latex-extra texlive-fonts-recommended tex-gyre
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-      - name: Generate PDF document
+      - name: Generate PDF
         run: |
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           make latexpdf
-      - name: Publish PDF document
-        uses: actions/upload-artifact@v3
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
         with:
           name: ndn-packet-spec-pdf
           path: _build/latex/ndn-packet-spec.pdf
