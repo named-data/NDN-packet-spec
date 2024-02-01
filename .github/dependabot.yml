@@ -4,16 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: monthly
-    groups:
-      github-actions:
-        patterns:
-          - "*"
+    commit-message:
+      prefix: ci
   - package-ecosystem: pip
     directory: "/"
     schedule:
       interval: monthly
-    groups:
-      pip-requirements:
-        patterns:
-          - "*"
+    commit-message:
+      prefix: build
     versioning-strategy: increase-if-necessary
