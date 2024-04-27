@@ -1,2 +1,4 @@
-furo == 2024.1.29
-sphinx ~= 7.0
+docutils~=0.21.2
+furo==2024.4.27
+pygments~=2.17.2
+sphinx~=7.3.7

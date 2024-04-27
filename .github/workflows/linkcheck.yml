@@ -10,12 +10,9 @@ on:
 
 permissions: {}
 
-env:
-  SPHINXOPTS: --color
-
 jobs:
   linkcheck:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,4 +25,4 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
       - name: Check external links
-        run: make linkcheck
+        run: make linkcheck SPHINXOPTS=--color

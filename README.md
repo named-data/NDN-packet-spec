@@ -22,7 +22,7 @@ few other dependencies. To do so, first make sure that the following packages
 are installed and up to date:
 
 * make
-* python 3.8 or later
+* python 3.9 or later
 * pip
 
 For instance, on Ubuntu Linux you can use the following commands:

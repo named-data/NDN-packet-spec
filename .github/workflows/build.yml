@@ -15,11 +15,11 @@ on:
 permissions: {}
 
 env:
-  SPHINXOPTS: --color
+  SPHINXOPTS: --color --fail-on-warning --keep-going --nitpicky
 
 jobs:
   html:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -33,7 +33,7 @@ jobs:
             echo "::error::Could not find a valid version in conf.py"
             exit 1
           fi
-          echo "version=$v" >> $GITHUB_OUTPUT
+          echo "version=$v" >> "$GITHUB_OUTPUT"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -54,7 +54,7 @@ jobs:
           if-no-files-found: error
 
   pdf:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
