@@ -52,14 +52,14 @@ html_show_sourcelink = False
 
 html_theme_options = {
     'light_css_variables': {
-        'color-brand-primary': '#d43b0b',
-        'color-brand-content': '#c75300',
-        'color-brand-visited': '#a55922',
+        'color-brand-primary': '#bc4010',
+        'color-brand-content': '#c85000',
+        'color-brand-visited': '#c85000',
     },
     'dark_css_variables': {
         'color-brand-primary': '#fd861a',
         'color-brand-content': '#f87e00',
-        'color-brand-visited': '#dd8d48',
+        'color-brand-visited': '#f87e00',
     },
     'source_repository': 'https://github.com/named-data/NDN-packet-spec',
     'source_branch': 'master',
