@@ -38,14 +38,8 @@ highlight_language = 'abnf'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'furo'
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-
 html_title = f'{project} v{version}'
-html_logo = '_static/ndn-logo.svg'
+html_logo = 'ndn-logo.svg'
 html_last_updated_fmt = ''
 html_copy_source = False
 html_show_sourcelink = False
@@ -75,3 +69,7 @@ pygments_dark_style = 'material'
 latex_documents = [
     ('index', 'ndn-packet-spec.tex', project, author, 'manual')
 ]
+
+latex_logo = 'ndn-logo.pdf'
+latex_show_pagerefs = True
+# latex_show_urls = 'footnote'

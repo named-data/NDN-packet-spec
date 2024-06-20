@@ -1,6 +1,6 @@
 <div align="center">
 
-[<img alt height="65" src="_static/ndn-logo.svg"/>](https://named-data.net/)
+[<img alt height="65" src="ndn-logo.svg"/>](https://named-data.net/)
 
 # NDN Packet Format Specification
 
