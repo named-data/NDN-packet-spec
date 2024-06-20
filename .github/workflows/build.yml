@@ -19,7 +19,7 @@ env:
 
 jobs:
   html:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -54,7 +54,7 @@ jobs:
           if-no-files-found: error
 
   pdf:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -64,8 +64,7 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: |
-          sudo apt-get -qq update
-          sudo apt-get -qy install --no-install-recommends latexmk \
+          sudo apt-get install -Uy --no-install-recommends latexmk \
             texlive-latex-extra texlive-fonts-recommended tex-gyre
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
