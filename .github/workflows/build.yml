@@ -15,7 +15,7 @@ on:
 permissions: {}
 
 env:
-  SPHINXOPTS: --color --fail-on-warning --keep-going --nitpicky
+  SPHINXOPTS: --color --fail-on-warning --nitpicky
 
 jobs:
   html:
