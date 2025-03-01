@@ -9,7 +9,7 @@ import sphinx
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'NDN Packet Format Specification'
-copyright = '2013-2024, Named Data Networking Project'
+copyright = '2013-2025, Named Data Networking Project'
 author = 'Named Data Networking Project'
 
 # The short X.Y version.
