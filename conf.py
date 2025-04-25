@@ -24,14 +24,16 @@ release = version
 needs_sphinx = '4.0'
 extensions = []
 
-templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+# Use ABNF syntax highlighting as the default for code blocks.
+highlight_language = 'abnf'
 
 # User-Agent header sent with linkcheck HTTP requests.
 user_agent = f'Sphinx/{sphinx.__version__}'
 
-# Use ABNF syntax highlighting by default for code blocks.
-highlight_language = 'abnf'
+# Generate warnings for all missing references.
+nitpicky = True
 
 
 # -- Options for HTML output -------------------------------------------------
