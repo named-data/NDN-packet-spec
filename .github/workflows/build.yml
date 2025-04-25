@@ -21,6 +21,7 @@ jobs:
   html:
     runs-on: ubuntu-24.04
     outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
@@ -47,6 +48,7 @@ jobs:
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           make html
       - name: Upload HTML
+        id: upload
         uses: actions/upload-artifact@v4
         with:
           name: ndn-packet-spec-html
@@ -84,6 +86,6 @@ jobs:
     needs: html
     uses: named-data/actions/.github/workflows/docs-deployment.yml@v1
     with:
-      artifact-name: ndn-packet-spec-html
+      artifact-id: ${{ needs.html.outputs.artifact-id }}
       version: ${{ needs.html.outputs.version }}
     secrets: inherit
