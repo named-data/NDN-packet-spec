@@ -56,3 +56,7 @@ using `latexmk` and `pdflatex` (which must be installed). If successful, the fin
 `.pdf` file can be found in `_build/latex`.
 
 For further options, type `make help`.
+
+## Contributing
+
+Contributions to NDN Packet Format Specifications are greatly appreciated and can be made through GitHub pull requests and issues.
