@@ -57,6 +57,7 @@ etc.  This section defines the naming and structure of NDN certificates.
     CertificateSignatureInfo = SIGNATURE-INFO-TYPE TLV-LENGTH
                                  SignatureType
                                  KeyLocator
+                                 [SignatureTime]
                                  ValidityPeriod
                                  *CertificateExtension
 

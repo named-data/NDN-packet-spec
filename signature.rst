@@ -15,6 +15,7 @@ The NDN Data packet signature is defined as two consecutive TLV elements: ``Sign
     SignatureInfo = SIGNATURE-INFO-TYPE TLV-LENGTH
                       SignatureType
                       [KeyLocator]
+                      [SignatureTime]
 
     SignatureValue = SIGNATURE-VALUE-TYPE TLV-LENGTH *OCTET
 
@@ -128,7 +129,7 @@ SignatureTime
     SignatureTime = SIGNATURE-TIME-TYPE TLV-LENGTH NonNegativeInteger
 
 The value of the ``SignatureTime`` element is the timestamp of the signature, represented as the number of milliseconds since 1970-01-01T00:00:00Z (Unix epoch).
-This element can be used to indicate that the packet was signed at a particular point in time.
+This element can be used to indicate that the packet was produced and signed at a particular point in time.
 
 SignatureSeqNum
 ^^^^^^^^^^^^^^^
