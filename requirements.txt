@@ -1,4 +1,4 @@
 docutils~=0.21.2
-furo==2025.7.19
+furo==2025.9.25
 pygments~=2.18
 sphinx~=8.1
