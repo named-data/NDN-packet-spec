@@ -2,9 +2,11 @@ name: Build
 on:
   push:
     paths-ignore:
+      - 'CONTRIBUTING.md'
       - 'README.md'
   pull_request:
     paths-ignore:
+      - 'CONTRIBUTING.md'
       - 'README.md'
   workflow_dispatch:
     inputs:
