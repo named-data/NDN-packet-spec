@@ -37,12 +37,10 @@ jobs:
             exit 1
           fi
           echo "version=$v" >> "$GITHUB_OUTPUT"
-      - name: Set up Python
+      - name: Install Python dependencies
         uses: actions/setup-python@v6
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+        with:
+          pip-install: -r requirements.txt
       - name: Generate HTML
         run: |
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
@@ -60,14 +58,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      - name: Set up Python
+      - name: Install Python dependencies
         uses: actions/setup-python@v6
+        with:
+          pip-install: -r requirements.txt
       - name: Install dependencies
         run: |
           sudo apt-get install -Uy --no-install-recommends latexmk \
             texlive-latex-extra texlive-fonts-recommended tex-gyre
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
       - name: Generate PDF
         run: |
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
