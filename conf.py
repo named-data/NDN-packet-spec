@@ -9,7 +9,7 @@ import sphinx
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'NDN Packet Format Specification'
-copyright = '2013-2025, Named Data Networking Project'
+copyright = '2013-2026, Named Data Networking Project'
 author = 'Named Data Networking Project'
 
 # The short X.Y version.
@@ -68,6 +68,7 @@ pygments_dark_style = 'material'
 # -- Options for LaTeX output ------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-latex-output
 
+latex_engine = 'lualatex'
 latex_documents = [
     ('index', 'ndn-packet-spec.tex', project, author, 'manual')
 ]

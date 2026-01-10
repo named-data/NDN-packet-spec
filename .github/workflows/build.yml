@@ -54,7 +54,10 @@ jobs:
           if-no-files-found: error
 
   pdf:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest
+      options: --user 1001:1001
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -62,10 +65,6 @@ jobs:
         uses: actions/setup-python@v6
         with:
           pip-install: -r requirements.txt
-      - name: Install dependencies
-        run: |
-          sudo apt-get install -Uy --no-install-recommends latexmk \
-            texlive-latex-extra texlive-fonts-recommended tex-gyre
       - name: Generate PDF
         run: |
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
