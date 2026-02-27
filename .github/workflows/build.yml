@@ -47,7 +47,7 @@ jobs:
           make html
       - name: Upload HTML
         id: upload
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ndn-packet-spec-html
           path: _build/html
@@ -70,10 +70,10 @@ jobs:
           export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
           make latexpdf
       - name: Upload PDF
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
-          name: ndn-packet-spec-pdf
           path: _build/latex/ndn-packet-spec.pdf
+          archive: false
           if-no-files-found: error
 
   deploy:
