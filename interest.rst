@@ -61,7 +61,7 @@ MustBeFresh
    MustBeFresh = MUST-BE-FRESH-TYPE
                  TLV-LENGTH ; == 0
 
-The presence or absence of the ``MustBeFresh`` element indicates whether a content store may satisfy the Interest with stale Data.
+The presence or absence of the ``MustBeFresh`` element indicates whether a content store or other in-network storage may satisfy the Interest with stale Data.
 See :ref:`FreshnessPeriod` for more information.
 
 
