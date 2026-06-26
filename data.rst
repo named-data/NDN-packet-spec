@@ -75,7 +75,7 @@ Note that the "non-fresh" data is still valid data; the expiration of ``Freshnes
 If the Data packet carries a ``FreshnessPeriod`` greater than zero, a node should initially consider it "fresh".  After the Data has resided in the node for ``FreshnessPeriod`` milliseconds, it will be marked as "non-fresh".
 If the Data does not have a ``FreshnessPeriod`` or if it has a ``FreshnessPeriod`` equal to zero, it MUST be marked "non-fresh" immediately after processing any pending Interests.
 
-If an Interest contains ``MustBeFresh`` element, a content store MUST NOT return "non-fresh" Data in response to this Interest.
+If an Interest contains ``MustBeFresh`` element, a content store or other in-network storage MUST NOT return "non-fresh" Data in response to this Interest.
 The effect is the same as if that "non-fresh" Data did not exist (i.e., the Interest might be matched by some other Data in the content store, or, failing that, get forwarded to other nodes).
 When an exact duplicate of the "non-fresh" Data packet with a positive ``FreshnessPeriod`` value arrives at the node, the node SHOULD re-mark it as "fresh" for the specified duration.
 
