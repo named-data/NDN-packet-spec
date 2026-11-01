@@ -60,7 +60,7 @@ jobs:
   pdf:
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:TL2025-historic
+      image: texlive/texlive:latest
       options: --user 1001:1001
     steps:
       - name: Checkout repository
